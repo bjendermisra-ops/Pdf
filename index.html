@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#4F1271">
+  <title>ToolVibe Ultimate</title>
+  
+  <!-- Libraries -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
+          colors: {
+            brand: '#4F1271',
+            accent: '#783F8E',
+            surface: '#F8FAFC',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* === CORE STYLES === */
+    body {
+      background-color: #F8FAFC;
+      -webkit-tap-highlight-color: transparent;
+      overscroll-behavior-y: none;
+      user-select: none;
+    }
+
+    /* Hide Scrollbars */
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* Glass Headers */
+    .glass-header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    .glass-nav {
+      background: rgba(255, 255, 255, 0.98);
+      border-top: 1px solid rgba(0,0,0,0.05);
+    }
+
+    /* Click Effect */
+    .tap-effect:active { transform: scale(0.96); opacity: 0.8; }
+    
+    /* Smooth Fade In */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .item-anim { animation: fadeUp 0.3s ease-out forwards; }
+  </style>
+</head>
+<body class="text-gray-800 pb-24">
+
+  <!-- ================= HEADER ================= -->
+  <header class="fixed top-0 inset-x-0 z-50 glass-header pt-2">
+    <!-- Top Bar -->
+    <div class="px-5 h-16 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 bg-brand rounded-xl flex items-center justify-center text-white shadow-lg shadow-purple-200">
+          <i class="fas fa-layer-group text-sm"></i>
+        </div>
+        <div>
+          <h1 class="text-xl font-extrabold text-brand tracking-tight leading-none">ToolVibe</h1>
+          <p class="text-[10px] text-gray-400 font-bold tracking-wide">ULTIMATE</p>
+        </div>
+      </div>
+      
+      <!-- Search Button -->
+      <button onclick="toggleSearch()" class="w-10 h-10 rounded-full bg-white border border-gray-200 text-gray-600 flex items-center justify-center tap-effect shadow-sm">
+        <i class="fas fa-search text-lg"></i>
+      </button>
+    </div>
+
+    <!-- Search Input (Hidden initially) -->
+    <div id="search-bar" class="hidden px-4 pb-3">
+      <div class="relative">
+        <i class="fas fa-search absolute left-4 top-3.5 text-gray-400"></i>
+        <input type="text" id="search-input" placeholder="Search tools (e.g. PDF, Resize)..." 
+          class="w-full bg-white py-3 pl-12 pr-4 rounded-xl border border-gray-200 outline-none text-gray-700 font-medium placeholder-gray-400 focus:border-brand transition-colors shadow-sm">
+      </div>
+    </div>
+
+    <!-- Categories -->
+    <div id="cat-pills" class="flex px-4 pb-3 gap-2 overflow-x-auto hide-scrollbar">
+      <button onclick="filterTools('all', this)" class="cat-btn bg-brand text-white px-5 py-2 rounded-full text-xs font-bold whitespace-nowrap shadow-md shadow-purple-200">All</button>
+      <button onclick="filterTools('pdf', this)" class="cat-btn bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-xs font-bold whitespace-nowrap">PDF Tools</button>
+      <button onclick="filterTools('image', this)" class="cat-btn bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-xs font-bold whitespace-nowrap">Image Tools</button>
+      <button onclick="filterTools('seo', this)" class="cat-btn bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-xs font-bold whitespace-nowrap">SEO Tools</button>
+    </div>
+  </header>
+
+  <!-- ================= MAIN: TOOLS GRID ================= -->
+  <main id="home-view" class="pt-36 px-4 min-h-screen">
+    
+    <!-- Dynamic Grid -->
+    <div id="tools-container" class="grid grid-cols-2 gap-3">
+      <!-- JavaScript will put tools here -->
+    </div>
+
+    <!-- Empty State -->
+    <div id="empty-state" class="hidden flex-col items-center justify-center py-20 opacity-60">
+      <i class="fas fa-ghost text-4xl mb-3 text-gray-400"></i>
+      <p class="text-gray-500 font-medium text-sm">No tools found.</p>
+    </div>
+
+    <!-- Credit Badge -->
+    <div class="mt-8 mb-4 text-center">
+       <span class="text-[10px] text-gray-300 font-bold uppercase tracking-widest">© 2025 ToolVibe App</span>
+    </div>
+  </main>
+
+  <!-- ================= MAIN: PROFILE / SETTINGS ================= -->
+  <main id="profile-view" class="hidden pt-24 px-4 min-h-screen animate-fade-in pb-10">
+    
+    <!-- Profile Header -->
+    <div class="flex flex-col items-center mb-8">
+      <div class="w-24 h-24 bg-gradient-to-tr from-brand to-accent rounded-full p-1 shadow-2xl mb-4">
+        <div class="w-full h-full bg-white rounded-full flex items-center justify-center">
+           <i class="fas fa-rocket text-4xl text-brand"></i>
+        </div>
+      </div>
+      <h2 class="text-2xl font-black text-brand">ToolVibe Pro</h2>
+      <p class="text-xs text-gray-400 font-bold bg-gray-100 px-3 py-1 rounded-full mt-2">VERSION 1.0.0</p>
+    </div>
+
+    <!-- Settings List -->
+    <div class="space-y-4">
+      
+      <!-- Box 1 -->
+      <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+        <!-- FIXED SHARE BUTTON -->
+        <div onclick="shareApp()" class="flex items-center gap-4 p-4 active:bg-gray-50 transition cursor-pointer border-b border-gray-50">
+          <div class="w-9 h-9 rounded-full bg-purple-50 flex items-center justify-center text-brand"><i class="fas fa-share-nodes"></i></div>
+          <div class="flex-1"><h4 class="font-bold text-gray-800 text-sm">Share App</h4><p class="text-[10px] text-gray-500">Share with friends</p></div>
+          <i class="fas fa-chevron-right text-gray-300 text-xs"></i>
+        </div>
+        
+        <!-- FIXED RATE BUTTON -->
+        <div onclick="rateApp()" class="flex items-center gap-4 p-4 active:bg-gray-50 transition cursor-pointer">
+          <div class="w-9 h-9 rounded-full bg-yellow-50 flex items-center justify-center text-yellow-600"><i class="fas fa-star"></i></div>
+          <div class="flex-1"><h4 class="font-bold text-gray-800 text-sm">Rate Us</h4><p class="text-[10px] text-gray-500">Rate on Play Store</p></div>
+          <i class="fas fa-chevron-right text-gray-300 text-xs"></i>
+        </div>
+      </div>
+
+      <!-- Box 2 -->
+      <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+        <a href="privacy.html" class="flex items-center gap-4 p-4 active:bg-gray-50 transition cursor-pointer border-b border-gray-50">
+          <div class="w-9 h-9 rounded-full bg-blue-50 flex items-center justify-center text-blue-600"><i class="fas fa-shield-alt"></i></div>
+          <div class="flex-1"><h4 class="font-bold text-gray-800 text-sm">Privacy Policy</h4></div>
+          <i class="fas fa-chevron-right text-gray-300 text-xs"></i>
+        </a>
+        <a href="mailto:support@toolvibe.com" class="flex items-center gap-4 p-4 active:bg-gray-50 transition cursor-pointer">
+          <div class="w-9 h-9 rounded-full bg-green-50 flex items-center justify-center text-green-600"><i class="fas fa-envelope"></i></div>
+          <div class="flex-1"><h4 class="font-bold text-gray-800 text-sm">Contact Support</h4></div>
+          <i class="fas fa-chevron-right text-gray-300 text-xs"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ================= BOTTOM NAVIGATION ================= -->
+  <nav class="fixed bottom-0 w-full glass-nav z-50 pb-safe">
+    <div class="flex justify-around items-center h-16">
+      
+      <button onclick="switchTab('home')" id="nav-home" class="nav-item active flex flex-col items-center justify-center w-full h-full text-brand transition-all">
+        <i class="fas fa-th-large text-xl mb-1"></i>
+        <span class="text-[10px] font-bold">Tools</span>
+      </button>
+
+      <button onclick="switchTab('profile')" id="nav-profile" class="nav-item flex flex-col items-center justify-center w-full h-full text-gray-400 transition-all">
+        <i class="fas fa-user-circle text-xl mb-1"></i>
+        <span class="text-[10px] font-bold">Profile</span>
+      </button>
+
+    </div>
+  </nav>
+
+  <!-- ================= JAVASCRIPT LOGIC ================= -->
+  <script>
+    // ===========================================
+    // 1. DATABASE
+    // ===========================================
+    const toolsData = [
+      // --- PDF TOOLS (33) ---
+      { name: "Add Page", icon: "fa-plus-circle", color: "text-red-500", bg: "bg-red-50", cat: "pdf", link: "Add_Pages.html" },
+      { name: "Watermark PDF", icon: "fa-stamp", color: "text-red-500", bg: "bg-red-50", cat: "pdf", link: "watermark.html" },
+      { name: "Compress PDF", icon: "fa-compress-arrows-alt", color: "text-red-600", bg: "bg-red-50", cat: "pdf", link: "Compress PDF.html" },
+      { name: "PDF to Word", icon: "fa-file-word", color: "text-blue-600", bg: "bg-blue-50", cat: "pdf", link: "pdf_to_word.html" },
+      { name: "Remove Pages", icon: "fa-trash-alt", color: "text-red-500", bg: "bg-red-50", cat: "pdf", link: "Remove_pages_from_pdf.html" },
+      { name: "JSON to PDF", icon: "fa-code", color: "text-yellow-600", bg: "bg-yellow-50", cat: "pdf", link: "json_to_pdf.html" },
+      { name: "CSV to PDF", icon: "fa-table", color: "text-green-600", bg: "bg-green-50", cat: "pdf", link: "csv_to_pdf.html" },
+      { name: "Excel to PDF", icon: "fa-file-excel", color: "text-green-600", bg: "bg-green-50", cat: "pdf", link: "EXCEL TO PDF.html" },
+      { name: "HTML to PDF", icon: "fa-code", color: "text-orange-600", bg: "bg-orange-50", cat: "pdf", link: "html_to_pdf.html" },
+      { name: "JPG to PDF", icon: "fa-image", color: "text-purple-600", bg: "bg-purple-50", cat: "pdf", link: "jpg_to_pdf.html" },
+      { name: "Merge PDF", icon: "fa-layer-group", color: "text-red-600", bg: "bg-red-50", cat: "pdf", link: "merge-pdf.html" },
+      { name: "OCR PDF", icon: "fa-eye", color: "text-gray-600", bg: "bg-gray-100", cat: "pdf", link: "OCR PDF.html" },
+      { name: "Organize PDF", icon: "fa-sort", color: "text-indigo-600", bg: "bg-indigo-50", cat: "pdf", link: "Organize.html" },
+      { name: "PDF to Excel", icon: "fa-file-excel", color: "text-green-600", bg: "bg-green-50", cat: "pdf", link: "pdf_to_excel.html" },
+      { name: "PDF Signing", icon: "fa-signature", color: "text-blue-600", bg: "bg-blue-50", cat: "pdf", link: "pdf_signing.html" },
+      { name: "PDF to CSV", icon: "fa-file-csv", color: "text-green-600", bg: "bg-green-50", cat: "pdf", link: "pdf_to_csv.html" },
+      { name: "PDF to HTML", icon: "fa-code", color: "text-orange-600", bg: "bg-orange-50", cat: "pdf", link: "pdf_to_html.html" },
+      { name: "PDF to JPG", icon: "fa-image", color: "text-purple-600", bg: "bg-purple-50", cat: "pdf", link: "pdf_to_jpg.html" },
+      { name: "PDF to JSON", icon: "fa-file-code", color: "text-yellow-600", bg: "bg-yellow-50", cat: "pdf", link: "pdf_to_json.html" },
+      { name: "PDF to PNG", icon: "fa-image", color: "text-purple-600", bg: "bg-purple-50", cat: "pdf", link: "pdf_to_png.html" },
+      { name: "PDF to Text", icon: "fa-file-alt", color: "text-gray-600", bg: "bg-gray-50", cat: "pdf", link: "pdf_to_text.html" },
+      { name: "PDF to WebP", icon: "fa-globe", color: "text-blue-500", bg: "bg-blue-50", cat: "pdf", link: "PDF_to_WEBP.html" },
+      { name: "PDF to XML", icon: "fa-file-code", color: "text-yellow-600", bg: "bg-yellow-50", cat: "pdf", link: "pdf_to_xml.html" },
+      { name: "PDF to ZIP", icon: "fa-file-archive", color: "text-yellow-500", bg: "bg-yellow-50", cat: "pdf", link: "pdf_to_zip.html" },
+      { name: "Repair PDF", icon: "fa-wrench", color: "text-gray-600", bg: "bg-gray-100", cat: "pdf", link: "Repair.html" },
+      { name: "PNG to PDF", icon: "fa-image", color: "text-purple-600", bg: "bg-purple-50", cat: "pdf", link: "png_to_pdf.html" },
+      { name: "Rotate PDF", icon: "fa-sync", color: "text-indigo-600", bg: "bg-indigo-50", cat: "pdf", link: "Rotate.html" },
+      { name: "Speech to PDF", icon: "fa-microphone", color: "text-red-500", bg: "bg-red-50", cat: "pdf", link: "speech_to_pdf.html" },
+      { name: "Split PDF", icon: "fa-cut", color: "text-orange-500", bg: "bg-orange-50", cat: "pdf", link: "split.html" },
+      { name: "Text to PDF", icon: "fa-font", color: "text-gray-600", bg: "bg-gray-50", cat: "pdf", link: "text_to_pdf.html" },
+      { name: "WebP to PDF", icon: "fa-globe", color: "text-blue-500", bg: "bg-blue-50", cat: "pdf", link: "WEBP_to_PDF.html" },
+      { name: "Word to PDF", icon: "fa-file-word", color: "text-blue-600", bg: "bg-blue-50", cat: "pdf", link: "Word to PDF.html" },
+      { name: "XML to PDF", icon: "fa-file-code", color: "text-yellow-600", bg: "bg-yellow-50", cat: "pdf", link: "xml_to_pdf.html" },
+
+      // --- IMAGE TOOLS (34) ---
+      { name: "Compress IMG", icon: "fa-compress", color: "text-purple-600", bg: "bg-purple-50", cat: "image", link: "Image compressor.html" },
+      { name: "Resize IMG", icon: "fa-expand", color: "text-purple-600", bg: "bg-purple-50", cat: "image", link: "Image Resizer.html" },
+      { name: "Image Border", icon: "fa-border-all", color: "text-purple-600", bg: "bg-purple-50", cat: "image", link: "image_border.html" },
+      { name: "Image Flipper", icon: "fa-sync", color: "text-purple-600", bg: "bg-purple-50", cat: "image", link: "Image_Flipper.html" },
+      { name: "Image Splitter", icon: "fa-columns", color: "text-purple-600", bg: "bg-purple-50", cat: "image", link: "Image_splitter.html" },
+      { name: "Image to PDF", icon: "fa-file-pdf", color: "text-red-500", bg: "bg-red-50", cat: "image", link: "image_to_pdf.html" },
+      { name: "Image to Text", icon: "fa-font", color: "text-gray-600", bg: "bg-gray-50", cat: "image", link: "image_to_text.html" },
+      { name: "JPG to PDF", icon: "fa-file-pdf", color: "text-red-500", bg: "bg-red-50", cat: "image", link: "jpg_to_pdf.html" },
+      { name: "JPG to PNG", icon: "fa-exchange-alt", color: "text-blue-500", bg: "bg-blue-50", cat: "image", link: "jpg_to_png.html" },
+      { name: "JPG to WebP", icon: "fa-globe", color: "text-green-500", bg: "bg-green-50", cat: "image", link: "jpg_to_webp.html" },
+      { name: "PDF to JPG", icon: "fa-image", color: "text-purple-600", bg: "bg-purple-50", cat: "image", link: "pdf_to_jpg.html" },
+      { name: "Pixelate", icon: "fa-chess-board", color: "text-gray-600", bg: "bg-gray-50", cat: "image", link: "Pixelate.html" },
+      { name: "PNG to JPG", icon: "fa-exchange-alt", color: "text-blue-500", bg: "bg-blue-50", cat: "image", link: "PNG_to_JPG.html" },
+      { name: "PNG to WebP", icon: "fa-globe", color: "text-green-500", bg: "bg-green-50", cat: "image", link: "PNG_to_WEBP.html" },
+      { name: "Profile Maker", icon: "fa-user-circle", color: "text-pink-500", bg: "bg-pink-50", cat: "image", link: "profile.html" },
+      { name: "SVG to PNG", icon: "fa-vector-square", color: "text-orange-500", bg: "bg-orange-50", cat: "image", link: "svg_to_png.html" },
+      { name: "Upscale Image", icon: "fa-arrow-up", color: "text-green-500", bg: "bg-green-50", cat: "image", link: "upscale.html" },
+      { name: "View Image", icon: "fa-eye", color: "text-blue-500", bg: "bg-blue-50", cat: "image", link: "view.html" },
+      { name: "Watermark IMG", icon: "fa-water", color: "text-blue-400", bg: "bg-blue-50", cat: "image", link: "watermark.html" },
+      { name: "WebP to JPG", icon: "fa-image", color: "text-purple-600", bg: "bg-purple-50", cat: "image", link: "webp_to_JPG.html" },
+      { name: "WebP to PNG", icon: "fa-image", color: "text-purple-600", bg: "bg-purple-50", cat: "image", link: "WEBP_to_PNG.html" },
+      { name: "Add Images", icon: "fa-plus", color: "text-purple-600", bg: "bg-purple-50", cat: "image", link: "Add_Images.html" },
+      { name: "Add Text", icon: "fa-font", color: "text-gray-600", bg: "bg-gray-50", cat: "image", link: "add_text.html" },
+      { name: "BG Remover", icon: "fa-magic", color: "text-purple-600", bg: "bg-purple-50", cat: "image", link: "bg.html" },
+      { name: "Black & White", icon: "fa-adjust", color: "text-gray-800", bg: "bg-gray-100", cat: "image", link: "black_&_white.html" },
+      { name: "Blur Image", icon: "fa-tint", color: "text-blue-400", bg: "bg-blue-50", cat: "image", link: "blur.html" },
+      { name: "Collage Maker", icon: "fa-th-large", color: "text-pink-500", bg: "bg-pink-50", cat: "image", link: "Collage_Maker.html" },
+      { name: "Colorize", icon: "fa-palette", color: "text-yellow-500", bg: "bg-yellow-50", cat: "image", link: "Colorize_photo.html" },
+      { name: "Combine IMG", icon: "fa-object-group", color: "text-purple-600", bg: "bg-purple-50", cat: "image", link: "combine_image.html" },
+      { name: "Crop Image", icon: "fa-crop", color: "text-purple-600", bg: "bg-purple-50", cat: "image", link: "crop.html" },
+      { name: "Font to PNG", icon: "fa-font", color: "text-gray-600", bg: "bg-gray-50", cat: "image", link: "font_to_png.html" },
+      { name: "GIF to JPG", icon: "fa-gift", color: "text-pink-500", bg: "bg-pink-50", cat: "image", link: "gif_to_jpg.html" },
+      { name: "ICO to JPG", icon: "fa-icons", color: "text-blue-500", bg: "bg-blue-50", cat: "image", link: "ico_to_jpg.html" },
+      { name: "ICO to WebP", icon: "fa-globe", color: "text-green-500", bg: "bg-green-50", cat: "image", link: "ico_to_webp.html" },
+
+      // --- SEO TOOLS (23) ---
+      { name: "Meta Tags", icon: "fa-tags", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "Meta Tag Generator.html" },
+      { name: "OpenGraph Gen", icon: "fa-share-alt", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "OpenGraph Tags Generator.html" },
+      { name: "Adaptive Check", icon: "fa-mobile-alt", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "Adaptive.html" },
+      { name: "Sitemap Gen", icon: "fa-sitemap", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "XML Sitemap Generator.html" },
+      { name: "Schema Gen", icon: "fa-code", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "schema.html" },
+      { name: "AMP Validator", icon: "fa-bolt", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "AMP Validator.html" },
+      { name: "Canonical Tag", icon: "fa-link", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "Canonical Tag.html" },
+      { name: "Case Convert", icon: "fa-text-height", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "Case Converter.html" },
+      { name: "Google Algo", icon: "fa-robot", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "Google.html" },
+      { name: "Hreflang Test", icon: "fa-language", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "hreflang Tags Testing.html" },
+      { name: "Htaccess Test", icon: "fa-file-code", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "htaccess_tester.html" },
+      { name: "Local SEO", icon: "fa-map-marker-alt", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "Local Search Results Testing Tool.html" },
+      { name: "Meta Desc", icon: "fa-file-alt", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "Meta Description.html" },
+      { name: "MD5 Gen", icon: "fa-key", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "Online MD5 Generator.html" },
+      { name: "Pre-render", icon: "fa-eye", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "Pre-rendering Testing Tool.html" },
+      { name: "Robots.txt", icon: "fa-robot", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "robots.txt_gen.html" },
+      { name: "SEO Citation", icon: "fa-quote-right", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "SEO Citation Generator.html" },
+      { name: "SEO Punct", icon: "fa-paragraph", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "SEO Punctuation Checker.html" },
+      { name: "Small Text", icon: "fa-text-height", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "Small Text Generator.html" },
+      { name: "Slug Gen", icon: "fa-link", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "Text to Slug Converter.html" },
+      { name: "Twitter Card", icon: "fa-twitter", color: "text-blue-400", bg: "bg-blue-50", cat: "seo", link: "Twitter Card Generator.html" },
+      { name: "UTM Builder", icon: "fa-link", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "UTM Builder.html" },
+      { name: "Word Counter", icon: "fa-calculator", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "Word Counter.html" },
+    ];
+
+    // ===========================================
+    // 2. RENDER FUNCTIONS
+    // ===========================================
+    const container = document.getElementById('tools-container');
+    const emptyState = document.getElementById('empty-state');
+
+    function renderTools(filter = 'all') {
+      container.innerHTML = '';
+      let count = 0;
+
+      toolsData.forEach((tool, index) => {
+        if(filter === 'all' || tool.cat === filter) {
+          count++;
+          const card = document.createElement('div');
+          card.className = `bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center justify-center text-center gap-2 tap-effect item-anim relative overflow-hidden`;
+          card.style.animationDelay = `${Math.min(index * 0.02, 0.5)}s`;
+          
+          card.onclick = () => {
+             window.location.href = tool.link;
+          };
+
+          card.innerHTML = `
+            <div class="w-10 h-10 ${tool.bg} rounded-xl flex items-center justify-center text-lg ${tool.color} mb-1">
+              <i class="fas ${tool.icon}"></i>
+            </div>
+            <span class="text-[11px] font-bold text-gray-700 leading-tight line-clamp-2">${tool.name}</span>
+          `;
+          container.appendChild(card);
+        }
+      });
+      
+      emptyState.style.display = count === 0 ? 'flex' : 'none';
+    }
+
+    // ===========================================
+    // 3. SEARCH & FILTER
+    // ===========================================
+    function toggleSearch() {
+      const bar = document.getElementById('search-bar');
+      bar.classList.toggle('hidden');
+      if(!bar.classList.contains('hidden')) {
+        document.getElementById('search-input').focus();
+      }
+    }
+
+    document.getElementById('search-input').addEventListener('input', (e) => {
+      const term = e.target.value.toLowerCase();
+      container.innerHTML = '';
+      let count = 0;
+
+      toolsData.forEach((tool) => {
+        if(tool.name.toLowerCase().includes(term)) {
+          count++;
+          const card = document.createElement('div');
+          card.className = `bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center justify-center text-center gap-2 tap-effect`;
+          card.onclick = () => window.location.href = tool.link;
+          card.innerHTML = `
+            <div class="w-10 h-10 ${tool.bg} rounded-xl flex items-center justify-center text-lg ${tool.color} mb-1">
+              <i class="fas ${tool.icon}"></i>
+            </div>
+            <span class="text-[11px] font-bold text-gray-700 leading-tight">${tool.name}</span>
+          `;
+          container.appendChild(card);
+        }
+      });
+      emptyState.style.display = count === 0 ? 'flex' : 'none';
+    });
+
+    function filterTools(cat, btn) {
+      document.querySelectorAll('.cat-btn').forEach(b => {
+        b.className = 'cat-btn bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all';
+      });
+      btn.className = 'cat-btn bg-brand text-white px-5 py-2 rounded-full text-xs font-bold whitespace-nowrap shadow-md shadow-purple-200 transition-all';
+      
+      renderTools(cat);
+      window.scrollTo({top: 0});
+    }
+
+    // ===========================================
+    // 4. NAVIGATION TABS
+    // ===========================================
+    function switchTab(tab) {
+      const homeView = document.getElementById('home-view');
+      const profileView = document.getElementById('profile-view');
+      const pills = document.getElementById('cat-pills');
+      const navHome = document.getElementById('nav-home');
+      const navProfile = document.getElementById('nav-profile');
+
+      if (tab === 'home') {
+        homeView.classList.remove('hidden');
+        profileView.classList.add('hidden');
+        pills.classList.remove('hidden');
+        
+        navHome.classList.add('active', 'text-brand');
+        navHome.classList.remove('text-gray-400');
+        navProfile.classList.remove('active', 'text-brand');
+        navProfile.classList.add('text-gray-400');
+        window.scrollTo({top: 0});
+      } else {
+        homeView.classList.add('hidden');
+        profileView.classList.remove('hidden');
+        pills.classList.add('hidden');
+        
+        navProfile.classList.add('active', 'text-brand');
+        navProfile.classList.remove('text-gray-400');
+        navHome.classList.remove('active', 'text-brand');
+        navHome.classList.add('text-gray-400');
+      }
+    }
+
+    // ===========================================
+    // 5. FIXED SHARE & RATE FUNCTION
+    // ===========================================
+    function shareApp() {
+      // Direct call to Java Interface we made in Sketchware
+      try {
+        Android.shareApp("ToolVibe - Ultimate PDF & Image Tools", "https://play.google.com/store/apps/details?id=com.toolvibe.app");
+      } catch(e) {
+        // Fallback mainly for testing in browser, wont show in app if Java is correct
+        console.log("Java Interface not found. Testing mode.");
+        alert("Share works in Real App");
+      }
+    }
+
+    function rateApp() {
+      try {
+        Android.rateApp();
+      } catch(e) {
+        window.open("https://play.google.com/store/apps/details?id=com.toolvibe.app", "_blank");
+      }
+    }
+
+    // ===========================================
+    // 6. INITIALIZE (NO SPLASH)
+    // ===========================================
+    window.onload = () => {
+      // Removed Splash screen loader logic.
+      // Direct render.
+      renderTools('all');
+    };
+  </script>
+</body>
+</html>
