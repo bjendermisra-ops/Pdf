@@ -1,25 +1,38 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#4F1271">
-  <title>ToolVibe Ultimate</title>
+  <meta name="theme-color" content="#4f46e5">
+  <title>ToolVibe Ultimate Pro</title>
   
   <!-- Libraries -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
-          fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
+          fontFamily: { sans: ['Space Grotesk', 'sans-serif'] },
           colors: {
-            brand: '#4F1271',
-            accent: '#783F8E',
-            surface: '#F8FAFC',
+            brand: 'var(--brand)',
+            surface: 'var(--surface)',
+            txt: 'var(--text)',
+            bg: 'var(--bg)'
+          },
+          animation: {
+            'float': 'float 8s ease-in-out infinite',
+            'slide-down': 'slideDown 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards',
+            'pop': 'pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+          },
+          keyframes: {
+            float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-15px)' } },
+            slideDown: { '0%': { transform: 'translateY(-100%)', opacity: 0 }, '100%': { transform: 'translateY(0)', opacity: 1 } },
+            pop: { '0%': { transform: 'scale(0.9)', opacity: 0 }, '100%': { transform: 'scale(1)', opacity: 1 } }
           }
         }
       }
@@ -27,411 +40,508 @@
   </script>
 
   <style>
-    /* === CORE STYLES === */
-    body {
-      background-color: #F8FAFC;
-      -webkit-tap-highlight-color: transparent;
-      overscroll-behavior-y: none;
-      user-select: none;
+    :root {
+      --brand: #4f46e5;
+      --surface: #ffffff;
+      --bg: #f3f4f6;
+      --text: #1f2937;
+      --shadow-light: #ffffff;
+      --shadow-dark: #d1d5db;
     }
-
-    /* Hide Scrollbars */
-    .hide-scrollbar::-webkit-scrollbar { display: none; }
-    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-    /* Glass Headers */
-    .glass-header {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(0,0,0,0.05);
-    }
-    .glass-nav {
-      background: rgba(255, 255, 255, 0.98);
-      border-top: 1px solid rgba(0,0,0,0.05);
-    }
-
-    /* Click Effect */
-    .tap-effect:active { transform: scale(0.96); opacity: 0.8; }
     
-    /* Smooth Fade In */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+    html.dark {
+      --brand: #818cf8;
+      --surface: #1e293b;
+      --bg: #0f172a;
+      --text: #f8fafc;
+      --shadow-light: #334155;
+      --shadow-dark: #020617;
     }
-    .item-anim { animation: fadeUp 0.3s ease-out forwards; }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      transition: background-color 0.4s, color 0.4s;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      overflow-x: hidden;
+    }
+
+    /* === CLAYMORPHISM UI === */
+    .clay-card {
+      background: var(--surface);
+      border-radius: 20px;
+      position: relative;
+      transition: all 0.3s ease;
+      box-shadow: 
+        8px 8px 16px var(--shadow-dark), 
+        -8px -8px 16px var(--shadow-light);
+    }
+    
+    .clay-card:active {
+      transform: scale(0.96);
+      box-shadow: 
+        inset 4px 4px 8px var(--shadow-dark), 
+        inset -4px -4px 8px var(--shadow-light);
+    }
+
+    /* 3D Tilt Wrapper */
+    .tilt-box { perspective: 1000px; transform-style: preserve-3d; }
+    .tilt-inner { transform: translateZ(20px); }
+
+    /* Utilities */
+    .hide-scroll::-webkit-scrollbar { display: none; }
+    
+    /* Dynamic Island Notification */
+    .dynamic-island {
+      position: fixed; top: 10px; left: 50%;
+      transform: translateX(-50%) translateY(-150%);
+      background: #000; color: white;
+      height: 40px; border-radius: 25px;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 100; overflow: hidden; white-space: nowrap;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      width: 0; padding: 0;
+    }
+    .dynamic-island.active { width: 85%; max-width: 300px; padding: 0 20px; transform: translateX(-50%) translateY(0); }
+
+    /* Particles */
+    .particle {
+      position: absolute; border-radius: 50%;
+      background: var(--brand); opacity: 0.1;
+      animation: float 10s infinite; z-index: -1;
+    }
+
+    /* Cat Button Active State */
+    .cat-btn.active {
+      background: var(--brand); color: white;
+      box-shadow: 0 4px 10px rgba(79, 70, 229, 0.4);
+    }
   </style>
 </head>
-<body class="text-gray-800 pb-24">
+<body class="pb-32">
+
+  <!-- Background Particles -->
+  <div id="particles-container" class="fixed inset-0 overflow-hidden pointer-events-none z-0"></div>
+
+  <!-- Dynamic Island -->
+  <div id="island" class="dynamic-island">
+    <i id="island-icon" class="fas fa-check-circle text-green-400 mr-2"></i>
+    <span id="island-msg" class="text-sm font-bold">Notification</span>
+  </div>
 
   <!-- ================= HEADER ================= -->
-  <header class="fixed top-0 inset-x-0 z-50 glass-header pt-2">
+  <header class="fixed top-0 w-full z-40 pt-4 px-4 transition-all bg-bg/95 backdrop-blur-sm pb-2">
     <!-- Top Bar -->
-    <div class="px-5 h-16 flex justify-between items-center">
-      <div class="flex items-center gap-3">
-        <div class="w-9 h-9 bg-brand rounded-xl flex items-center justify-center text-white shadow-lg shadow-purple-200">
-          <i class="fas fa-layer-group text-sm"></i>
+    <div class="clay-card px-5 py-3 flex justify-between items-center mb-4">
+      
+      <!-- Logo -->
+      <div class="flex items-center gap-3" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+        <div class="w-10 h-10 bg-gradient-to-tr from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center text-white shadow-lg animate-float">
+          <i class="fas fa-layer-group"></i>
         </div>
         <div>
-          <h1 class="text-xl font-extrabold text-brand tracking-tight leading-none">ToolVibe</h1>
-          <p class="text-[10px] text-gray-400 font-bold tracking-wide">ULTIMATE</p>
+          <h1 class="text-xl font-bold tracking-tight leading-none">Tool<span class="text-brand">Vibe</span></h1>
+          <p class="text-[9px] font-bold text-gray-400 tracking-widest uppercase">Ultimate</p>
         </div>
       </div>
-      
-      <!-- Search Button -->
-      <button onclick="toggleSearch()" class="w-10 h-10 rounded-full bg-white border border-gray-200 text-gray-600 flex items-center justify-center tap-effect shadow-sm">
-        <i class="fas fa-search text-lg"></i>
-      </button>
-    </div>
 
-    <!-- Search Input (Hidden initially) -->
-    <div id="search-bar" class="hidden px-4 pb-3">
-      <div class="relative">
-        <i class="fas fa-search absolute left-4 top-3.5 text-gray-400"></i>
-        <input type="text" id="search-input" placeholder="Search tools (e.g. PDF, Resize)..." 
-          class="w-full bg-white py-3 pl-12 pr-4 rounded-xl border border-gray-200 outline-none text-gray-700 font-medium placeholder-gray-400 focus:border-brand transition-colors shadow-sm">
+      <!-- Actions -->
+      <div class="flex gap-3">
+        <button onclick="toggleTheme()" class="w-10 h-10 rounded-full clay-card flex items-center justify-center text-brand active:scale-90 transition">
+          <i id="theme-icon" class="fas fa-moon"></i>
+        </button>
+        <button onclick="toggleSearch()" class="w-10 h-10 rounded-full clay-card flex items-center justify-center text-gray-500 active:scale-90 transition">
+          <i class="fas fa-search"></i>
+        </button>
       </div>
     </div>
 
-    <!-- Categories -->
-    <div id="cat-pills" class="flex px-4 pb-3 gap-2 overflow-x-auto hide-scrollbar">
-      <button onclick="filterTools('all', this)" class="cat-btn bg-brand text-white px-5 py-2 rounded-full text-xs font-bold whitespace-nowrap shadow-md shadow-purple-200">All</button>
-      <button onclick="filterTools('pdf', this)" class="cat-btn bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-xs font-bold whitespace-nowrap">PDF Tools</button>
-      <button onclick="filterTools('image', this)" class="cat-btn bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-xs font-bold whitespace-nowrap">Image Tools</button>
-      <button onclick="filterTools('seo', this)" class="cat-btn bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-xs font-bold whitespace-nowrap">SEO Tools</button>
+    <!-- Search Box (Hidden by default) -->
+    <div id="search-box" class="hidden clay-card p-2 mb-4 animate-slide-down flex items-center gap-2">
+      <i class="fas fa-search text-gray-400 ml-3"></i>
+      <input type="text" id="search-input" placeholder="Search 80+ tools..." class="bg-transparent border-none outline-none w-full h-10 font-medium text-txt placeholder-gray-400">
+      <button onclick="toggleSearch()" class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-xs"><i class="fas fa-times"></i></button>
+    </div>
+
+    <!-- Categories (Will Hide on Profile Tab) -->
+    <div id="category-row" class="flex gap-3 overflow-x-auto hide-scroll pb-1 pl-1 transition-all duration-300">
+      <button onclick="filterTools('all', this)" id="btn-all" class="cat-btn active clay-card px-6 py-2.5 text-xs font-bold whitespace-nowrap transition-all border border-transparent">All Tools</button>
+      <button onclick="filterTools('pdf', this)" id="btn-pdf" class="cat-btn clay-card px-6 py-2.5 text-xs font-bold whitespace-nowrap transition-all text-gray-500 border border-transparent">
+        <i class="fas fa-file-pdf mr-1"></i> PDF
+      </button>
+      <button onclick="filterTools('image', this)" id="btn-image" class="cat-btn clay-card px-6 py-2.5 text-xs font-bold whitespace-nowrap transition-all text-gray-500 border border-transparent">
+        <i class="fas fa-image mr-1"></i> Image
+      </button>
+      <button onclick="filterTools('seo', this)" id="btn-seo" class="cat-btn clay-card px-6 py-2.5 text-xs font-bold whitespace-nowrap transition-all text-gray-500 border border-transparent">
+        <i class="fas fa-search-dollar mr-1"></i> SEO
+      </button>
     </div>
   </header>
 
-  <!-- ================= MAIN: TOOLS GRID ================= -->
-  <main id="home-view" class="pt-36 px-4 min-h-screen">
+  <!-- ================= MAIN: HOME VIEW ================= -->
+  <main id="home-view" class="pt-48 px-4 min-h-screen relative z-10 pb-10">
     
-    <!-- Dynamic Grid -->
-    <div id="tools-container" class="grid grid-cols-2 gap-3">
-      <!-- JavaScript will put tools here -->
+    <!-- Favorites Section -->
+    <div id="fav-section" class="hidden mb-6 animate-pop">
+      <div class="flex justify-between items-end mb-3 ml-1">
+         <h3 class="text-xs font-bold uppercase text-brand tracking-widest">Your Favorites</h3>
+         <span class="text-[10px] text-gray-400 cursor-pointer" onclick="clearFavs()">Clear All</span>
+      </div>
+      <div id="fav-container" class="flex gap-4 overflow-x-auto hide-scroll pb-4 px-1">
+        <!-- Fav Items injected here -->
+      </div>
+    </div>
+
+    <!-- Tools Grid -->
+    <h3 class="text-xs font-bold uppercase text-gray-400 tracking-widest mb-3 ml-1">Available Tools</h3>
+    <div id="tools-container" class="grid grid-cols-2 gap-4">
+      <!-- Generated via JS -->
     </div>
 
     <!-- Empty State -->
-    <div id="empty-state" class="hidden flex-col items-center justify-center py-20 opacity-60">
-      <i class="fas fa-ghost text-4xl mb-3 text-gray-400"></i>
-      <p class="text-gray-500 font-medium text-sm">No tools found.</p>
-    </div>
-
-    <!-- Credit Badge -->
-    <div class="mt-8 mb-4 text-center">
-       <span class="text-[10px] text-gray-300 font-bold uppercase tracking-widest">© 2025 ToolVibe App</span>
+    <div id="empty-state" class="hidden flex-col items-center justify-center py-20 opacity-50">
+      <i class="fas fa-robot text-5xl mb-3 text-gray-300"></i>
+      <p class="font-bold">No tools found.</p>
     </div>
   </main>
 
-  <!-- ================= MAIN: PROFILE / SETTINGS ================= -->
-  <main id="profile-view" class="hidden pt-24 px-4 min-h-screen animate-fade-in pb-10">
+  <!-- ================= MAIN: PROFILE VIEW ================= -->
+  <main id="profile-view" class="hidden pt-32 px-4 min-h-screen animate-pop">
     
-    <!-- Profile Header -->
-    <div class="flex flex-col items-center mb-8">
-      <div class="w-24 h-24 bg-gradient-to-tr from-brand to-accent rounded-full p-1 shadow-2xl mb-4">
-        <div class="w-full h-full bg-white rounded-full flex items-center justify-center">
-           <i class="fas fa-rocket text-4xl text-brand"></i>
-        </div>
+    <!-- Profile Card -->
+    <div class="clay-card p-8 text-center mb-6 relative overflow-hidden">
+      <div class="absolute inset-0 bg-brand opacity-5"></div>
+      <div class="w-24 h-24 mx-auto bg-gradient-to-tr from-brand to-purple-500 p-1 rounded-full shadow-xl mb-4 relative z-10">
+         <div class="w-full h-full bg-surface rounded-full flex items-center justify-center overflow-hidden">
+           <i class="fas fa-user-astronaut text-4xl text-txt"></i>
+         </div>
       </div>
-      <h2 class="text-2xl font-black text-brand">ToolVibe Pro</h2>
-      <p class="text-xs text-gray-400 font-bold bg-gray-100 px-3 py-1 rounded-full mt-2">VERSION 1.0.0</p>
+      <h2 class="text-2xl font-bold relative z-10">ToolVibe User</h2>
+      <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mt-1 relative z-10">Premium Member</p>
     </div>
 
     <!-- Settings List -->
-    <div class="space-y-4">
+    <div class="space-y-4 mb-8">
       
-      <!-- Box 1 -->
-      <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-        <!-- FIXED SHARE BUTTON -->
-        <div onclick="shareApp()" class="flex items-center gap-4 p-4 active:bg-gray-50 transition cursor-pointer border-b border-gray-50">
-          <div class="w-9 h-9 rounded-full bg-purple-50 flex items-center justify-center text-brand"><i class="fas fa-share-nodes"></i></div>
-          <div class="flex-1"><h4 class="font-bold text-gray-800 text-sm">Share App</h4><p class="text-[10px] text-gray-500">Share with friends</p></div>
-          <i class="fas fa-chevron-right text-gray-300 text-xs"></i>
+      <!-- Group 1: App Actions -->
+      <div class="clay-card overflow-hidden">
+        <div onclick="shareApp()" class="p-4 flex items-center gap-4 active:bg-gray-100 dark:active:bg-gray-800 transition cursor-pointer border-b border-gray-100 dark:border-gray-700">
+            <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center"><i class="fas fa-share-nodes"></i></div>
+            <div class="flex-1 font-bold text-sm">Share Application</div>
+            <i class="fas fa-chevron-right text-xs opacity-50"></i>
         </div>
-        
-        <!-- FIXED RATE BUTTON -->
-        <div onclick="rateApp()" class="flex items-center gap-4 p-4 active:bg-gray-50 transition cursor-pointer">
-          <div class="w-9 h-9 rounded-full bg-yellow-50 flex items-center justify-center text-yellow-600"><i class="fas fa-star"></i></div>
-          <div class="flex-1"><h4 class="font-bold text-gray-800 text-sm">Rate Us</h4><p class="text-[10px] text-gray-500">Rate on Play Store</p></div>
-          <i class="fas fa-chevron-right text-gray-300 text-xs"></i>
+        <div onclick="rateApp()" class="p-4 flex items-center gap-4 active:bg-gray-100 dark:active:bg-gray-800 transition cursor-pointer">
+            <div class="w-10 h-10 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center"><i class="fas fa-star"></i></div>
+            <div class="flex-1 font-bold text-sm">Rate 5 Stars</div>
+            <i class="fas fa-chevron-right text-xs opacity-50"></i>
         </div>
       </div>
 
-      <!-- Box 2 -->
-      <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-        <a href="privacy.html" class="flex items-center gap-4 p-4 active:bg-gray-50 transition cursor-pointer border-b border-gray-50">
-          <div class="w-9 h-9 rounded-full bg-blue-50 flex items-center justify-center text-blue-600"><i class="fas fa-shield-alt"></i></div>
-          <div class="flex-1"><h4 class="font-bold text-gray-800 text-sm">Privacy Policy</h4></div>
-          <i class="fas fa-chevron-right text-gray-300 text-xs"></i>
+      <!-- Group 2: Support & Privacy -->
+      <div class="clay-card overflow-hidden">
+        <!-- CONTACT US LINK CHANGED HERE -->
+        <a href="contact.html" class="p-4 flex items-center gap-4 active:bg-gray-100 dark:active:bg-gray-800 transition cursor-pointer border-b border-gray-100 dark:border-gray-700">
+           <div class="w-10 h-10 rounded-full bg-red-100 text-red-600 flex items-center justify-center"><i class="fas fa-envelope"></i></div>
+           <div class="flex-1 font-bold text-sm">Contact Support</div>
+           <i class="fas fa-chevron-right text-xs opacity-50"></i>
         </a>
-        <a href="mailto:support@toolvibe.com" class="flex items-center gap-4 p-4 active:bg-gray-50 transition cursor-pointer">
-          <div class="w-9 h-9 rounded-full bg-green-50 flex items-center justify-center text-green-600"><i class="fas fa-envelope"></i></div>
-          <div class="flex-1"><h4 class="font-bold text-gray-800 text-sm">Contact Support</h4></div>
-          <i class="fas fa-chevron-right text-gray-300 text-xs"></i>
+        <a href="privacy.html" class="p-4 flex items-center gap-4 active:bg-gray-100 dark:active:bg-gray-800 transition cursor-pointer">
+           <div class="w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center"><i class="fas fa-shield-alt"></i></div>
+           <div class="flex-1 font-bold text-sm">Privacy Policy</div>
+           <i class="fas fa-chevron-right text-xs opacity-50"></i>
         </a>
       </div>
-
     </div>
+
+    <!-- YOUR CREDIT BADGE -->
+    <div class="text-center pb-24 opacity-60">
+        <div class="inline-flex items-center gap-2 bg-surface/50 px-4 py-2 rounded-full border border-gray-200 dark:border-gray-800 backdrop-blur-sm">
+            <i class="fas fa-code text-brand text-xs"></i>
+            <span class="text-[10px] font-bold tracking-widest uppercase">Developed By <span class="text-brand">YOUR NAME</span></span>
+        </div>
+    </div>
+
   </main>
 
   <!-- ================= BOTTOM NAVIGATION ================= -->
-  <nav class="fixed bottom-0 w-full glass-nav z-50 pb-safe">
-    <div class="flex justify-around items-center h-16">
-      
-      <button onclick="switchTab('home')" id="nav-home" class="nav-item active flex flex-col items-center justify-center w-full h-full text-brand transition-all">
-        <i class="fas fa-th-large text-xl mb-1"></i>
-        <span class="text-[10px] font-bold">Tools</span>
-      </button>
-
-      <button onclick="switchTab('profile')" id="nav-profile" class="nav-item flex flex-col items-center justify-center w-full h-full text-gray-400 transition-all">
-        <i class="fas fa-user-circle text-xl mb-1"></i>
-        <span class="text-[10px] font-bold">Profile</span>
-      </button>
-
+  <nav class="fixed bottom-6 left-12 right-12 h-16 clay-card z-50 flex justify-around items-center px-4 bg-surface/90 backdrop-blur-xl border border-white/20 shadow-2xl">
+    <button onclick="switchTab('home')" id="nav-home" class="text-brand transition-all active:scale-75 flex flex-col items-center w-12">
+      <i class="fas fa-th-large text-xl"></i>
+    </button>
+    
+    <div class="w-14 h-14 bg-brand rounded-full flex items-center justify-center text-white -mt-10 shadow-lg shadow-indigo-500/50 active:scale-90 transition-transform cursor-pointer border-4 border-bg" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+      <i class="fas fa-bolt text-lg"></i>
     </div>
+
+    <button onclick="switchTab('profile')" id="nav-profile" class="text-gray-400 transition-all active:scale-75 flex flex-col items-center w-12">
+      <i class="fas fa-user text-xl"></i>
+    </button>
   </nav>
 
-  <!-- ================= JAVASCRIPT LOGIC ================= -->
+  <!-- ================= JAVASCRIPT ================= -->
   <script>
-    // ===========================================
-    // 1. DATABASE
-    // ===========================================
+    // ----------------------------------------------------
+    // 1. COMPLETE DATABASE (A-Z) from Screenshots
+    // ----------------------------------------------------
     const toolsData = [
-      // --- PDF TOOLS (33) ---
-      { name: "Add Page", icon: "fa-plus-circle", color: "text-red-500", bg: "bg-red-50", cat: "pdf", link: "Add_Pages.html" },
-      { name: "Watermark PDF", icon: "fa-stamp", color: "text-red-500", bg: "bg-red-50", cat: "pdf", link: "watermark.html" },
-      { name: "Compress PDF", icon: "fa-compress-arrows-alt", color: "text-red-600", bg: "bg-red-50", cat: "pdf", link: "Compress PDF.html" },
-      { name: "PDF to Word", icon: "fa-file-word", color: "text-blue-600", bg: "bg-blue-50", cat: "pdf", link: "pdf_to_word.html" },
-      { name: "Remove Pages", icon: "fa-trash-alt", color: "text-red-500", bg: "bg-red-50", cat: "pdf", link: "Remove_pages_from_pdf.html" },
-      { name: "JSON to PDF", icon: "fa-code", color: "text-yellow-600", bg: "bg-yellow-50", cat: "pdf", link: "json_to_pdf.html" },
-      { name: "CSV to PDF", icon: "fa-table", color: "text-green-600", bg: "bg-green-50", cat: "pdf", link: "csv_to_pdf.html" },
-      { name: "Excel to PDF", icon: "fa-file-excel", color: "text-green-600", bg: "bg-green-50", cat: "pdf", link: "EXCEL TO PDF.html" },
-      { name: "HTML to PDF", icon: "fa-code", color: "text-orange-600", bg: "bg-orange-50", cat: "pdf", link: "html_to_pdf.html" },
-      { name: "JPG to PDF", icon: "fa-image", color: "text-purple-600", bg: "bg-purple-50", cat: "pdf", link: "jpg_to_pdf.html" },
-      { name: "Merge PDF", icon: "fa-layer-group", color: "text-red-600", bg: "bg-red-50", cat: "pdf", link: "merge-pdf.html" },
-      { name: "OCR PDF", icon: "fa-eye", color: "text-gray-600", bg: "bg-gray-100", cat: "pdf", link: "OCR PDF.html" },
-      { name: "Organize PDF", icon: "fa-sort", color: "text-indigo-600", bg: "bg-indigo-50", cat: "pdf", link: "Organize.html" },
-      { name: "PDF to Excel", icon: "fa-file-excel", color: "text-green-600", bg: "bg-green-50", cat: "pdf", link: "pdf_to_excel.html" },
-      { name: "PDF Signing", icon: "fa-signature", color: "text-blue-600", bg: "bg-blue-50", cat: "pdf", link: "pdf_signing.html" },
-      { name: "PDF to CSV", icon: "fa-file-csv", color: "text-green-600", bg: "bg-green-50", cat: "pdf", link: "pdf_to_csv.html" },
-      { name: "PDF to HTML", icon: "fa-code", color: "text-orange-600", bg: "bg-orange-50", cat: "pdf", link: "pdf_to_html.html" },
-      { name: "PDF to JPG", icon: "fa-image", color: "text-purple-600", bg: "bg-purple-50", cat: "pdf", link: "pdf_to_jpg.html" },
-      { name: "PDF to JSON", icon: "fa-file-code", color: "text-yellow-600", bg: "bg-yellow-50", cat: "pdf", link: "pdf_to_json.html" },
-      { name: "PDF to PNG", icon: "fa-image", color: "text-purple-600", bg: "bg-purple-50", cat: "pdf", link: "pdf_to_png.html" },
-      { name: "PDF to Text", icon: "fa-file-alt", color: "text-gray-600", bg: "bg-gray-50", cat: "pdf", link: "pdf_to_text.html" },
-      { name: "PDF to WebP", icon: "fa-globe", color: "text-blue-500", bg: "bg-blue-50", cat: "pdf", link: "PDF_to_WEBP.html" },
-      { name: "PDF to XML", icon: "fa-file-code", color: "text-yellow-600", bg: "bg-yellow-50", cat: "pdf", link: "pdf_to_xml.html" },
-      { name: "PDF to ZIP", icon: "fa-file-archive", color: "text-yellow-500", bg: "bg-yellow-50", cat: "pdf", link: "pdf_to_zip.html" },
-      { name: "Repair PDF", icon: "fa-wrench", color: "text-gray-600", bg: "bg-gray-100", cat: "pdf", link: "Repair.html" },
-      { name: "PNG to PDF", icon: "fa-image", color: "text-purple-600", bg: "bg-purple-50", cat: "pdf", link: "png_to_pdf.html" },
-      { name: "Rotate PDF", icon: "fa-sync", color: "text-indigo-600", bg: "bg-indigo-50", cat: "pdf", link: "Rotate.html" },
-      { name: "Speech to PDF", icon: "fa-microphone", color: "text-red-500", bg: "bg-red-50", cat: "pdf", link: "speech_to_pdf.html" },
-      { name: "Split PDF", icon: "fa-cut", color: "text-orange-500", bg: "bg-orange-50", cat: "pdf", link: "split.html" },
-      { name: "Text to PDF", icon: "fa-font", color: "text-gray-600", bg: "bg-gray-50", cat: "pdf", link: "text_to_pdf.html" },
-      { name: "WebP to PDF", icon: "fa-globe", color: "text-blue-500", bg: "bg-blue-50", cat: "pdf", link: "WEBP_to_PDF.html" },
-      { name: "Word to PDF", icon: "fa-file-word", color: "text-blue-600", bg: "bg-blue-50", cat: "pdf", link: "Word to PDF.html" },
-      { name: "XML to PDF", icon: "fa-file-code", color: "text-yellow-600", bg: "bg-yellow-50", cat: "pdf", link: "xml_to_pdf.html" },
+      // === PDF TOOLS (33) ===
+      { id: 101, n: "Add Pages", i: "fa-plus-circle", c: "pdf", l: "Add_Pages.html", clr: "text-red-500" },
+      { id: 102, n: "Compress PDF", i: "fa-compress-arrows-alt", c: "pdf", l: "Compress PDF.html", clr: "text-red-600" },
+      { id: 103, n: "CSV to PDF", i: "fa-table", c: "pdf", l: "csv_to_pdf.html", clr: "text-green-600" },
+      { id: 104, n: "Excel to PDF", i: "fa-file-excel", c: "pdf", l: "EXCEL TO PDF.html", clr: "text-green-600" },
+      { id: 105, n: "HTML to PDF", i: "fa-code", c: "pdf", l: "html_to_pdf.html", clr: "text-orange-600" },
+      { id: 106, n: "JPG to PDF", i: "fa-image", c: "pdf", l: "jpg_to_pdf.html", clr: "text-purple-600" },
+      { id: 107, n: "JSON to PDF", i: "fa-file-code", c: "pdf", l: "json_to_pdf.html", clr: "text-yellow-600" },
+      { id: 108, n: "Merge PDF", i: "fa-layer-group", c: "pdf", l: "merge-pdf.html", clr: "text-red-600" },
+      { id: 109, n: "OCR PDF", i: "fa-eye", c: "pdf", l: "OCR PDF.html", clr: "text-gray-600" },
+      { id: 110, n: "Organize PDF", i: "fa-sort", c: "pdf", l: "Organize.html", clr: "text-indigo-600" },
+      { id: 111, n: "PDF Signing", i: "fa-signature", c: "pdf", l: "pdf_signing.html", clr: "text-blue-600" },
+      { id: 112, n: "PDF to CSV", i: "fa-file-csv", c: "pdf", l: "pdf_to_csv.html", clr: "text-green-600" },
+      { id: 113, n: "PDF to Excel", i: "fa-file-excel", c: "pdf", l: "pdf_to_excel.html", clr: "text-green-600" },
+      { id: 114, n: "PDF to HTML", i: "fa-code", c: "pdf", l: "pdf_to_html.html", clr: "text-orange-600" },
+      { id: 115, n: "PDF to JPG", i: "fa-image", c: "pdf", l: "pdf_to_jpg.html", clr: "text-purple-600" },
+      { id: 116, n: "PDF to JSON", i: "fa-file-code", c: "pdf", l: "pdf_to_json.html", clr: "text-yellow-600" },
+      { id: 117, n: "PDF to PNG", i: "fa-image", c: "pdf", l: "pdf_to_png.html", clr: "text-purple-600" },
+      { id: 118, n: "PDF to Text", i: "fa-file-alt", c: "pdf", l: "pdf_to_text.html", clr: "text-gray-600" },
+      { id: 119, n: "PDF to WebP", i: "fa-globe", c: "pdf", l: "PDF_to_WEBP.html", clr: "text-blue-500" },
+      { id: 120, n: "PDF to Word", i: "fa-file-word", c: "pdf", l: "pdf_to_word.html", clr: "text-blue-600" },
+      { id: 121, n: "PDF to XML", i: "fa-file-code", c: "pdf", l: "pdf_to_xml.html", clr: "text-yellow-600" },
+      { id: 122, n: "PDF to ZIP", i: "fa-file-archive", c: "pdf", l: "pdf_to_zip.html", clr: "text-yellow-500" },
+      { id: 123, n: "PNG to PDF", i: "fa-image", c: "pdf", l: "png_to_pdf.html", clr: "text-purple-600" },
+      { id: 124, n: "Remove Pages", i: "fa-trash-alt", c: "pdf", l: "Remove_pages_from_pdf.html", clr: "text-red-500" },
+      { id: 125, n: "Repair PDF", i: "fa-wrench", c: "pdf", l: "Repair.html", clr: "text-gray-600" },
+      { id: 126, n: "Rotate PDF", i: "fa-sync", c: "pdf", l: "Rotate.html", clr: "text-indigo-600" },
+      { id: 127, n: "Speech to PDF", i: "fa-microphone", c: "pdf", l: "speech_to_pdf.html", clr: "text-red-500" },
+      { id: 128, n: "Split PDF", i: "fa-cut", c: "pdf", l: "split.html", clr: "text-orange-500" },
+      { id: 129, n: "Text to PDF", i: "fa-font", c: "pdf", l: "text_to_pdf.html", clr: "text-gray-600" },
+      { id: 130, n: "Watermark PDF", i: "fa-stamp", c: "pdf", l: "watermark.html", clr: "text-red-500" },
+      { id: 131, n: "WebP to PDF", i: "fa-globe", c: "pdf", l: "WEBP_to_PDF.html", clr: "text-blue-500" },
+      { id: 132, n: "Word to PDF", i: "fa-file-word", c: "pdf", l: "Word to PDF.html", clr: "text-blue-600" },
+      { id: 133, n: "XML to PDF", i: "fa-file-code", c: "pdf", l: "xml_to_pdf.html", clr: "text-yellow-600" },
 
-      // --- IMAGE TOOLS (34) ---
-      { name: "Compress IMG", icon: "fa-compress", color: "text-purple-600", bg: "bg-purple-50", cat: "image", link: "Image compressor.html" },
-      { name: "Resize IMG", icon: "fa-expand", color: "text-purple-600", bg: "bg-purple-50", cat: "image", link: "Image Resizer.html" },
-      { name: "Image Border", icon: "fa-border-all", color: "text-purple-600", bg: "bg-purple-50", cat: "image", link: "image_border.html" },
-      { name: "Image Flipper", icon: "fa-sync", color: "text-purple-600", bg: "bg-purple-50", cat: "image", link: "Image_Flipper.html" },
-      { name: "Image Splitter", icon: "fa-columns", color: "text-purple-600", bg: "bg-purple-50", cat: "image", link: "Image_splitter.html" },
-      { name: "Image to PDF", icon: "fa-file-pdf", color: "text-red-500", bg: "bg-red-50", cat: "image", link: "image_to_pdf.html" },
-      { name: "Image to Text", icon: "fa-font", color: "text-gray-600", bg: "bg-gray-50", cat: "image", link: "image_to_text.html" },
-      { name: "JPG to PDF", icon: "fa-file-pdf", color: "text-red-500", bg: "bg-red-50", cat: "image", link: "jpg_to_pdf.html" },
-      { name: "JPG to PNG", icon: "fa-exchange-alt", color: "text-blue-500", bg: "bg-blue-50", cat: "image", link: "jpg_to_png.html" },
-      { name: "JPG to WebP", icon: "fa-globe", color: "text-green-500", bg: "bg-green-50", cat: "image", link: "jpg_to_webp.html" },
-      { name: "PDF to JPG", icon: "fa-image", color: "text-purple-600", bg: "bg-purple-50", cat: "image", link: "pdf_to_jpg.html" },
-      { name: "Pixelate", icon: "fa-chess-board", color: "text-gray-600", bg: "bg-gray-50", cat: "image", link: "Pixelate.html" },
-      { name: "PNG to JPG", icon: "fa-exchange-alt", color: "text-blue-500", bg: "bg-blue-50", cat: "image", link: "PNG_to_JPG.html" },
-      { name: "PNG to WebP", icon: "fa-globe", color: "text-green-500", bg: "bg-green-50", cat: "image", link: "PNG_to_WEBP.html" },
-      { name: "Profile Maker", icon: "fa-user-circle", color: "text-pink-500", bg: "bg-pink-50", cat: "image", link: "profile.html" },
-      { name: "SVG to PNG", icon: "fa-vector-square", color: "text-orange-500", bg: "bg-orange-50", cat: "image", link: "svg_to_png.html" },
-      { name: "Upscale Image", icon: "fa-arrow-up", color: "text-green-500", bg: "bg-green-50", cat: "image", link: "upscale.html" },
-      { name: "View Image", icon: "fa-eye", color: "text-blue-500", bg: "bg-blue-50", cat: "image", link: "view.html" },
-      { name: "Watermark IMG", icon: "fa-water", color: "text-blue-400", bg: "bg-blue-50", cat: "image", link: "watermark.html" },
-      { name: "WebP to JPG", icon: "fa-image", color: "text-purple-600", bg: "bg-purple-50", cat: "image", link: "webp_to_JPG.html" },
-      { name: "WebP to PNG", icon: "fa-image", color: "text-purple-600", bg: "bg-purple-50", cat: "image", link: "WEBP_to_PNG.html" },
-      { name: "Add Images", icon: "fa-plus", color: "text-purple-600", bg: "bg-purple-50", cat: "image", link: "Add_Images.html" },
-      { name: "Add Text", icon: "fa-font", color: "text-gray-600", bg: "bg-gray-50", cat: "image", link: "add_text.html" },
-      { name: "BG Remover", icon: "fa-magic", color: "text-purple-600", bg: "bg-purple-50", cat: "image", link: "bg.html" },
-      { name: "Black & White", icon: "fa-adjust", color: "text-gray-800", bg: "bg-gray-100", cat: "image", link: "black_&_white.html" },
-      { name: "Blur Image", icon: "fa-tint", color: "text-blue-400", bg: "bg-blue-50", cat: "image", link: "blur.html" },
-      { name: "Collage Maker", icon: "fa-th-large", color: "text-pink-500", bg: "bg-pink-50", cat: "image", link: "Collage_Maker.html" },
-      { name: "Colorize", icon: "fa-palette", color: "text-yellow-500", bg: "bg-yellow-50", cat: "image", link: "Colorize_photo.html" },
-      { name: "Combine IMG", icon: "fa-object-group", color: "text-purple-600", bg: "bg-purple-50", cat: "image", link: "combine_image.html" },
-      { name: "Crop Image", icon: "fa-crop", color: "text-purple-600", bg: "bg-purple-50", cat: "image", link: "crop.html" },
-      { name: "Font to PNG", icon: "fa-font", color: "text-gray-600", bg: "bg-gray-50", cat: "image", link: "font_to_png.html" },
-      { name: "GIF to JPG", icon: "fa-gift", color: "text-pink-500", bg: "bg-pink-50", cat: "image", link: "gif_to_jpg.html" },
-      { name: "ICO to JPG", icon: "fa-icons", color: "text-blue-500", bg: "bg-blue-50", cat: "image", link: "ico_to_jpg.html" },
-      { name: "ICO to WebP", icon: "fa-globe", color: "text-green-500", bg: "bg-green-50", cat: "image", link: "ico_to_webp.html" },
+      // === IMAGE TOOLS (30) ===
+      { id: 201, n: "Add Images", i: "fa-plus", c: "image", l: "Add_Images.html", clr: "text-purple-600" },
+      { id: 202, n: "Add Text", i: "fa-font", c: "image", l: "add_text.html", clr: "text-gray-600" },
+      { id: 203, n: "BG Remover", i: "fa-magic", c: "image", l: "bg.html", clr: "text-purple-600" },
+      { id: 204, n: "Black & White", i: "fa-adjust", c: "image", l: "black_&_white.html", clr: "text-gray-800" },
+      { id: 205, n: "Blur Image", i: "fa-tint", c: "image", l: "blur.html", clr: "text-blue-400" },
+      { id: 206, n: "Collage Maker", i: "fa-th-large", c: "image", l: "Collage_Maker.html", clr: "text-pink-500" },
+      { id: 207, n: "Colorize Photo", i: "fa-palette", c: "image", l: "Colorize_photo.html", clr: "text-yellow-500" },
+      { id: 208, n: "Combine Image", i: "fa-object-group", c: "image", l: "combine_image.html", clr: "text-purple-600" },
+      { id: 209, n: "Crop Image", i: "fa-crop", c: "image", l: "crop.html", clr: "text-purple-600" },
+      { id: 210, n: "Font to PNG", i: "fa-font", c: "image", l: "font_to_png.html", clr: "text-gray-600" },
+      { id: 211, n: "GIF to JPG", i: "fa-gift", c: "image", l: "gif_to_jpg.html", clr: "text-pink-500" },
+      { id: 212, n: "ICO to JPG", i: "fa-icons", c: "image", l: "ico_to_jpg.html", clr: "text-blue-500" },
+      { id: 213, n: "ICO to WebP", i: "fa-globe", c: "image", l: "ico_to_webp.html", clr: "text-green-500" },
+      { id: 214, n: "Image Compressor", i: "fa-compress", c: "image", l: "Image compressor.html", clr: "text-purple-600" },
+      { id: 215, n: "Image Resizer", i: "fa-expand", c: "image", l: "Image Resizer.html", clr: "text-purple-600" },
+      { id: 216, n: "Image Border", i: "fa-border-all", c: "image", l: "image_border.html", clr: "text-purple-600" },
+      { id: 217, n: "Image Flipper", i: "fa-sync", c: "image", l: "Image_Flipper.html", clr: "text-purple-600" },
+      { id: 218, n: "Image Splitter", i: "fa-columns", c: "image", l: "Image_splitter.html", clr: "text-purple-600" },
+      { id: 219, n: "Image to PDF", i: "fa-file-pdf", c: "image", l: "image_to_pdf.html", clr: "text-red-500" },
+      { id: 220, n: "Image to Text", i: "fa-font", c: "image", l: "image_to_text.html", clr: "text-gray-600" },
+      { id: 221, n: "JPG to PNG", i: "fa-exchange-alt", c: "image", l: "jpg_to_png.html", clr: "text-blue-500" },
+      { id: 222, n: "JPG to WebP", i: "fa-globe", c: "image", l: "jpg_to_webp.html", clr: "text-green-500" },
+      { id: 223, n: "Pixelate", i: "fa-chess-board", c: "image", l: "Pixelate.html", clr: "text-gray-600" },
+      { id: 224, n: "PNG to JPG", i: "fa-exchange-alt", c: "image", l: "PNG_to_JPG.html", clr: "text-blue-500" },
+      { id: 225, n: "PNG to WebP", i: "fa-globe", c: "image", l: "PNG_to_WEBP.html", clr: "text-green-500" },
+      { id: 226, n: "Profile Maker", i: "fa-user-circle", c: "image", l: "profile.html", clr: "text-pink-500" },
+      { id: 227, n: "SVG to PNG", i: "fa-vector-square", c: "image", l: "svg_to_png.html", clr: "text-orange-500" },
+      { id: 228, n: "Upscale Image", i: "fa-arrow-up", c: "image", l: "upscale.html", clr: "text-green-500" },
+      { id: 229, n: "View Image", i: "fa-eye", c: "image", l: "view.html", clr: "text-blue-500" },
+      { id: 230, n: "WebP to JPG", i: "fa-image", c: "image", l: "webp_to_JPG.html", clr: "text-purple-600" },
+      { id: 231, n: "WebP to PNG", i: "fa-image", c: "image", l: "WEBP_to_PNG.html", clr: "text-purple-600" },
 
-      // --- SEO TOOLS (23) ---
-      { name: "Meta Tags", icon: "fa-tags", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "Meta Tag Generator.html" },
-      { name: "OpenGraph Gen", icon: "fa-share-alt", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "OpenGraph Tags Generator.html" },
-      { name: "Adaptive Check", icon: "fa-mobile-alt", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "Adaptive.html" },
-      { name: "Sitemap Gen", icon: "fa-sitemap", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "XML Sitemap Generator.html" },
-      { name: "Schema Gen", icon: "fa-code", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "schema.html" },
-      { name: "AMP Validator", icon: "fa-bolt", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "AMP Validator.html" },
-      { name: "Canonical Tag", icon: "fa-link", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "Canonical Tag.html" },
-      { name: "Case Convert", icon: "fa-text-height", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "Case Converter.html" },
-      { name: "Google Algo", icon: "fa-robot", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "Google.html" },
-      { name: "Hreflang Test", icon: "fa-language", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "hreflang Tags Testing.html" },
-      { name: "Htaccess Test", icon: "fa-file-code", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "htaccess_tester.html" },
-      { name: "Local SEO", icon: "fa-map-marker-alt", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "Local Search Results Testing Tool.html" },
-      { name: "Meta Desc", icon: "fa-file-alt", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "Meta Description.html" },
-      { name: "MD5 Gen", icon: "fa-key", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "Online MD5 Generator.html" },
-      { name: "Pre-render", icon: "fa-eye", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "Pre-rendering Testing Tool.html" },
-      { name: "Robots.txt", icon: "fa-robot", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "robots.txt_gen.html" },
-      { name: "SEO Citation", icon: "fa-quote-right", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "SEO Citation Generator.html" },
-      { name: "SEO Punct", icon: "fa-paragraph", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "SEO Punctuation Checker.html" },
-      { name: "Small Text", icon: "fa-text-height", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "Small Text Generator.html" },
-      { name: "Slug Gen", icon: "fa-link", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "Text to Slug Converter.html" },
-      { name: "Twitter Card", icon: "fa-twitter", color: "text-blue-400", bg: "bg-blue-50", cat: "seo", link: "Twitter Card Generator.html" },
-      { name: "UTM Builder", icon: "fa-link", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "UTM Builder.html" },
-      { name: "Word Counter", icon: "fa-calculator", color: "text-orange-600", bg: "bg-orange-50", cat: "seo", link: "Word Counter.html" },
+      // === SEO TOOLS (23) ===
+      { id: 301, n: "Adaptive Check", i: "fa-mobile-alt", c: "seo", l: "Adaptive.html", clr: "text-orange-600" },
+      { id: 302, n: "AMP Validator", i: "fa-bolt", c: "seo", l: "AMP Validator.html", clr: "text-orange-600" },
+      { id: 303, n: "Canonical Tag", i: "fa-link", c: "seo", l: "Canonical Tag.html", clr: "text-orange-600" },
+      { id: 304, n: "Case Converter", i: "fa-text-height", c: "seo", l: "Case Converter.html", clr: "text-orange-600" },
+      { id: 305, n: "Google Algo", i: "fa-robot", c: "seo", l: "Google.html", clr: "text-orange-600" },
+      { id: 306, n: "Hreflang Tags", i: "fa-language", c: "seo", l: "hreflang Tags Testing.html", clr: "text-orange-600" },
+      { id: 307, n: "Htaccess Tester", i: "fa-file-code", c: "seo", l: "htaccess_tester.html", clr: "text-orange-600" },
+      { id: 308, n: "Local SEO Check", i: "fa-map-marker-alt", c: "seo", l: "Local Search Results Testing Tool.html", clr: "text-orange-600" },
+      { id: 309, n: "Meta Description", i: "fa-file-alt", c: "seo", l: "Meta Description.html", clr: "text-orange-600" },
+      { id: 310, n: "Meta Tag Gen", i: "fa-tags", c: "seo", l: "Meta Tag Generator.html", clr: "text-orange-600" },
+      { id: 311, n: "MD5 Generator", i: "fa-key", c: "seo", l: "Online MD5 Generator.html", clr: "text-orange-600" },
+      { id: 312, n: "OpenGraph Gen", i: "fa-share-alt", c: "seo", l: "OpenGraph Tags Generator.html", clr: "text-orange-600" },
+      { id: 313, n: "Pre-rendering", i: "fa-eye", c: "seo", l: "Pre-rendering Testing Tool.html", clr: "text-orange-600" },
+      { id: 314, n: "Robots.txt Gen", i: "fa-robot", c: "seo", l: "robots.txt_gen.html", clr: "text-orange-600" },
+      { id: 315, n: "Schema Gen", i: "fa-code", c: "seo", l: "schema.html", clr: "text-orange-600" },
+      { id: 316, n: "SEO Citation", i: "fa-quote-right", c: "seo", l: "SEO Citation Generator.html", clr: "text-orange-600" },
+      { id: 317, n: "Punctuation Checker", i: "fa-paragraph", c: "seo", l: "SEO Punctuation Checker.html", clr: "text-orange-600" },
+      { id: 318, n: "Small Text Gen", i: "fa-text-height", c: "seo", l: "Small Text Generator.html", clr: "text-orange-600" },
+      { id: 319, n: "Slug Converter", i: "fa-link", c: "seo", l: "Text to Slug Converter.html", clr: "text-orange-600" },
+      { id: 320, n: "Twitter Card", i: "fa-twitter", c: "seo", l: "Twitter Card Generator.html", clr: "text-blue-400" },
+      { id: 321, n: "UTM Builder", i: "fa-link", c: "seo", l: "UTM Builder.html", clr: "text-orange-600" },
+      { id: 322, n: "Word Counter", i: "fa-calculator", c: "seo", l: "Word Counter.html", clr: "text-orange-600" },
+      { id: 323, n: "Sitemap Gen", i: "fa-sitemap", c: "seo", l: "XML Sitemap Generator.html", clr: "text-orange-600" }
     ];
 
-    // ===========================================
-    // 2. RENDER FUNCTIONS
-    // ===========================================
-    const container = document.getElementById('tools-container');
-    const emptyState = document.getElementById('empty-state');
+    // 2. APP STATE
+    let favorites = JSON.parse(localStorage.getItem('toolvibe_favs_v2')) || [];
+    let isDark = localStorage.getItem('toolvibe_theme') === 'dark';
 
-    function renderTools(filter = 'all') {
-      container.innerHTML = '';
-      let count = 0;
+    // 3. INITIALIZATION
+    window.onload = () => {
+      if(isDark) document.documentElement.classList.add('dark');
+      updateThemeIcon();
+      initParticles();
+      restoreState();
+    };
 
-      toolsData.forEach((tool, index) => {
-        if(filter === 'all' || tool.cat === filter) {
-          count++;
-          const card = document.createElement('div');
-          card.className = `bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center justify-center text-center gap-2 tap-effect item-anim relative overflow-hidden`;
-          card.style.animationDelay = `${Math.min(index * 0.02, 0.5)}s`;
-          
-          card.onclick = () => {
-             window.location.href = tool.link;
-          };
-
-          card.innerHTML = `
-            <div class="w-10 h-10 ${tool.bg} rounded-xl flex items-center justify-center text-lg ${tool.color} mb-1">
-              <i class="fas ${tool.icon}"></i>
-            </div>
-            <span class="text-[11px] font-bold text-gray-700 leading-tight line-clamp-2">${tool.name}</span>
-          `;
-          container.appendChild(card);
-        }
-      });
-      
-      emptyState.style.display = count === 0 ? 'flex' : 'none';
+    // 4. LOGIC
+    function navigateTo(link) {
+      sessionStorage.setItem('scrollPos', window.scrollY);
+      window.location.href = link;
     }
 
-    // ===========================================
-    // 3. SEARCH & FILTER
-    // ===========================================
-    function toggleSearch() {
-      const bar = document.getElementById('search-bar');
-      bar.classList.toggle('hidden');
-      if(!bar.classList.contains('hidden')) {
-        document.getElementById('search-input').focus();
+    function restoreState() {
+      const savedCat = sessionStorage.getItem('activeCat') || 'all';
+      const btns = { 'all': 'btn-all', 'pdf': 'btn-pdf', 'image': 'btn-image', 'seo': 'btn-seo' };
+      if(btns[savedCat]) filterTools(savedCat, document.getElementById(btns[savedCat]), false);
+      else filterTools('all', document.getElementById('btn-all'), false);
+      
+      const savedScroll = sessionStorage.getItem('scrollPos');
+      if(savedScroll) setTimeout(() => window.scrollTo(0, parseFloat(savedScroll)), 100);
+    }
+
+    // 5. RENDERING & FILTER
+    const container = document.getElementById('tools-container');
+    const favSection = document.getElementById('fav-section');
+    const favContainer = document.getElementById('fav-container');
+
+    function filterTools(cat, btn, scroll = true) {
+      sessionStorage.setItem('activeCat', cat);
+      document.querySelectorAll('.cat-btn').forEach(b => {
+        b.className = 'cat-btn clay-card px-6 py-2.5 text-xs font-bold whitespace-nowrap transition-all text-gray-500 border border-transparent';
+      });
+      btn.className = 'cat-btn active clay-card px-6 py-2.5 text-xs font-bold whitespace-nowrap transition-all border border-transparent';
+
+      const filtered = toolsData.filter(t => cat === 'all' || t.c === cat);
+      renderGrid(filtered);
+      if(scroll) window.scrollTo({top:0, behavior:'smooth'});
+    }
+
+    function renderGrid(data) {
+      container.innerHTML = '';
+      favContainer.innerHTML = '';
+
+      const favTools = toolsData.filter(t => favorites.includes(t.id));
+      if(favTools.length > 0) {
+        favSection.classList.remove('hidden');
+        favTools.forEach(t => favContainer.appendChild(createCard(t, true)));
+      } else {
+        favSection.classList.add('hidden');
+      }
+
+      if(data.length === 0) {
+        document.getElementById('empty-state').classList.remove('hidden');
+        document.getElementById('empty-state').classList.add('flex');
+      } else {
+        document.getElementById('empty-state').classList.add('hidden');
+        document.getElementById('empty-state').classList.remove('flex');
+        data.forEach((t, i) => container.appendChild(createCard(t, false, i)));
       }
     }
 
-    document.getElementById('search-input').addEventListener('input', (e) => {
-      const term = e.target.value.toLowerCase();
-      container.innerHTML = '';
-      let count = 0;
+    function createCard(t, isMini, index = 0) {
+      const el = document.createElement('div');
+      const isFav = favorites.includes(t.id);
+      if(isMini) {
+        el.className = "flex-shrink-0 w-20 flex flex-col items-center gap-2 cursor-pointer";
+        el.onclick = () => navigateTo(t.l);
+        el.innerHTML = `<div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-brand to-purple-600 flex items-center justify-center text-white shadow-lg relative"><i class="fas ${t.i}"></i><div class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full border-2 border-white"></div></div><span class="text-[9px] font-bold text-center truncate w-full">${t.n}</span>`;
+      } else {
+        el.className = "clay-card p-4 flex flex-col items-center text-center gap-3 tilt-box cursor-pointer opacity-0 animate-slide-down relative group";
+        el.style.animationDelay = `${Math.min(index * 0.05, 1)}s`;
+        el.onclick = () => navigateTo(t.l);
+        el.innerHTML = `<div class="absolute top-3 right-3 z-20"><i class="fas fa-heart ${isFav ? 'text-red-500' : 'text-gray-300'} text-lg transition-transform active:scale-150" onclick="toggleFav(${t.id}, event)"></i></div><div class="w-12 h-12 rounded-2xl bg-bg flex items-center justify-center text-xl ${t.clr} shadow-inner mb-1 tilt-inner transition-transform duration-300 group-hover:scale-110"><i class="fas ${t.i}"></i></div><span class="text-xs font-bold text-txt tilt-inner leading-tight">${t.n}</span>`;
+        
+        el.addEventListener('mousemove', (e) => {
+           const rect = el.getBoundingClientRect();
+           el.style.transform = `perspective(1000px) rotateX(${(e.clientY - rect.top - rect.height/2)/10}deg) rotateY(${-(e.clientX - rect.left - rect.width/2)/10}deg)`;
+        });
+        el.addEventListener('mouseleave', () => el.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)');
+      }
+      return el;
+    }
 
-      toolsData.forEach((tool) => {
-        if(tool.name.toLowerCase().includes(term)) {
-          count++;
-          const card = document.createElement('div');
-          card.className = `bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center justify-center text-center gap-2 tap-effect`;
-          card.onclick = () => window.location.href = tool.link;
-          card.innerHTML = `
-            <div class="w-10 h-10 ${tool.bg} rounded-xl flex items-center justify-center text-lg ${tool.color} mb-1">
-              <i class="fas ${tool.icon}"></i>
-            </div>
-            <span class="text-[11px] font-bold text-gray-700 leading-tight">${tool.name}</span>
-          `;
-          container.appendChild(card);
-        }
-      });
-      emptyState.style.display = count === 0 ? 'flex' : 'none';
+    function toggleFav(id, e) {
+      e.stopPropagation();
+      if(favorites.includes(id)) { favorites = favorites.filter(f => f !== id); showNotify("Removed from Favorites", "fa-heart-broken"); }
+      else { favorites.push(id); showNotify("Added to Favorites", "fa-heart text-red-500"); }
+      localStorage.setItem('toolvibe_favs_v2', JSON.stringify(favorites));
+      const cat = sessionStorage.getItem('activeCat') || 'all';
+      filterTools(cat, document.getElementById(cat === 'all' ? 'btn-all' : 'btn-'+cat), false);
+    }
+
+    function clearFavs() {
+      favorites = []; localStorage.setItem('toolvibe_favs_v2', JSON.stringify([]));
+      filterTools(sessionStorage.getItem('activeCat') || 'all', document.getElementById('btn-'+(sessionStorage.getItem('activeCat')||'all')), false);
+      showNotify("Favorites Cleared", "fa-trash");
+    }
+
+    function toggleSearch() {
+       document.getElementById('search-box').classList.toggle('hidden');
+       if(!document.getElementById('search-box').classList.contains('hidden')) document.getElementById('search-input').focus();
+    }
+    document.getElementById('search-input').addEventListener('input', (e) => {
+       renderGrid(toolsData.filter(t => t.n.toLowerCase().includes(e.target.value.toLowerCase())));
     });
 
-    function filterTools(cat, btn) {
-      document.querySelectorAll('.cat-btn').forEach(b => {
-        b.className = 'cat-btn bg-white text-gray-600 border border-gray-200 px-5 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all';
-      });
-      btn.className = 'cat-btn bg-brand text-white px-5 py-2 rounded-full text-xs font-bold whitespace-nowrap shadow-md shadow-purple-200 transition-all';
-      
-      renderTools(cat);
-      window.scrollTo({top: 0});
+    function toggleTheme() {
+      isDark = !isDark;
+      document.documentElement.classList.toggle('dark', isDark);
+      localStorage.setItem('toolvibe_theme', isDark ? 'dark' : 'light');
+      updateThemeIcon();
+      showNotify(isDark ? "Dark Mode" : "Light Mode", isDark ? "fa-moon" : "fa-sun");
+    }
+    function updateThemeIcon() { document.getElementById('theme-icon').className = isDark ? 'fas fa-sun text-yellow-400' : 'fas fa-moon text-brand'; }
+
+    function showNotify(msg, icon) {
+       const box = document.getElementById('island');
+       document.getElementById('island-msg').innerText = msg;
+       document.getElementById('island-icon').className = `fas ${icon} mr-2`;
+       box.classList.add('active'); setTimeout(() => box.classList.remove('active'), 2000);
     }
 
-    // ===========================================
-    // 4. NAVIGATION TABS
-    // ===========================================
-    function switchTab(tab) {
-      const homeView = document.getElementById('home-view');
-      const profileView = document.getElementById('profile-view');
-      const pills = document.getElementById('cat-pills');
-      const navHome = document.getElementById('nav-home');
-      const navProfile = document.getElementById('nav-profile');
+    function initParticles() {
+       const con = document.getElementById('particles-container');
+       for(let i=0; i<10; i++) {
+         const p = document.createElement('div'); p.className = 'particle';
+         const s = Math.random()*15+5; p.style.width=s+'px'; p.style.height=s+'px';
+         p.style.left=Math.random()*100+'%'; p.style.top=Math.random()*100+'%';
+         con.appendChild(p);
+       }
+    }
 
-      if (tab === 'home') {
-        homeView.classList.remove('hidden');
-        profileView.classList.add('hidden');
-        pills.classList.remove('hidden');
-        
-        navHome.classList.add('active', 'text-brand');
-        navHome.classList.remove('text-gray-400');
-        navProfile.classList.remove('active', 'text-brand');
-        navProfile.classList.add('text-gray-400');
-        window.scrollTo({top: 0});
+    // --- TABS LOGIC ---
+    function switchTab(t) {
+      const home = document.getElementById('home-view');
+      const profile = document.getElementById('profile-view');
+      const hBtn = document.getElementById('nav-home');
+      const pBtn = document.getElementById('nav-profile');
+      const catRow = document.getElementById('category-row');
+
+      if(t === 'home') {
+        home.classList.remove('hidden'); profile.classList.add('hidden');
+        catRow.classList.remove('hidden'); // Show Categories
+        hBtn.classList.add('text-brand'); hBtn.classList.remove('text-gray-400');
+        pBtn.classList.remove('text-brand'); pBtn.classList.add('text-gray-400');
       } else {
-        homeView.classList.add('hidden');
-        profileView.classList.remove('hidden');
-        pills.classList.add('hidden');
-        
-        navProfile.classList.add('active', 'text-brand');
-        navProfile.classList.remove('text-gray-400');
-        navHome.classList.remove('active', 'text-brand');
-        navHome.classList.add('text-gray-400');
+        home.classList.add('hidden'); profile.classList.remove('hidden');
+        catRow.classList.add('hidden'); // Hide Categories
+        pBtn.classList.add('text-brand'); pBtn.classList.remove('text-gray-400');
+        hBtn.classList.remove('text-brand'); hBtn.classList.add('text-gray-400');
       }
     }
 
-    // ===========================================
-    // 5. FIXED SHARE & RATE FUNCTION
-    // ===========================================
-    function shareApp() {
-      // Direct call to Java Interface we made in Sketchware
-      try {
-        Android.shareApp("ToolVibe - Ultimate PDF & Image Tools", "https://play.google.com/store/apps/details?id=com.toolvibe.app");
-      } catch(e) {
-        // Fallback mainly for testing in browser, wont show in app if Java is correct
-        console.log("Java Interface not found. Testing mode.");
-        alert("Share works in Real App");
-      }
-    }
-
-    function rateApp() {
-      try {
-        Android.rateApp();
-      } catch(e) {
-        window.open("https://play.google.com/store/apps/details?id=com.toolvibe.app", "_blank");
-      }
-    }
-
-    // ===========================================
-    // 6. INITIALIZE (NO SPLASH)
-    // ===========================================
-    window.onload = () => {
-      // Removed Splash screen loader logic.
-      // Direct render.
-      renderTools('all');
-    };
+    // Android
+    function shareApp() { try{ Android.shareApp("ToolVibe","link"); }catch(e){ showNotify("Sharing...","fa-share"); } }
+    function rateApp() { try{ Android.rateApp(); }catch(e){ showNotify("Rating...","fa-star"); } }
   </script>
 </body>
 </html>
