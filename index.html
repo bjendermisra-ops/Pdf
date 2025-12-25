@@ -1,704 +1,1808 @@
 
 <!DOCTYPE html>
-<html lang="en" class="light">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#4f46e5">
-  <meta name="description" content="ToolVibe Ultimate Pro - 80+ PDF, Image & SEO Tools in one place.">
-  <title>ToolVibe Ultimate Pro</title>
-  
-  <!-- Libraries -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ToolVibe - PDF, Image & SEO Tools</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <script>
     tailwind.config = {
-      darkMode: 'class',
       theme: {
         extend: {
-          fontFamily: { sans: ['Space Grotesk', 'sans-serif'] },
+          fontFamily: { sans: ['Poppins', 'sans-serif'] },
           colors: {
-            brand: 'var(--brand)',
-            surface: 'var(--surface)',
-            txt: 'var(--text)',
-            bg: 'var(--bg)'
-          },
-          screens: {
-            'watch': '200px', // Extra small devices
-            'xs': '360px',
-            '3xl': '1920px'
-          },
-          animation: {
-            'float': 'float 8s ease-in-out infinite',
-            'slide-down': 'slideDown 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards',
-            'pop': 'pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
-          },
-          keyframes: {
-            float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-15px)' } },
-            slideDown: { '0%': { transform: 'translateY(-100%)', opacity: 0 }, '100%': { transform: 'translateY(0)', opacity: 1 } },
-            pop: { '0%': { transform: 'scale(0.9)', opacity: 0 }, '100%': { transform: 'scale(1)', opacity: 1 } }
+            dark: '#4F1271',
+            primary: '#4A4063',
+            accent: '#783F8E',
+            soft: '#BFACC8',
+            light: '#C8C6D7',
           }
         }
       }
     }
   </script>
-
-  <style>
-    :root {
-      --brand: #4f46e5;
-      --surface: #ffffff;
-      --bg: #f3f4f6;
-      --text: #1f2937;
-      --shadow-light: #ffffff;
-      --shadow-dark: #d1d5db;
-    }
-    
-    html.dark {
-      --brand: #818cf8;
-      --surface: #1e293b;
-      --bg: #0f172a;
-      --text: #f8fafc;
-      --shadow-light: #334155;
-      --shadow-dark: #020617;
-    }
-
-    body {
-      background-color: var(--bg);
-      color: var(--text);
-      transition: background-color 0.4s, color 0.4s;
-      -webkit-tap-highlight-color: transparent;
-      overflow-x: hidden;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    /* === CLAYMORPHISM UI === */
-    .clay-card {
-      background: var(--surface);
-      border-radius: 20px;
-      position: relative;
-      transition: all 0.3s ease;
-      box-shadow: 
-        8px 8px 16px var(--shadow-dark), 
-        -8px -8px 16px var(--shadow-light);
-      border: 1px solid rgba(255,255,255,0.05);
-    }
-    
-    .clay-card:active {
-      transform: scale(0.98);
-      box-shadow: 
-        inset 4px 4px 8px var(--shadow-dark), 
-        inset -4px -4px 8px var(--shadow-light);
-    }
-
-    /* 3D Tilt Wrapper */
-    .tilt-box { perspective: 1000px; transform-style: preserve-3d; }
-    .tilt-inner { transform: translateZ(20px); }
-
-    /* Utilities */
-    .hide-scroll::-webkit-scrollbar { display: none; }
-    
-    /* Dynamic Island Notification */
-    .dynamic-island {
-      position: fixed; top: 10px; left: 50%;
-      transform: translateX(-50%) translateY(-150%);
-      background: #000; color: white;
-      height: 40px; border-radius: 25px;
-      display: flex; align-items: center; justify-content: center;
-      z-index: 100; overflow: hidden; white-space: nowrap;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      width: 0; padding: 0;
-    }
-    .dynamic-island.active { width: 90%; max-width: 300px; padding: 0 20px; transform: translateX(-50%) translateY(0); }
-
-    /* Particles */
-    .particle {
-      position: absolute; border-radius: 50%;
-      background: var(--brand); opacity: 0.1;
-      animation: float 10s infinite; z-index: -1;
-    }
-
-    /* Cat Button Active State */
-    .cat-btn.active {
-      background: var(--brand); color: white;
-      box-shadow: 0 4px 10px rgba(79, 70, 229, 0.4);
-    }
-
-    /* Smartwatch & Responsive Tweaks */
-    @media (max-width: 300px) {
-        .app-title { font-size: 1rem !important; }
-        .cat-btn { padding: 6px 10px; font-size: 0.65rem; }
-        header { padding-top: 5px; }
-        #search-box { margin-bottom: 5px; }
-    }
-  </style>
 </head>
-<body class="pb-24 md:pb-0"> <!-- Padding bottom only for mobile nav -->
+<body class="bg-white text-gray-800">
 
-  <!-- Background Particles -->
-  <div id="particles-container" class="fixed inset-0 overflow-hidden pointer-events-none z-0"></div>
+ <!-- Navbar with Mobile Toggle -->
+<header class="fixed top-0 w-full bg-white shadow-lg z-50">
+  <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
+    <h1 class="text-2xl md:text-3xl font-black text-dark">TOOLVIBE</h1>
 
-  <!-- Dynamic Island -->
-  <div id="island" class="dynamic-island">
-    <i id="island-icon" class="fas fa-check-circle text-green-400 mr-2"></i>
-    <span id="island-msg" class="text-sm font-bold">Notification</span>
+    <!-- Desktop Menu -->
+    <nav class="hidden md:flex space-x-10 text-sm font-medium uppercase tracking-wider">
+      <a href="index.html" class="hover:text-accent transition">Home</a>
+      <a href="#about" class="hover:text-accent transition">About Us</a>
+      <a href="#tools" class="hover:text-accent transition">Tools</a>
+      <a href="#features" class="hover:text-accent transition">Features</a>
+      <a href="#contact" class="hover:text-accent transition">Contact Us</a>
+    </nav>
+
+    <!-- Mobile Menu Button -->
+    <i class="fas fa-bars text-2xl cursor-pointer md:hidden text-dark" id="menu-toggle"></i>
+
+    <!-- Mobile Menu (Left Side + BG Color) -->
+    <div id="mobile-menu"
+      class="fixed inset-y-0 left-0 w-72 bg-[#0f0f0f] text-white transform -translate-x-full
+             transition-transform duration-300 z-40 md:hidden shadow-2xl">
+
+      <div class="flex justify-end p-6">
+        <i class="fas fa-times text-3xl cursor-pointer" id="menu-close"></i>
+      </div>
+
+      <nav class="flex flex-col pl-10 gap-8 text-2xl font-medium mt-10">
+        <a href="index.html" class="hover:text-accent transition">Home</a>
+         <a href="#about" class="hover:text-accent transition">About Us</a>
+        <a href="#tools" class="hover:text-accent transition">All Tools</a>
+        <a href="#features" class="hover:text-accent transition">Features</a>
+        <a href="#contact" class="hover:text-accent transition">Contact</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile Menu Toggle Script -->
+<script>
+  const menuToggle = document.getElementById('menu-toggle');
+  const menuClose = document.getElementById('menu-close');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  // OPEN
+  menuToggle.addEventListener('click', () => {
+    mobileMenu.classList.remove('-translate-x-full');
+  });
+
+  // CLOSE
+  menuClose.addEventListener('click', () => {
+    mobileMenu.classList.add('-translate-x-full');
+  });
+
+  // Close if clicking outside
+  document.addEventListener('click', (e) => {
+    if (!mobileMenu.contains(e.target) && e.target !== menuToggle) {
+      mobileMenu.classList.add('-translate-x-full');
+    }
+  });
+</script>
+
+
+
+<!-- =================== FIXED + CLEAN HERO SECTION =================== -->
+<section class="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-[#4F1271] via-[#783F8E] to-[#4F1271] pt-20">
+  
+  <!-- Background Blobs -->
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="absolute top-20 right-10 w-80 h-80 bg-[#BFACC8]/30 rounded-full blur-3xl animate-float"></div>
+    <div class="absolute bottom-20 left-20 w-96 h-96 bg-[#783F8E]/20 rounded-full blur-3xl animate-float-delayed"></div>
   </div>
 
-  <!-- ================= HEADER ================= -->
-  <header class="fixed top-0 w-full z-40 pt-4 px-2 md:px-6 transition-all bg-bg/95 backdrop-blur-md pb-2 border-b border-gray-200 dark:border-gray-800 shadow-sm">
-    <div class="max-w-7xl mx-auto w-full">
-      <!-- Top Bar -->
-      <div class="flex justify-between items-center mb-4">
-        
-        <!-- Logo -->
-        <div class="flex items-center gap-3 cursor-pointer group" onclick="window.scrollTo({top:0, behavior:'smooth'})">
-          <div class="w-10 h-10 bg-gradient-to-tr from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center text-white shadow-lg group-hover:animate-float transition-all">
-            <i class="fas fa-layer-group text-lg"></i>
-          </div>
-          <div>
-            <h1 class="app-title text-xl md:text-2xl font-bold tracking-tight leading-none text-txt">Tool<span class="text-brand">Vibe</span></h1>
-            <p class="text-[9px] font-bold text-gray-400 tracking-widest uppercase">Ultimate Pro</p>
-          </div>
+  <div class="relative z-10 max-w-7xl mx-auto px-6">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+
+      <!-- LEFT TEXT -->
+      <div class="text-center lg:text-left text-white">
+        <div class="inline-block mb-6 px-5 py-2 bg-white/10 border border-white/20 rounded-full backdrop-blur-md text-[#BFACC8] text-sm tracking-wide uppercase shadow-lg animate-fade">
+          🔥 Trusted by 20,000+ Users
         </div>
 
-        <!-- Actions -->
-        <div class="flex gap-2 md:gap-4">
-            <!-- Desktop Nav Links (Visible only on MD+) -->
-            <div class="hidden md:flex items-center gap-6 mr-6 text-sm font-semibold text-gray-500">
-                <a href="#" onclick="switchTab('home')" class="hover:text-brand transition">Home</a>
-                <a href="#" onclick="switchTab('profile')" class="hover:text-brand transition">Profile</a>
-                <a href="contact.html" class="hover:text-brand transition">Contact</a>
-            </div>
+        <h1 class="text-5xl md:text-7xl lg:text-8xl font-black leading-tight animate-fade-up">
+          TOOLVIBE<br>
+          <span class="text-[#BFACC8]">YOUR TOOLS</span>
+        </h1>
 
-          <button onclick="toggleTheme()" class="w-10 h-10 rounded-full clay-card flex items-center justify-center text-brand active:scale-90 hover:scale-105 transition">
-            <i id="theme-icon" class="fas fa-moon"></i>
-          </button>
-          <button onclick="toggleSearch()" class="w-10 h-10 rounded-full clay-card flex items-center justify-center text-gray-500 active:scale-90 hover:scale-105 transition">
-            <i class="fas fa-search"></i>
-          </button>
+        <p class="mt-8 text-lg md:text-2xl max-w-xl mx-auto lg:mx-0 leading-relaxed opacity-95 animate-fade">
+          The most powerful, fast, and beautiful online toolkit for PDF editing, image optimization, and SEO analysis — all in one place.
+        </p>
+
+        <div class="mt-12 animate-scale-in">
+          <a href="#tools" 
+             class="inline-block px-12 py-6 bg-[#BFACC8] text-[#4F1271] font-black text-xl md:text-2xl rounded-full hover:bg-white hover:scale-110 transition-all duration-500 shadow-2xl">
+            START FREE NOW
+          </a>
         </div>
       </div>
 
-      <!-- Search Box (Hidden by default) -->
-      <div id="search-box" class="hidden clay-card p-2 mb-4 animate-slide-down flex items-center gap-2 max-w-2xl mx-auto">
-        <i class="fas fa-search text-gray-400 ml-3"></i>
-        <input type="text" id="search-input" placeholder="Search 80+ tools..." class="bg-transparent border-none outline-none w-full h-10 font-medium text-txt placeholder-gray-400">
-        <button onclick="toggleSearch()" class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-xs hover:bg-red-100 hover:text-red-500 transition"><i class="fas fa-times"></i></button>
+      <!-- RIGHT: FLOATING VIDEO CARD -->
+      <div class="flex justify-center lg:justify-end animate-float-slight">
+        <div class="relative group">
+
+          <!-- Glow -->
+          <div class="absolute -top-10 -right-10 w-40 h-40 bg-[#BFACC8]/20 blur-2xl rounded-full"></div>
+
+          <!-- Back Glass Layer -->
+          <div class="absolute inset-0 bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl 
+                      border border-white/20 translate-x-4 translate-y-4 
+                      group-hover:translate-x-6 group-hover:translate-y-6 
+                      transition-all duration-700"></div>
+
+         <!-- ENHANCED MAIN IMAGE -->
+<div class="relative bg-black/50 backdrop-blur-3xl rounded-3xl shadow-2xl overflow-hidden border border-white/20 p-6 group">
+  <div class="absolute inset-0 bg-gradient-to-br from-purple-900/30 via-blue-900/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-700"></div>
+  <div class="absolute inset-0 bg-gradient-to-tl from-cyan-500/10 to-transparent opacity-40"></div>
+  
+  <img 
+    src="image/bg (1).png" 
+    alt="Futuristic abstract background" 
+    class="w-full max-w-2xl mx-auto rounded-3xl shadow-2xl object-cover transform group-hover:scale-105 transition-transform duration-1000 ease-out">
+  
+  <!-- Optional subtle overlay glow effect -->
+  <div class="absolute inset-0 rounded-3xl shadow-inner shadow-white/10 pointer-events-none"></div>
+</div>
+            <!-- Soft Glow -->
+            <div class="absolute inset-0 rounded-3xl bg-gradient-to-tr from-[#BFACC8]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none"></div>
+          </div>
+
+        </div>
       </div>
 
-      <!-- Categories (Will Hide on Profile Tab) -->
-      <div id="category-row" class="flex gap-3 overflow-x-auto hide-scroll pb-1 pl-1 transition-all duration-300 md:justify-center">
-        <button onclick="filterTools('all', this)" id="btn-all" class="cat-btn active clay-card px-6 py-2.5 text-xs font-bold whitespace-nowrap transition-all border border-transparent hover:bg-indigo-50 dark:hover:bg-gray-800">All Tools</button>
-        <button onclick="filterTools('pdf', this)" id="btn-pdf" class="cat-btn clay-card px-6 py-2.5 text-xs font-bold whitespace-nowrap transition-all text-gray-500 border border-transparent hover:text-red-500">
-          <i class="fas fa-file-pdf mr-1"></i> PDF
-        </button>
-        <button onclick="filterTools('image', this)" id="btn-image" class="cat-btn clay-card px-6 py-2.5 text-xs font-bold whitespace-nowrap transition-all text-gray-500 border border-transparent hover:text-purple-500">
-          <i class="fas fa-image mr-1"></i> Image
-        </button>
-        <button onclick="filterTools('seo', this)" id="btn-seo" class="cat-btn clay-card px-6 py-2.5 text-xs font-bold whitespace-nowrap transition-all text-gray-500 border border-transparent hover:text-orange-500">
-          <i class="fas fa-search-dollar mr-1"></i> SEO
-        </button>
-      </div>
     </div>
-  </header>
-
-  <!-- ================= CONTAINER WRAPPER ================= -->
-  <div class="flex-grow max-w-7xl mx-auto w-full px-2 md:px-6 relative z-10">
-
-      <!-- ================= MAIN: HOME VIEW ================= -->
-      <main id="home-view" class="pt-48 md:pt-44 min-h-screen pb-10">
-        
-        <!-- Favorites Section -->
-        <div id="fav-section" class="hidden mb-8 animate-pop">
-          <div class="flex justify-between items-end mb-3 ml-1">
-             <h3 class="text-xs font-bold uppercase text-brand tracking-widest flex items-center gap-2"><i class="fas fa-heart"></i> Your Favorites</h3>
-             <span class="text-[10px] text-gray-400 cursor-pointer hover:text-red-500 transition" onclick="clearFavs()">Clear All</span>
-          </div>
-          <div id="fav-container" class="flex gap-4 overflow-x-auto hide-scroll pb-4 px-1">
-            <!-- Fav Items injected here -->
-          </div>
-        </div>
-
-        <!-- Tools Grid -->
-        <!-- Responsive Grid Logic: Watch (1 col) -> Mobile (2 col) -> Tablet (3 col) -> Desktop (4 col) -> Large (5 col) -->
-        <h3 class="text-xs font-bold uppercase text-gray-400 tracking-widest mb-4 ml-1">Available Tools</h3>
-        <div id="tools-container" class="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
-          <!-- Generated via JS -->
-        </div>
-
-        <!-- Empty State -->
-        <div id="empty-state" class="hidden flex-col items-center justify-center py-20 opacity-50">
-          <div class="w-20 h-20 bg-gray-200 dark:bg-gray-800 rounded-full flex items-center justify-center mb-4">
-             <i class="fas fa-robot text-3xl text-gray-400"></i>
-          </div>
-          <p class="font-bold text-lg">No tools found.</p>
-          <p class="text-sm">Try searching for something else.</p>
-        </div>
-      </main>
-
-      <!-- ================= MAIN: PROFILE VIEW ================= -->
-      <main id="profile-view" class="hidden pt-36 md:pt-32 min-h-screen animate-pop max-w-2xl mx-auto">
-        
-        <!-- Profile Card -->
-        <div class="clay-card p-6 md:p-8 text-center mb-6 relative overflow-hidden group">
-          <div class="absolute inset-0 bg-brand opacity-5 group-hover:opacity-10 transition"></div>
-          <div class="w-24 h-24 mx-auto bg-gradient-to-tr from-brand to-purple-500 p-1 rounded-full shadow-xl mb-4 relative z-10">
-             <div class="w-full h-full bg-surface rounded-full flex items-center justify-center overflow-hidden">
-               <i class="fas fa-user-astronaut text-4xl text-txt"></i>
-             </div>
-          </div>
-          <h2 class="text-2xl font-bold relative z-10">ToolVibe User</h2>
-          <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mt-1 relative z-10">Premium Member</p>
-        </div>
-
-        <!-- Settings List -->
-        <div class="space-y-4 mb-8">
-          
-          <!-- Group 1: App Actions -->
-          <div class="clay-card overflow-hidden">
-            <div onclick="shareApp()" class="p-4 flex items-center gap-4 hover:bg-gray-50 dark:hover:bg-gray-800 active:bg-gray-100 dark:active:bg-gray-700 transition cursor-pointer border-b border-gray-100 dark:border-gray-700/50">
-                <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 flex items-center justify-center"><i class="fas fa-share-nodes"></i></div>
-                <div class="flex-1 font-bold text-sm">Share ToolVibe</div>
-                <i class="fas fa-chevron-right text-xs opacity-50"></i>
-            </div>
-            <div onclick="rateApp()" class="p-4 flex items-center gap-4 hover:bg-gray-50 dark:hover:bg-gray-800 active:bg-gray-100 dark:active:bg-gray-700 transition cursor-pointer">
-                <div class="w-10 h-10 rounded-full bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 flex items-center justify-center"><i class="fas fa-star"></i></div>
-                <div class="flex-1 font-bold text-sm">Rate 5 Stars</div>
-                <i class="fas fa-chevron-right text-xs opacity-50"></i>
-            </div>
-          </div>
-
-          <!-- Group 2: Support & Privacy -->
-          <div class="clay-card overflow-hidden">
-            <a href="contact.html" class="p-4 flex items-center gap-4 hover:bg-gray-50 dark:hover:bg-gray-800 active:bg-gray-100 dark:active:bg-gray-700 transition cursor-pointer border-b border-gray-100 dark:border-gray-700/50">
-               <div class="w-10 h-10 rounded-full bg-red-100 dark:bg-red-900/30 text-red-600 flex items-center justify-center"><i class="fas fa-envelope"></i></div>
-               <div class="flex-1 font-bold text-sm">Contact Support</div>
-               <i class="fas fa-chevron-right text-xs opacity-50"></i>
-            </a>
-            <a href="privacy.html" class="p-4 flex items-center gap-4 hover:bg-gray-50 dark:hover:bg-gray-800 active:bg-gray-100 dark:active:bg-gray-700 transition cursor-pointer">
-               <div class="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 flex items-center justify-center"><i class="fas fa-shield-alt"></i></div>
-               <div class="flex-1 font-bold text-sm">Privacy Policy</div>
-               <i class="fas fa-chevron-right text-xs opacity-50"></i>
-            </a>
-          </div>
-        </div>
-      </main>
-
   </div>
+</section>
+<style>
+@keyframes fadeUp {
+  0% { opacity: 0; transform: translateY(60px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up { animation: fadeUp 1.4s ease-out forwards; }
 
-  <!-- ================= FOOTER (WEBSITE STYLE) ================= -->
-  <footer class="bg-surface border-t border-gray-200 dark:border-gray-800 pt-10 pb-24 md:pb-10 mt-auto transition-colors">
-    <div class="max-w-7xl mx-auto px-6">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-            <!-- Brand -->
-            <div class="col-span-1 md:col-span-2">
-                <div class="flex items-center gap-2 mb-4">
-                    <div class="w-8 h-8 bg-brand rounded-lg flex items-center justify-center text-white"><i class="fas fa-layer-group text-xs"></i></div>
-                    <span class="font-bold text-lg">ToolVibe</span>
-                </div>
-                <p class="text-sm text-gray-500 leading-relaxed mb-4">
-                    The ultimate collection of PDF, Image, and SEO tools designed for professionals and casual users alike. Fast, secure, and easy to use.
-                </p>
-                <div class="flex gap-3">
-                    <a href="#" class="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500 hover:bg-brand hover:text-white transition"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500 hover:bg-brand hover:text-white transition"><i class="fab fa-github"></i></a>
-                    <a href="#" class="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500 hover:bg-brand hover:text-white transition"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-            
-            <!-- Quick Links -->
-            <div>
-                <h4 class="font-bold text-sm uppercase tracking-wider mb-4 text-brand">Explore</h4>
-                <ul class="space-y-2 text-sm text-gray-500">
-                    <li><a href="#" onclick="switchTab('home');filterTools('pdf', document.getElementById('btn-pdf'))" class="hover:text-brand transition">PDF Tools</a></li>
-                    <li><a href="#" onclick="switchTab('home');filterTools('image', document.getElementById('btn-image'))" class="hover:text-brand transition">Image Tools</a></li>
-                    <li><a href="#" onclick="switchTab('home');filterTools('seo', document.getElementById('btn-seo'))" class="hover:text-brand transition">SEO Tools</a></li>
-                </ul>
-            </div>
+@keyframes fade {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+.animate-fade { animation: fade 2s ease-out forwards; animation-delay: 0.4s; }
 
-            <!-- Legal -->
-            <div>
-                <h4 class="font-bold text-sm uppercase tracking-wider mb-4 text-brand">Legal</h4>
-                <ul class="space-y-2 text-sm text-gray-500">
-                    <li><a href="privacy.html" class="hover:text-brand transition">Privacy Policy</a></li>
-                    <li><a href="terms.html" class="hover:text-brand transition">Terms of Service</a></li>
-                    <li><a href="contact.html" class="hover:text-brand transition">Contact Us</a></li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="border-t border-gray-100 dark:border-gray-800 pt-6 text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-4">
-            <p class="text-xs text-gray-400">&copy; 2024 ToolVibe Ultimate. All rights reserved.</p>
-            <div class="inline-flex items-center gap-2 bg-gray-100 dark:bg-gray-800 px-3 py-1 rounded-full">
-                <i class="fas fa-code text-brand text-[10px]"></i>
-                <span class="text-[10px] font-bold tracking-widest uppercase text-gray-500">Made with <i class="fas fa-heart text-red-500 mx-0.5 animate-pulse"></i> by <span class="text-brand">YOUR NAME</span></span>
-            </div>
-        </div>
-    </div>
-  </footer>
+@keyframes scaleIn {
+  0% { opacity: 0; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1); }
+}
+.animate-scale-in { animation: scaleIn 1.2s ease-out forwards; animation-delay: 0.7s; }
 
-  <!-- ================= BOTTOM NAVIGATION (MOBILE/WATCH ONLY) ================= -->
-  <!-- Hidden on Desktop (md:hidden) -->
-  <nav class="md:hidden fixed bottom-6 left-4 right-4 h-16 clay-card z-50 flex justify-around items-center px-4 bg-surface/90 backdrop-blur-xl border border-white/20 shadow-2xl">
-    <button onclick="switchTab('home')" id="nav-home" class="text-brand transition-all active:scale-75 flex flex-col items-center w-12 hover:text-brand/80">
-      <i class="fas fa-th-large text-xl"></i>
-      <span class="text-[9px] font-bold mt-1">Tools</span>
-    </button>
-    
-    <!-- Center Action Button -->
-    <div class="w-14 h-14 bg-brand rounded-full flex items-center justify-center text-white -mt-10 shadow-lg shadow-indigo-500/50 active:scale-90 transition-transform cursor-pointer border-4 border-bg group" onclick="window.scrollTo({top:0, behavior:'smooth'})">
-      <i class="fas fa-arrow-up text-lg group-hover:animate-bounce"></i>
+@keyframes floatBlob {
+  0%,100% { transform: translateY(0) scale(1); }
+  50%     { transform: translateY(-30px) scale(1.1); }
+}
+.animate-float { animation: floatBlob 12s ease-in-out infinite; }
+
+@keyframes floatBlobDelayed {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(30px); }
+}
+.animate-float-delayed { animation: floatBlobDelayed 14s ease-in-out infinite; }
+
+@keyframes floatSlight {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-14px); }
+}
+.animate-float-slight { animation: floatSlight 8s ease-in-out infinite; }
+</style>
+
+
+<!-- ===== ABOUT SECTION (WITH EXTRA ANIMATIONS ADDED) ===== -->
+
+<section id="about" class="py-32 bg-gradient-to-b from-white to-light/40 overflow-hidden">
+  <div class="max-w-7xl mx-auto px-6">
+
+    <!-- Main Title -->
+    <div class="text-center mb-20">
+      <h2 class="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-dark via-accent to-soft inline-block reveal-up">
+        About ToolVibe
+      </h2>
+      <div class="w-32 h-1 bg-gradient-to-r from-accent to-soft mx-auto mt-8 rounded-full reveal-up" style="animation-delay: .3s;"></div>
     </div>
 
-    <button onclick="switchTab('profile')" id="nav-profile" class="text-gray-400 transition-all active:scale-75 flex flex-col items-center w-12 hover:text-brand/80">
-      <i class="fas fa-user text-xl"></i>
-      <span class="text-[9px] font-bold mt-1">Profile</span>
-    </button>
-  </nav>
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
 
-  <!-- ================= JAVASCRIPT ================= -->
-  <script>
-    // ----------------------------------------------------
-    // 1. DATABASE
-    // ----------------------------------------------------
-    const toolsData = [
-      // === PDF TOOLS (33) ===
-      { id: 101, n: "Add Pages", i: "fa-plus-circle", c: "pdf", l: "Add_Pages.html", clr: "text-red-500" },
-      { id: 102, n: "Compress PDF", i: "fa-compress-arrows-alt", c: "pdf", l: "Compress PDF.html", clr: "text-red-600" },
-      { id: 103, n: "CSV to PDF", i: "fa-table", c: "pdf", l: "csv_to_pdf.html", clr: "text-green-600" },
-      { id: 104, n: "Excel to PDF", i: "fa-file-excel", c: "pdf", l: "EXCEL TO PDF.html", clr: "text-green-600" },
-      { id: 105, n: "HTML to PDF", i: "fa-code", c: "pdf", l: "html_to_pdf.html", clr: "text-orange-600" },
-      { id: 106, n: "JPG to PDF", i: "fa-image", c: "pdf", l: "jpg_to_pdf.html", clr: "text-purple-600" },
-      { id: 107, n: "JSON to PDF", i: "fa-file-code", c: "pdf", l: "json_to_pdf.html", clr: "text-yellow-600" },
-      { id: 108, n: "Merge PDF", i: "fa-layer-group", c: "pdf", l: "merge-pdf.html", clr: "text-red-600" },
-      { id: 109, n: "OCR PDF", i: "fa-eye", c: "pdf", l: "OCR PDF.html", clr: "text-gray-600" },
-      { id: 110, n: "Organize PDF", i: "fa-sort", c: "pdf", l: "Organize.html", clr: "text-indigo-600" },
-      { id: 111, n: "PDF Signing", i: "fa-signature", c: "pdf", l: "pdf_signing.html", clr: "text-blue-600" },
-      { id: 112, n: "PDF to CSV", i: "fa-file-csv", c: "pdf", l: "pdf_to_csv.html", clr: "text-green-600" },
-      { id: 113, n: "PDF to Excel", i: "fa-file-excel", c: "pdf", l: "pdf_to_excel.html", clr: "text-green-600" },
-      { id: 114, n: "PDF to HTML", i: "fa-code", c: "pdf", l: "pdf_to_html.html", clr: "text-orange-600" },
-      { id: 115, n: "PDF to JPG", i: "fa-image", c: "pdf", l: "pdf_to_jpg.html", clr: "text-purple-600" },
-      { id: 116, n: "PDF to JSON", i: "fa-file-code", c: "pdf", l: "pdf_to_json.html", clr: "text-yellow-600" },
-      { id: 117, n: "PDF to PNG", i: "fa-image", c: "pdf", l: "pdf_to_png.html", clr: "text-purple-600" },
-      { id: 118, n: "PDF to Text", i: "fa-file-alt", c: "pdf", l: "pdf_to_text.html", clr: "text-gray-600" },
-      { id: 119, n: "PDF to WebP", i: "fa-globe", c: "pdf", l: "PDF_to_WEBP.html", clr: "text-blue-500" },
-      { id: 120, n: "PDF to Word", i: "fa-file-word", c: "pdf", l: "pdf_to_word.html", clr: "text-blue-600" },
-      { id: 121, n: "PDF to XML", i: "fa-file-code", c: "pdf", l: "pdf_to_xml.html", clr: "text-yellow-600" },
-      { id: 122, n: "PDF to ZIP", i: "fa-file-archive", c: "pdf", l: "pdf_to_zip.html", clr: "text-yellow-500" },
-      { id: 123, n: "PNG to PDF", i: "fa-image", c: "pdf", l: "png_to_pdf.html", clr: "text-purple-600" },
-      { id: 124, n: "Remove Pages", i: "fa-trash-alt", c: "pdf", l: "Remove_pages_from_pdf.html", clr: "text-red-500" },
-      { id: 125, n: "Repair PDF", i: "fa-wrench", c: "pdf", l: "Repair.html", clr: "text-gray-600" },
-      { id: 126, n: "Rotate PDF", i: "fa-sync", c: "pdf", l: "Rotate.html", clr: "text-indigo-600" },
-      { id: 127, n: "Speech to PDF", i: "fa-microphone", c: "pdf", l: "speech_to_pdf.html", clr: "text-red-500" },
-      { id: 128, n: "Split PDF", i: "fa-cut", c: "pdf", l: "split.html", clr: "text-orange-500" },
-      { id: 129, n: "Text to PDF", i: "fa-font", c: "pdf", l: "text_to_pdf.html", clr: "text-gray-600" },
-      { id: 130, n: "Watermark PDF", i: "fa-stamp", c: "pdf", l: "watermark.html", clr: "text-red-500" },
-      { id: 131, n: "WebP to PDF", i: "fa-globe", c: "pdf", l: "WEBP_to_PDF.html", clr: "text-blue-500" },
-      { id: 132, n: "Word to PDF", i: "fa-file-word", c: "pdf", l: "Word to PDF.html", clr: "text-blue-600" },
-      { id: 133, n: "XML to PDF", i: "fa-file-code", c: "pdf", l: "xml_to_pdf.html", clr: "text-yellow-600" },
-
-      // === IMAGE TOOLS (30) ===
-      { id: 201, n: "Add Images", i: "fa-plus", c: "image", l: "Add_Images.html", clr: "text-purple-600" },
-      { id: 202, n: "Add Text", i: "fa-font", c: "image", l: "add_text.html", clr: "text-gray-600" },
-      { id: 203, n: "BG Remover", i: "fa-magic", c: "image", l: "bg.html", clr: "text-purple-600" },
-      { id: 204, n: "Black & White", i: "fa-adjust", c: "image", l: "black_&_white.html", clr: "text-gray-800" },
-      { id: 205, n: "Blur Image", i: "fa-tint", c: "image", l: "blur.html", clr: "text-blue-400" },
-      { id: 206, n: "Collage Maker", i: "fa-th-large", c: "image", l: "Collage_Maker.html", clr: "text-pink-500" },
-      { id: 207, n: "Colorize Photo", i: "fa-palette", c: "image", l: "Colorize_photo.html", clr: "text-yellow-500" },
-      { id: 208, n: "Combine Image", i: "fa-object-group", c: "image", l: "combine_image.html", clr: "text-purple-600" },
-      { id: 209, n: "Crop Image", i: "fa-crop", c: "image", l: "crop.html", clr: "text-purple-600" },
-      { id: 210, n: "Font to PNG", i: "fa-font", c: "image", l: "font_to_png.html", clr: "text-gray-600" },
-      { id: 211, n: "GIF to JPG", i: "fa-gift", c: "image", l: "gif_to_jpg.html", clr: "text-pink-500" },
-      { id: 212, n: "ICO to JPG", i: "fa-icons", c: "image", l: "ico_to_jpg.html", clr: "text-blue-500" },
-      { id: 213, n: "ICO to WebP", i: "fa-globe", c: "image", l: "ico_to_webp.html", clr: "text-green-500" },
-      { id: 214, n: "Image Compressor", i: "fa-compress", c: "image", l: "Image compressor.html", clr: "text-purple-600" },
-      { id: 215, n: "Image Resizer", i: "fa-expand", c: "image", l: "Image Resizer.html", clr: "text-purple-600" },
-      { id: 216, n: "Image Border", i: "fa-border-all", c: "image", l: "image_border.html", clr: "text-purple-600" },
-      { id: 217, n: "Image Flipper", i: "fa-sync", c: "image", l: "Image_Flipper.html", clr: "text-purple-600" },
-      { id: 218, n: "Image Splitter", i: "fa-columns", c: "image", l: "Image_splitter.html", clr: "text-purple-600" },
-      { id: 219, n: "Image to PDF", i: "fa-file-pdf", c: "image", l: "image_to_pdf.html", clr: "text-red-500" },
-      { id: 220, n: "Image to Text", i: "fa-font", c: "image", l: "image_to_text.html", clr: "text-gray-600" },
-      { id: 221, n: "JPG to PNG", i: "fa-exchange-alt", c: "image", l: "jpg_to_png.html", clr: "text-blue-500" },
-      { id: 222, n: "JPG to WebP", i: "fa-globe", c: "image", l: "jpg_to_webp.html", clr: "text-green-500" },
-      { id: 223, n: "Pixelate", i: "fa-chess-board", c: "image", l: "Pixelate.html", clr: "text-gray-600" },
-      { id: 224, n: "PNG to JPG", i: "fa-exchange-alt", c: "image", l: "PNG_to_JPG.html", clr: "text-blue-500" },
-      { id: 225, n: "PNG to WebP", i: "fa-globe", c: "image", l: "PNG_to_WEBP.html", clr: "text-green-500" },
-      { id: 226, n: "Profile Maker", i: "fa-user-circle", c: "image", l: "profile.html", clr: "text-pink-500" },
-      { id: 227, n: "SVG to PNG", i: "fa-vector-square", c: "image", l: "svg_to_png.html", clr: "text-orange-500" },
-      { id: 228, n: "Upscale Image", i: "fa-arrow-up", c: "image", l: "upscale.html", clr: "text-green-500" },
-      { id: 229, n: "View Image", i: "fa-eye", c: "image", l: "view.html", clr: "text-blue-500" },
-      { id: 230, n: "WebP to JPG", i: "fa-image", c: "image", l: "webp_to_JPG.html", clr: "text-purple-600" },
-      { id: 231, n: "WebP to PNG", i: "fa-image", c: "image", l: "WEBP_to_PNG.html", clr: "text-purple-600" },
-
-      // === SEO TOOLS (23) ===
-      { id: 301, n: "Adaptive Check", i: "fa-mobile-alt", c: "seo", l: "Adaptive.html", clr: "text-orange-600" },
-      { id: 302, n: "AMP Validator", i: "fa-bolt", c: "seo", l: "AMP Validator.html", clr: "text-orange-600" },
-      { id: 303, n: "Canonical Tag", i: "fa-link", c: "seo", l: "Canonical Tag.html", clr: "text-orange-600" },
-      { id: 304, n: "Case Converter", i: "fa-text-height", c: "seo", l: "Case Converter.html", clr: "text-orange-600" },
-      { id: 305, n: "Google Algo", i: "fa-robot", c: "seo", l: "Google.html", clr: "text-orange-600" },
-      { id: 306, n: "Hreflang Tags", i: "fa-language", c: "seo", l: "hreflang Tags Testing.html", clr: "text-orange-600" },
-      { id: 307, n: "Htaccess Tester", i: "fa-file-code", c: "seo", l: "htaccess_tester.html", clr: "text-orange-600" },
-      { id: 308, n: "Local SEO Check", i: "fa-map-marker-alt", c: "seo", l: "Local Search Results Testing Tool.html", clr: "text-orange-600" },
-      { id: 309, n: "Meta Description", i: "fa-file-alt", c: "seo", l: "Meta Description.html", clr: "text-orange-600" },
-      { id: 310, n: "Meta Tag Gen", i: "fa-tags", c: "seo", l: "Meta Tag Generator.html", clr: "text-orange-600" },
-      { id: 311, n: "MD5 Generator", i: "fa-key", c: "seo", l: "Online MD5 Generator.html", clr: "text-orange-600" },
-      { id: 312, n: "OpenGraph Gen", i: "fa-share-alt", c: "seo", l: "OpenGraph Tags Generator.html", clr: "text-orange-600" },
-      { id: 313, n: "Pre-rendering", i: "fa-eye", c: "seo", l: "Pre-rendering Testing Tool.html", clr: "text-orange-600" },
-      { id: 314, n: "Robots.txt Gen", i: "fa-robot", c: "seo", l: "robots.txt_gen.html", clr: "text-orange-600" },
-      { id: 315, n: "Schema Gen", i: "fa-code", c: "seo", l: "schema.html", clr: "text-orange-600" },
-      { id: 316, n: "SEO Citation", i: "fa-quote-right", c: "seo", l: "SEO Citation Generator.html", clr: "text-orange-600" },
-      { id: 317, n: "Punctuation Checker", i: "fa-paragraph", c: "seo", l: "SEO Punctuation Checker.html", clr: "text-orange-600" },
-      { id: 318, n: "Small Text Gen", i: "fa-text-height", c: "seo", l: "Small Text Generator.html", clr: "text-orange-600" },
-      { id: 319, n: "Slug Converter", i: "fa-link", c: "seo", l: "Text to Slug Converter.html", clr: "text-orange-600" },
-      { id: 320, n: "Twitter Card", i: "fa-twitter", c: "seo", l: "Twitter Card Generator.html", clr: "text-blue-400" },
-      { id: 321, n: "UTM Builder", i: "fa-link", c: "seo", l: "UTM Builder.html", clr: "text-orange-600" },
-      { id: 322, n: "Word Counter", i: "fa-calculator", c: "seo", l: "Word Counter.html", clr: "text-orange-600" },
-      { id: 323, n: "Sitemap Gen", i: "fa-sitemap", c: "seo", l: "XML Sitemap Generator.html", clr: "text-orange-600" }
-    ];
-
-    // 2. STATE MGMT
-    let favorites = JSON.parse(localStorage.getItem('toolvibe_favs_v2')) || [];
-    let isDark = localStorage.getItem('toolvibe_theme') === 'dark';
-
-    // 3. INITIALIZATION
-    window.onload = () => {
-      if(isDark) document.documentElement.classList.add('dark');
-      updateThemeIcon();
-      initParticles();
-      restoreState();
-      // Auto-detect view logic
-      if(window.innerWidth > 768) {
-         // Desktop-specific logic if needed
-      }
-    };
-
-    // 4. CORE LOGIC
-    function navigateTo(link) {
-      sessionStorage.setItem('scrollPos', window.scrollY);
-      window.location.href = link;
-    }
-
-    function restoreState() {
-      const savedCat = sessionStorage.getItem('activeCat') || 'all';
-      const btns = { 'all': 'btn-all', 'pdf': 'btn-pdf', 'image': 'btn-image', 'seo': 'btn-seo' };
-      if(btns[savedCat]) filterTools(savedCat, document.getElementById(btns[savedCat]), false);
-      else filterTools('all', document.getElementById('btn-all'), false);
-      
-      const savedScroll = sessionStorage.getItem('scrollPos');
-      if(savedScroll) setTimeout(() => window.scrollTo(0, parseFloat(savedScroll)), 100);
-    }
-
-    // 5. RENDERING
-    const container = document.getElementById('tools-container');
-    const favSection = document.getElementById('fav-section');
-    const favContainer = document.getElementById('fav-container');
-
-    function filterTools(cat, btn, scroll = true) {
-      sessionStorage.setItem('activeCat', cat);
-      document.querySelectorAll('.cat-btn').forEach(b => {
-        b.className = 'cat-btn clay-card px-6 py-2.5 text-xs font-bold whitespace-nowrap transition-all text-gray-500 border border-transparent hover:bg-gray-50 dark:hover:bg-gray-800';
-      });
-      btn.className = 'cat-btn active clay-card px-6 py-2.5 text-xs font-bold whitespace-nowrap transition-all border border-transparent';
-
-      const filtered = toolsData.filter(t => cat === 'all' || t.c === cat);
-      renderGrid(filtered);
-      if(scroll) window.scrollTo({top:0, behavior:'smooth'});
-    }
-
-    function renderGrid(data) {
-      container.innerHTML = '';
-      favContainer.innerHTML = '';
-
-      const favTools = toolsData.filter(t => favorites.includes(t.id));
-      if(favTools.length > 0) {
-        favSection.classList.remove('hidden');
-        favTools.forEach(t => favContainer.appendChild(createCard(t, true)));
-      } else {
-        favSection.classList.add('hidden');
-      }
-
-      if(data.length === 0) {
-        document.getElementById('empty-state').classList.remove('hidden');
-        document.getElementById('empty-state').classList.add('flex');
-      } else {
-        document.getElementById('empty-state').classList.add('hidden');
-        document.getElementById('empty-state').classList.remove('flex');
-        data.forEach((t, i) => container.appendChild(createCard(t, false, i)));
-      }
-    }
-
-    function createCard(t, isMini, index = 0) {
-      const el = document.createElement('div');
-      const isFav = favorites.includes(t.id);
-      
-      if(isMini) {
-        // Horizontal Scroll Item (Mini)
-        el.className = "flex-shrink-0 w-20 flex flex-col items-center gap-2 cursor-pointer group";
-        el.onclick = () => navigateTo(t.l);
-        el.innerHTML = `<div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-brand to-purple-600 flex items-center justify-center text-white shadow-lg relative group-hover:scale-105 transition-transform"><i class="fas ${t.i}"></i><div class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full border-2 border-white flex items-center justify-center"><i class="fas fa-heart text-[8px]"></i></div></div><span class="text-[9px] font-bold text-center truncate w-full group-hover:text-brand transition-colors">${t.n}</span>`;
-      } else {
-        // Grid Item (Main)
-        // Responsive card classes
-        el.className = "clay-card p-4 md:p-6 flex flex-col items-center text-center gap-3 tilt-box cursor-pointer opacity-0 animate-slide-down relative group hover:shadow-xl transition-all duration-300";
-        el.style.animationDelay = `${Math.min(index * 0.05, 1)}s`;
-        el.onclick = () => navigateTo(t.l);
-        
-        el.innerHTML = `
-            <div class="absolute top-3 right-3 z-20 opacity-0 group-hover:opacity-100 transition-opacity">
-                <i class="fas fa-heart ${isFav ? 'text-red-500' : 'text-gray-300'} text-lg hover:scale-125 transition-transform" onclick="toggleFav(${t.id}, event)"></i>
+      <!-- LEFT STATS -->
+      <div class="space-y-12">
+        <!-- CARD 1 -->
+        <div class="reveal-up">
+          <div class="flex items-center gap-6 transition-transform hover:scale-105">
+            <div class="w-24 h-24 bg-gradient-to-br from-accent to-dark rounded-2xl flex items-center justify-center shadow-2xl pulse-glow">
+              <i class="fas fa-rocket text-4xl text-white"></i>
             </div>
-            <div class="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-bg flex items-center justify-center text-xl md:text-2xl ${t.clr} shadow-inner mb-1 tilt-inner transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3">
-                <i class="fas ${t.i}"></i>
+            <div>
+              <h3 class="text-4xl font-black text-dark">50K+</h3>
+              <p class="text-xl text-gray-600">Active Users</p>
             </div>
-            <span class="text-xs md:text-sm font-bold text-txt tilt-inner leading-tight group-hover:text-brand transition-colors">${t.n}</span>
-        `;
-        
-        // Tilt Effect
-        el.addEventListener('mousemove', (e) => {
-           const rect = el.getBoundingClientRect();
-           el.style.transform = `perspective(1000px) rotateX(${(e.clientY - rect.top - rect.height/2)/15}deg) rotateY(${-(e.clientX - rect.left - rect.width/2)/15}deg)`;
-        });
-        el.addEventListener('mouseleave', () => el.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)');
-      }
-      return el;
-    }
+          </div>
+        </div>
 
-    function toggleFav(id, e) {
-      e.stopPropagation();
-      if(favorites.includes(id)) { favorites = favorites.filter(f => f !== id); showNotify("Removed from Favorites", "fa-heart-broken"); }
-      else { favorites.push(id); showNotify("Added to Favorites", "fa-heart text-red-500"); }
-      localStorage.setItem('toolvibe_favs_v2', JSON.stringify(favorites));
-      const cat = sessionStorage.getItem('activeCat') || 'all';
-      filterTools(cat, document.getElementById(cat === 'all' ? 'btn-all' : 'btn-'+cat), false);
-    }
+        <!-- CARD 2 -->
+        <div class="reveal-up" style="animation-delay: .2s;">
+          <div class="flex items-center gap-6 transition-transform hover:scale-105">
+            <div class="w-24 h-24 bg-gradient-to-br from-soft to-accent rounded-2xl flex items-center justify-center shadow-2xl pulse-glow">
+              <i class="fas fa-bolt text-4xl text-dark"></i>
+            </div>
+            <div>
+              <h3 class="text-4xl font-black text-dark">1M+</h3>
+              <p class="text-xl text-gray-600">Files Processed</p>
+            </div>
+          </div>
+        </div>
 
-    function clearFavs() {
-      if(confirm("Are you sure you want to clear all favorites?")) {
-        favorites = []; localStorage.setItem('toolvibe_favs_v2', JSON.stringify([]));
-        filterTools(sessionStorage.getItem('activeCat') || 'all', document.getElementById('btn-'+(sessionStorage.getItem('activeCat')||'all')), false);
-        showNotify("Favorites Cleared", "fa-trash");
-      }
-    }
+        <!-- CARD 3 -->
+        <div class="reveal-up" style="animation-delay: .4s;">
+          <div class="flex items-center gap-6 transition-transform hover:scale-105">
+            <div class="w-24 h-24 bg-gradient-to-br from-dark to-primary rounded-2xl flex items-center justify-center shadow-2xl pulse-glow">
+              <i class="fas fa-shield-alt text-4xl text-white"></i>
+            </div>
+            <div>
+              <h3 class="text-4xl font-black text-dark">100%</h3>
+              <p class="text-xl text-gray-600">Secure & Private</p>
+            </div>
+          </div>
+        </div>
+      </div>
 
-    // 6. UI ACTIONS
-    function toggleSearch() {
-       const box = document.getElementById('search-box');
-       box.classList.toggle('hidden');
-       if(!box.classList.contains('hidden')) {
-          setTimeout(() => document.getElementById('search-input').focus(), 100);
-       }
-    }
-    
-    document.getElementById('search-input').addEventListener('input', (e) => {
-       renderGrid(toolsData.filter(t => t.n.toLowerCase().includes(e.target.value.toLowerCase())));
-    });
+      <!-- RIGHT CONTENT -->
+      <div class="relative">
+        <div class="reveal-right">
+          <h3 class="text-4xl md:text-5xl font-black text-dark mb-8 leading-tight">
+            We Make Complex Tasks<br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-accent to-soft">Simple & Beautiful</span>
+          </h3>
+          <p class="text-lg text-gray-700 leading-relaxed mb-10">
+            Born in 2024, ToolVibe was created by designers and developers who were tired of bloated, slow, ugly tools.
+            We built the platform that is fast, intuitive, and actually enjoyable to use — powered by modern AI and loved by creators worldwide.
+          </p>
+          <div class="flex gap-6">
+            <a href="#" class="px-10 py-5 bg-gradient-to-r from-accent to-dark text-white font-bold rounded-full hover:shadow-2xl transform hover:scale-105 transition">
+              Our Mission
+            </a>
+            <a href="#" class="px-10 py-5 border-4 border-accent text-accent font-bold rounded-full hover:bg-accent hover:text-white transition">
+              Meet the Team
+            </a>
+          </div>
+        </div>
 
-    function toggleTheme() {
-      isDark = !isDark;
-      document.documentElement.classList.toggle('dark', isDark);
-      localStorage.setItem('toolvibe_theme', isDark ? 'dark' : 'light');
-      updateThemeIcon();
-      showNotify(isDark ? "Dark Mode Enabled" : "Light Mode Enabled", isDark ? "fa-moon" : "fa-sun");
-    }
-    function updateThemeIcon() { document.getElementById('theme-icon').className = isDark ? 'fas fa-sun text-yellow-400' : 'fas fa-moon text-brand'; }
+        <!-- EXTRA FLOATING DECORATIONS -->
+        <div class="absolute -top-10 -left-10 w-48 h-48 bg-gradient-to-br from-soft/40 to-accent/30 rounded-3xl blur-2xl animate-float"></div>
+        <div class="absolute -bottom-20 -right-10 w-64 h-64 bg-gradient-to-br from-dark/30 to-accent/20 rounded-3xl blur-3xl animate-float-delay"></div>
 
-    function showNotify(msg, icon) {
-       const box = document.getElementById('island');
-       document.getElementById('island-msg').innerText = msg;
-       document.getElementById('island-icon').className = `fas ${icon} mr-2`;
-       box.classList.add('active'); setTimeout(() => box.classList.remove('active'), 2500);
-    }
+      </div>
+    </div>
+  </div>
+</section>
 
-    function initParticles() {
-       // Reduce particles on mobile for performance
-       const isMobile = window.innerWidth < 768;
-       const count = isMobile ? 5 : 15;
-       const con = document.getElementById('particles-container');
-       con.innerHTML = '';
-       
-       for(let i=0; i<count; i++) {
-         const p = document.createElement('div'); p.className = 'particle';
-         const s = Math.random()*15+5; p.style.width=s+'px'; p.style.height=s+'px';
-         p.style.left=Math.random()*100+'%'; p.style.top=Math.random()*100+'%';
-         p.style.animationDuration = (Math.random()*10+5) + 's';
-         con.appendChild(p);
-       }
-    }
+<!-- ===== ABOUT SECTION (WITH EXTRA ANIMATIONS ADDED) ===== -->
+<style>
+  /* ✨ Smooth Reveal Animations */
+  @keyframes revealUp {
+    0% { opacity: 0; transform: translateY(40px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
 
-    // 7. NAVIGATION LOGIC
-    function switchTab(t) {
-      const home = document.getElementById('home-view');
-      const profile = document.getElementById('profile-view');
-      const hBtn = document.getElementById('nav-home');
-      const pBtn = document.getElementById('nav-profile');
-      const catRow = document.getElementById('category-row');
+  @keyframes revealRight {
+    0% { opacity: 0; transform: translateX(40px); }
+    100% { opacity: 1; transform: translateX(0); }
+  }
 
-      window.scrollTo({top:0, behavior:'smooth'});
+  /* ✨ Floating Animation */
+  @keyframes float {
+    0%, 100% { transform: translateY(-10px); }
+    50% { transform: translateY(10px); }
+  }
 
-      if(t === 'home') {
-        home.classList.remove('hidden'); profile.classList.add('hidden');
-        catRow.classList.remove('hidden'); 
-        // Mobile Nav State
-        if(hBtn) { hBtn.classList.add('text-brand'); hBtn.classList.remove('text-gray-400'); }
-        if(pBtn) { pBtn.classList.remove('text-brand'); pBtn.classList.add('text-gray-400'); }
-      } else {
-        home.classList.add('hidden'); profile.classList.remove('hidden');
-        catRow.classList.add('hidden');
-        // Mobile Nav State
-        if(pBtn) { pBtn.classList.add('text-brand'); pBtn.classList.remove('text-gray-400'); }
-        if(hBtn) { hBtn.classList.remove('text-brand'); hBtn.classList.add('text-gray-400'); }
-      }
-    }
+  /* ✨ Floating Delay */
+  @keyframes floatDelay {
+    0%, 100% { transform: translateY(10px); }
+    50% { transform: translateY(-10px); }
+  }
 
-    // 8. POWERFUL SHARE FUNCTION (Works on Web & App)
-    async function shareApp() {
-        const shareData = {
-            title: 'ToolVibe Ultimate',
-            text: 'Check out ToolVibe - 80+ amazing PDF, Image and SEO tools in one place!',
-            url: window.location.href
-        };
+  /* ✨ Pulse Aura Behind Icons */
+  @keyframes pulseGlow {
+    0% { box-shadow: 0 0 0 0 rgba(255, 159, 28, 0.6); }
+    100% { box-shadow: 0 0 40px 20px rgba(255, 159, 28, 0); }
+  }
 
-        // 1. Try Native Android Interface (WebView)
-        try {
-            if (typeof Android !== "undefined" && Android.shareApp) {
-                Android.shareApp(shareData.title, shareData.url);
-                return;
-            }
-        } catch(e) { console.log("Android interface not found"); }
+  .reveal-up { animation: revealUp 1s ease-out forwards; opacity: 0; }
+  .reveal-right { animation: revealRight 1s ease-out forwards; opacity: 0; }
 
-        // 2. Try Web Share API (Mobile Browsers)
-        if (navigator.share) {
-            try {
-                await navigator.share(shareData);
-                showNotify("Shared Successfully!", "fa-check");
-            } catch (err) {
-                console.log("Share canceled");
-            }
-        } 
-        // 3. Fallback: Copy to Clipboard (Desktop)
-        else {
-            navigator.clipboard.writeText(shareData.url).then(() => {
-                showNotify("Link Copied to Clipboard!", "fa-copy");
-            }).catch(() => {
-                showNotify("Failed to Copy", "fa-exclamation-triangle");
-            });
+  .animate-float { animation: float 6s ease-in-out infinite; }
+  .animate-float-delay { animation: floatDelay 7s ease-in-out infinite; }
+
+  .pulse-glow { animation: pulseGlow 2.5s infinite ease-out; }
+</style>
+
+<!-- TOOLS SECTION – ALL 83 TOOLS, 4 PER ROW, REAL ICONS, INSANE HOVER -->
+<section id="tools" class="py-24 bg-gradient-to-b from-white to-[#f9f8fe]">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-16">
+      <h2 class="text-5xl md:text-7xl font-black text-[#4F1271] mb-4">Best Powerful Tools</h2>
+      <p class="text-xl text-[#4A4063]/80">All free. All private. All in your browser.</p>
+    </div>
+
+    <!-- Filter Buttons -->
+    <div class="flex flex-wrap justify-center gap-5 mb-16">
+      <button data-filter="all" class="filter-btn active px-8 py-4 bg-[#783F8E] text-white font-bold rounded-full shadow-2xl hover:bg-[#BFACC8] hover:text-[#4F1271] transition-all">
+        All Tools
+      </button>
+      <button data-filter="pdf" class="filter-btn px-8 py-4 bg-white text-[#4F1271] font-bold rounded-full shadow-2xl border-2 border-[#783F8E]/30 hover:bg-[#783F8E] hover:text-white transition-all">
+        PDF Tools
+      </button>
+      <button data-filter="image" class="filter-btn px-8 py-4 bg-white text-[#4F1271] font-bold rounded-full shadow-2xl border-2 border-[#783F8E]/30 hover:bg-[#783F8E] hover:text-white transition-all">
+        Image Tools
+      </button>
+      <button data-filter="seo" class="filter-btn px-8 py-4 bg-white text-[#4F1271] font-bold rounded-full shadow-2xl border-2 border-[#783F8E]/30 hover:bg-[#783F8E] hover:text-white transition-all">
+        SEO Tools
+      </button>
+    </div>
+
+    <!-- TOOLS GRID – 4 PER ROW -->
+    <div id="tools-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+
+      <!-- ==================== PDF TOOLS (37) ==================== -->
+      <div class="tool-card pdf group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/Add_Pages.html'">
+  <div class="shine-effect"></div>
+  <div class="absolute inset-0 rounded-3xl ring-0 group-hover:ring-8 group-hover:ring-[#783F8E]/20 transition-all duration-700"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-plus-circle text-5xl text-[#783F8E] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Add Page PDF</h3>
+  </div>
+  <div class="absolute -top-10 -right-10 w-32 h-32 bg-[#783F8E]/20 rounded-full blur-3xl scale-0 group-hover:scale-150 transition-transform duration-1000"></div>
+</div>
+      <!-- PDF Tools Grid - Wrap in a responsive grid, e.g., <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8"> -->
+
+<div class="tool-card pdf group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/watermark.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-water text-5xl text-[#783F8E] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Add Watermark PDF</h3>
+  </div>
+</div>
+
+<div class="tool-card pdf group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/Compress PDF.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-compress-arrows-alt text-5xl text-[#783F8E] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Compress PDF</h3>
+  </div>
+</div>
+
+<div class="tool-card pdf group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/pdf_to_word.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-file-word text-5xl text-[#783F8E] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">PDF to Word</h3>
+  </div>
+</div>
+
+<div class="tool-card pdf group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/Remove_pages_from_pdf.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-trash-alt text-5xl text-[#783F8E] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Remove Pages</h3>
+  </div>
+</div>
+
+<div class="tool-card pdf group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/json_to_pdf.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-file-code text-5xl text-[#783F8E] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">JSON to PDF</h3>
+  </div>
+</div>
+
+<div class="tool-card pdf group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/csv_to_pdf.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-table text-5xl text-[#783F8E] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">CSV to PDF</h3>
+  </div>
+</div>
+
+<div class="tool-card pdf group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/EXCEL TO PDF.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-file-excel text-5xl text-[#783F8E] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Excel to PDF</h3>
+  </div>
+</div>
+
+<div class="tool-card pdf group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/html_to_pdf.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-code text-5xl text-[#783F8E] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">HTML to PDF</h3>
+  </div>
+</div>
+
+<div class="tool-card pdf group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/jpg_to_pdf.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-image text-5xl text-[#783F8E] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">JPG to PDF</h3>
+  </div>
+</div>
+
+<div class="tool-card pdf group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/merge-pdf.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-layer-group text-5xl text-[#783F8E] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Merge PDF</h3>
+  </div>
+</div>
+
+<div class="tool-card pdf group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/OCR PDF.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-eye text-5xl text-[#783F8E] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">OCR PDF</h3>
+  </div>
+</div>
+
+<div class="tool-card pdf group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/Organize.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-sort text-5xl text-[#783F8E] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Organize PDF</h3>
+  </div>
+</div>
+
+<div class="tool-card pdf group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/pdf_to_excel.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-file-excel text-5xl text-[#783F8E] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">PDF to Excel</h3>
+  </div>
+</div>
+
+
+
+<div class="tool-card pdf group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/pdf_signing.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-file-signature text-5xl text-[#783F8E] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">PDF Signing</h3>
+  </div>
+</div>
+
+<div class="tool-card pdf group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/pdf_to_csv.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-table text-5xl text-[#783F8E] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">PDF to CSV</h3>
+  </div>
+</div>
+
+<div class="tool-card pdf group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/pdf_to_html.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-code text-5xl text-[#783F8E] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">PDF to HTML</h3>
+  </div>
+</div>
+
+<div class="tool-card pdf group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/pdf_to_jpg.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-image text-5xl text-[#783F8E] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">PDF to JPG</h3>
+  </div>
+</div>
+
+<div class="tool-card pdf group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/pdf_to_json.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-file-code text-5xl text-[#783F8E] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">PDF to JSON</h3>
+  </div>
+</div>
+
+<div class="tool-card pdf group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/pdf_to_png.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-image text-5xl text-[#783F8E] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">PDF to PNG</h3>
+  </div>
+</div>
+
+<div class="tool-card pdf group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/pdf_to_text.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-file-alt text-5xl text-[#783F8E] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">PDF to Text</h3>
+  </div>
+</div>
+
+<div class="tool-card pdf group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/PDF_to_WEBP.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-globe text-5xl text-[#783F8E] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">PDF to WebP</h3>
+  </div>
+</div>
+
+<div class="tool-card pdf group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/pdf_to_xml.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-code-branch text-5xl text-[#783F8E] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">PDF to XML</h3>
+  </div>
+</div>
+
+<div class="tool-card pdf group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/pdf_to_zip.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-box text-5xl text-[#783F8E] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">PDF to ZIP</h3>
+  </div>
+</div>
+
+<div class="tool-card pdf group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/Repair.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-wrench text-5xl text-[#783F8E] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Repair PDF</h3>
+  </div>
+</div>
+
+<div class="tool-card pdf group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/png_to_pdf.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-image text-5xl text-[#783F8E] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">PNG to PDF</h3>
+  </div>
+</div>
+
+<div class="tool-card pdf group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/Rotate.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-sync text-5xl text-[#783F8E] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Rotate PDF</h3>
+  </div>
+</div>
+
+<div class="tool-card pdf group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/speech_to_pdf.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-microphone-alt text-5xl text-[#783F8E] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Speech to PDF</h3>
+  </div>
+</div>
+
+<div class="tool-card pdf group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/split.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-cut text-5xl text-[#783F8E] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Split PDF</h3>
+  </div>
+</div>
+
+<div class="tool-card pdf group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/text_to_pdf.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-file-alt text-5xl text-[#783F8E] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Text to PDF</h3>
+  </div>
+</div>
+
+<div class="tool-card pdf group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/WEBP_to_PDF.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-globe text-5xl text-[#783F8E] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">WEBP to PDF</h3>
+  </div>
+</div>
+
+<div class="tool-card pdf group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/Word to PDF.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-file-word text-5xl text-[#783F8E] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Word to PDF</h3>
+  </div>
+</div>
+
+<div class="tool-card pdf group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/xml_to_pdf.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-code-branch text-5xl text-[#783F8E] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">XML to PDF</h3>
+  </div>
+</div>
+
+      <!-- IMAGE TOOLS Grid - Recommended: Wrap in <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8"> for responsive layout -->
+
+<div class="tool-card image group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/Image compressor.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-compress text-5xl text-[#4F1271] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Image Compressor</h3>
+  </div>
+</div>
+
+<div class="tool-card image group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/Image Resizer.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-expand-arrows-alt text-5xl text-[#4F1271] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Image Resizer</h3>
+  </div>
+</div>
+
+<div class="tool-card image group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/image_border.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-border-all text-5xl text-[#4F1271] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Image Border</h3>
+  </div>
+</div>
+
+<div class="tool-card image group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/Image_Flipper.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-sync text-5xl text-[#4F1271] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Image Flipper</h3>
+  </div>
+</div>
+
+<div class="tool-card image group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/Image_splitter.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-cut text-5xl text-[#4F1271] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Image Splitter</h3>
+  </div>
+</div>
+
+<div class="tool-card image group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/image_to_pdf.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-file-import text-6xl text-[#4F1271] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Image to PDF</h3>
+  </div>
+</div>
+
+<div class="tool-card image group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/image_to_text.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-text-height text-5xl text-[#4F1271] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Image to Text</h3>
+  </div>
+</div>
+
+<div class="tool-card image group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/jpg_to_pdf.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-image text-5xl text-[#4F1271] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">JPG to PDF</h3>
+  </div>
+</div>
+
+<div class="tool-card image group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/jpg_to_png.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-exchange-alt text-5xl text-[#4F1271] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">JPG to PNG</h3>
+  </div>
+</div>
+
+<div class="tool-card image group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/jpg_to_webp.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-globe text-5xl text-[#4F1271] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">JPG to WebP</h3>
+  </div>
+</div>
+<div class="tool-card image group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/pdf_to_jpg.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-file-export text-6xl text-[#4F1271] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">PDF to JPG</h3>
+  </div>
+</div>
+
+<div class="tool-card image group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/Pixelate.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-chess-board text-5xl text-[#4F1271] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Pixelate</h3>
+  </div>
+</div>
+
+<div class="tool-card image group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/PNG_to_JPG.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-exchange-alt text-5xl text-[#4F1271] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">PNG to JPG</h3>
+  </div>
+</div>
+
+<div class="tool-card image group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/PNG_to_WEBP.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-globe text-5xl text-[#4F1271] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">PNG to WebP</h3>
+  </div>
+</div>
+
+<div class="tool-card image group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/profile.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-user-circle text-5xl text-[#4F1271] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Profile Picture Maker</h3>
+  </div>
+</div>
+
+<div class="tool-card image group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/svg_to_png.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-vector-square text-5xl text-[#4F1271] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">SVG to PNG</h3>
+  </div>
+</div>
+
+<div class="tool-card image group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/upscale.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-search-plus text-5xl text-[#4F1271] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Upscale Image</h3>
+  </div>
+</div>
+
+<div class="tool-card image group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/view.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-eye text-5xl text-[#4F1271] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">View Image</h3>
+  </div>
+</div>
+
+<div class="tool-card image group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/watermark.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-water text-5xl text-[#4F1271] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Watermark Image</h3>
+  </div>
+</div>
+
+<div class="tool-card image group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/webp_to_JPG.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-globe text-5xl text-[#4F1271] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">WebP to JPG</h3>
+  </div>
+</div>
+
+<div class="tool-card image group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/WEBP_to_PNG.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-exchange-alt text-5xl text-[#4F1271] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">WebP to PNG</h3>
+  </div>
+</div>
+
+<div class="tool-card image group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/Add_Images.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-images text-5xl text-[#4F1271] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Add Images</h3>
+  </div>
+</div>
+
+<div class="tool-card image group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/add_text.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-text-height text-5xl text-[#4F1271] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Add Text</h3>
+  </div>
+</div>
+
+<div class="tool-card image group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/bg.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-magic text-5xl text-[#4F1271] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">BG Remover</h3>
+  </div>
+</div>
+
+<div class="tool-card image group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/black_&_white.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-adjust text-5xl text-[#4F1271] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Black & White</h3>
+  </div>
+</div>
+
+<div class="tool-card image group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/blur.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-eye-dropper text-5xl text-[#4F1271] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Blur Image</h3>
+  </div>
+</div>
+
+<div class="tool-card image group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/Collage_Maker.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-th-large text-5xl text-[#4F1271] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Collage Maker</h3>
+  </div>
+</div>
+
+<div class="tool-card image group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/Colorize_photo.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-palette text-5xl text-[#4F1271] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Colorize Photo</h3>
+  </div>
+</div>
+
+<div class="tool-card image group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/combine_image.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-images text-5xl text-[#4F1271] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Combine Image</h3>
+  </div>
+</div>
+
+<div class="tool-card image group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/crop.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-crop text-5xl text-[#4F1271] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Crop Image</h3>
+  </div>
+</div>
+
+<div class="tool-card image group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/font_to_png.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-font text-5xl text-[#4F1271] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Font to PNG</h3>
+  </div>
+</div>
+
+<div class="tool-card image group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/gif_to_jpg.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-gift text-5xl text-[#4F1271] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">GIF to JPG</h3>
+  </div>
+</div>
+
+<div class="tool-card image group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/ico_to_jpg.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-icons text-5xl text-[#4F1271] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">ICO to JPG</h3>
+  </div>
+</div>
+
+<div class="tool-card image group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/ico_to_webp.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-globe text-5xl text-[#4F1271] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">ICO to WebP</h3>
+  </div>
+</div>
+
+     <!-- SEO TOOLS Grid - Recommended: Wrap in <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8"> for responsive layout -->
+
+<div class="tool-card seo group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/Meta Tag Generator.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-code text-5xl text-[#BFACC8] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Meta Tag Generator</h3>
+  </div>
+</div>
+
+<div class="tool-card seo group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/OpenGraph Tags Generator.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-share-alt text-5xl text-[#BFACC8] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">OpenGraph Generator</h3>
+  </div>
+</div>
+
+<div class="tool-card seo group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/Adaptive.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-mobile-alt text-5xl text-[#BFACC8] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Adaptive Checker</h3>
+  </div>
+</div>
+
+<div class="tool-card seo group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/XML Sitemap Generator.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-sitemap text-5xl text-[#BFACC8] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">XML Sitemap Generator</h3>
+  </div>
+</div>
+
+<div class="tool-card seo group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/schema.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-file-code text-5xl text-[#BFACC8] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Schema Markup Gen</h3>
+  </div>
+</div>
+
+<div class="tool-card seo group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/AMP Validator.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-check-double text-5xl text-[#BFACC8] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">AMP Validator</h3>
+  </div>
+</div>
+
+<div class="tool-card seo group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/Canonical Tag.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-link text-5xl text-[#BFACC8] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Canonical Tag</h3>
+  </div>
+</div>
+
+<div class="tool-card seo group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/Case Converter.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-text-height text-5xl text-[#BFACC8] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Case Converter</h3>
+  </div>
+</div>
+
+<div class="tool-card seo group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/Google.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-robot text-5xl text-[#BFACC8] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Google Algorithm Update Tracker</h3>
+  </div>
+</div>
+
+<div class="tool-card seo group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/hreflang Tags Testing.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-language text-5xl text-[#BFACC8] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">hreflang Tags Testing</h3>
+  </div>
+</div>
+
+<div class="tool-card seo group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/htaccess_tester.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-lock text-5xl text-[#BFACC8] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">htaccess-Tester</h3>
+  </div>
+</div>
+
+<div class="tool-card seo group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/Local Search Results Testing Tool.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-search-location text-5xl text-[#BFACC8] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Local Search Result Testing Tool</h3>
+  </div>
+</div>
+
+<div class="tool-card seo group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/Meta Description.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-file-alt text-5xl text-[#BFACC8] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Meta Description Generator</h3>
+  </div>
+</div>
+
+<div class="tool-card seo group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/Online MD5 Generator.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-file-code text-5xl text-[#BFACC8] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Online MJS Generator</h3>
+  </div>
+</div>
+
+<div class="tool-card seo group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/Pre-rendering Testing Tool.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-eye text-5xl text-[#BFACC8] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Pre-rendering Testing Tool</h3>
+  </div>
+</div>
+
+<div class="tool-card seo group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/robots.txt_gen.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-robot text-5xl text-[#BFACC8] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">robots.txt-gen</h3>
+  </div>
+</div>
+
+<div class="tool-card seo group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/SEO Citation Generator.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-quote-left text-5xl text-[#BFACC8] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">SEO Citation Generator</h3>
+  </div>
+</div>
+
+<div class="tool-card seo group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/SEO Punctuation Checker.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-check-circle text-5xl text-[#BFACC8] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">SEO Punctuation Checker</h3>
+  </div>
+</div>
+
+<div class="tool-card seo group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/Small Text Generator.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-text-height text-5xl text-[#BFACC8] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Small Text Generator</h3>
+  </div>
+</div>
+
+<div class="tool-card seo group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/Text to Slug Converter.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-link text-5xl text-[#BFACC8] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Text to Slug Converter</h3>
+  </div>
+</div>
+
+<div class="tool-card seo group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/Twitter Card Generator.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-twitter-square text-5xl text-[#BFACC8] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Twitter Card Generator</h3>
+  </div>
+</div>
+
+<div class="tool-card seo group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/UTM Builder.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-link text-5xl text-[#BFACC8] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">UTM Builder</h3>
+  </div>
+</div>
+
+<div class="tool-card seo group relative bg-white p-8 rounded-3xl shadow-xl overflow-hidden cursor-pointer transform transition-all duration-500 hover:-translate-y-10 hover:shadow-4xl" onclick="window.location.href='img_tools/Word Counter.html'">
+  <div class="shine-effect"></div>
+  <div class="relative z-10 text-center">
+    <i class="fas fa-calculator text-5xl text-[#BFACC8] mb-4 group-hover:scale-125 transition"></i>
+    <h3 class="font-black text-[#4F1271]">Word Counter</h3>
+  </div>
+</div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Required Font Awesome -->
+<script src="https://kit.fontawesome.com/60f4e3c5c7.js" crossorigin="anonymous"></script>
+
+<!-- Hover Effects (unchanged) -->
+<style>
+  .tool-card {
+  overflow: hidden;
+}
+.tool-card::before {
+  content: '';
+  position: absolute;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, #BFACC8 0%, #783F8E 100%);
+  border-radius: 60% 40% 30% 70%/60% 30% 70% 40%;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0.4;
+  animation: morph 8s infinite;
+  transition: all 1s;
+}
+.tool-card:hover::before {
+  transform: translate(-50%, -50%) scale(2.5);
+}
+@keyframes morph {
+  0%,100% { border-radius: 60% 40% 30% 70%/60% 30% 70% 40%; }
+  50%     { border-radius: 30% 60% 70% 40%/50% 60% 30% 60%; }
+}
+  .shine-effect {
+    position: absolute; top: 0; left: -100%; width: 60%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent);
+    transform: skewX(-25deg); transition: none;
+  }
+  .group:hover .shine-effect { left: 100%; transition: left 0.9s cubic-bezier(0.22,0.61,0.36,1); }
+  .group:hover { animation: lift 6s ease-in-out infinite; }
+  @keyframes lift { 0%,100% { transform: translateY(-40px); } 50% { transform: translateY(-50px); } }
+</style>
+
+<!-- Filter Script -->
+<script>
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active', 'bg-[#783F8E]', 'text-white'));
+      btn.classList.add('active', 'bg-[#783F8E]', 'text-white');
+      
+      const filter = btn.dataset.filter;
+      document.querySelectorAll('.tool-card').forEach(card => {
+        if (filter === 'all' || card.classList.contains(filter)) {
+          card.style.display = 'block';
+          setTimeout(() => card.style.opacity = '1', 50);
+        } else {
+          card.style.opacity = '0';
+          setTimeout(() => card.style.display = 'none', 300);
         }
-    }
+      });
+    });
+  });
+</script>
 
-    function rateApp() { 
-        // 1. Android
-        try { 
-            if(typeof Android !== "undefined") { Android.rateApp(); return; }
-        } catch(e){}
+
+
+
+<!-- Font Awesome (if not already included) -->
+<script src="https://kit.fontawesome.com/your-kit-id.js" crossorigin="anonymous"></script>
+
+<!-- MODERN FLOW FEATURE SECTION (BRIGHT & PREMIUM) -->
+<section id="features" class="relative py-36 bg-gradient-to-br from-rose-50 via-sky-50 to-indigo-100 overflow-hidden">
+
+  <!-- Decorative Blobs -->
+  <div class="absolute -top-32 -left-32 w-[500px] h-[500px] bg-pink-300/30 rounded-full blur-[140px]"></div>
+  <div class="absolute bottom-0 right-0 w-[500px] h-[500px] bg-indigo-300/30 rounded-full blur-[140px]"></div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-6">
+
+    <!-- Section Header -->
+    <div class="text-center mb-32">
+      <span class="uppercase tracking-[0.35em] text-primary text-sm font-semibold">
+        Our Power
+      </span>
+      <h2 class="mt-6 text-5xl md:text-6xl font-black text-dark">
+        Experience the <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Future of Tools</span>
+      </h2>
+      <p class="mt-6 text-gray-600 text-lg max-w-2xl mx-auto">
+        Designed to feel fast, beautiful, and effortless from the first click.
+      </p>
+    </div>
+
+    <!-- FLOW LINE -->
+    <div class="relative">
+      <div class="absolute left-1/2 top-0 h-full w-1 bg-gradient-to-b from-accent to-primary opacity-20 hidden lg:block"></div>
+
+      <!-- Feature 1 (Replaced AI Automation) -->
+      <div class="grid lg:grid-cols-2 items-center gap-20 mb-32 feature-item" data-direction="right">
+        <div class="lg:text-right feature-text">
+          <h3 class="text-4xl font-black text-dark mb-4">Smart Compression</h3>
+          <p class="text-lg text-gray-700 max-w-xl ml-auto">
+            Reduce file sizes dramatically without any visible loss in quality using advanced algorithms.
+          </p>
+        </div>
+        <div class="flex justify-center lg:justify-start feature-icon">
+          <div class="w-28 h-28 rounded-3xl bg-gradient-to-br from-accent to-primary flex items-center justify-center text-5xl shadow-2xl">
+            🗜️
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature 2 -->
+      <div class="grid lg:grid-cols-2 items-center gap-20 mb-32 feature-item" data-direction="left">
+        <div class="order-2 lg:order-1 flex justify-center lg:justify-end feature-icon">
+          <div class="w-28 h-28 rounded-3xl bg-gradient-to-br from-primary to-soft flex items-center justify-center text-5xl shadow-2xl">
+            ⚡
+          </div>
+        </div>
+        <div class="order-1 lg:order-2 feature-text">
+          <h3 class="text-4xl font-black text-dark mb-4">Ultra Fast Speed</h3>
+          <p class="text-lg text-gray-700 max-w-xl">
+            Process massive PDFs, images and data in seconds with zero waiting time.
+          </p>
+        </div>
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="grid lg:grid-cols-2 items-center gap-20 mb-32 feature-item" data-direction="right">
+        <div class="lg:text-right feature-text">
+          <h3 class="text-4xl font-black text-dark mb-4">Total Privacy</h3>
+          <p class="text-lg text-gray-700 max-w-xl ml-auto">
+            Bank-grade encryption, automatic deletion and zero-data storage guarantee your safety.
+          </p>
+        </div>
+        <div class="flex justify-center lg:justify-start feature-icon">
+          <div class="w-28 h-28 rounded-3xl bg-gradient-to-br from-soft to-accent flex items-center justify-center text-5xl shadow-2xl">
+            🔐
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature 4 -->
+      <div class="grid lg:grid-cols-2 items-center gap-20 feature-item" data-direction="left">
+        <div class="order-2 lg:order-1 flex justify-center lg:justify-end feature-icon">
+          <div class="w-28 h-28 rounded-3xl bg-gradient-to-br from-indigo-400 to-primary flex items-center justify-center text-5xl shadow-2xl">
+            ☁️
+          </div>
+        </div>
+        <div class="order-1 lg:order-2 feature-text">
+          <h3 class="text-4xl font-black text-dark mb-4">Cloud Native</h3>
+          <p class="text-lg text-gray-700 max-w-xl">
+            Instantly available everywhere. No installs. No downloads. Just pure performance.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="text-center mt-36 cta-section">
+      <h3 class="text-4xl md:text-5xl font-black text-dark mb-10">
+        Build Faster. Work Smarter.
+      </h3>
+      <a href="#tools"
+         class="inline-flex items-center gap-4 px-16 py-7 bg-gradient-to-r from-primary to-accent text-white font-black text-xl rounded-full shadow-2xl hover:scale-110 transition-all duration-500">
+        Start Free Today 🚀
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- Floating Animation (CSS) -->
+<style>
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
+  .feature-icon > div {
+    animation: float 8s ease-in-out infinite;
+  }
+  .feature-icon:nth-child(1) > div { animation-delay: 0s; }
+  .feature-icon:nth-child(2) > div { animation-delay: 1s; }
+  .feature-icon:nth-child(3) > div { animation-delay: 2s; }
+  .feature-icon:nth-child(4) > div { animation-delay: 3s; }
+
+  /* Initial states for scroll animations */
+  .feature-item {
+    opacity: 0;
+    transform: translateY(60px);
+    transition: all 1s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+  .feature-item.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .feature-text { transition-delay: 0.3s; }
+  .feature-icon { transition-delay: 0.6s; }
+
+  .cta-section {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 1.2s ease-out;
+  }
+  .cta-section.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<!-- Scroll-triggered Animations (Vanilla JS) -->
+<script>
+  // Intersection Observer for fade-in on scroll
+  const observerOptions = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.15
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
         
-        // 2. Web Fallback
-        showNotify("Thank you for rating!", "fa-star");
-        // Redirect to store logic here if needed
-    }
+        // Staggered delay for left/right based on data-direction
+        const direction = entry.target.getAttribute('data-direction');
+        const text = entry.target.querySelector('.feature-text');
+        const icon = entry.target.querySelector('.feature-icon');
+        
+        if (direction === 'left') {
+          text.style.transitionDelay = '0.4s';
+          icon.style.transitionDelay = '0.7s';
+        } else {
+          text.style.transitionDelay = '0.7s';
+          icon.style.transitionDelay = '0.4s';
+        }
+      }
+    });
+  }, observerOptions);
+
+  // Observe all feature items
+  document.querySelectorAll('.feature-item').forEach(item => {
+    observer.observe(item);
+  });
+
+  // Observe CTA section
+  const cta = document.querySelector('.cta-section');
+  if (cta) {
+    observer.observe(cta);
+  }
+
+  // Subtle parallax for decorative blobs
+  window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    const parallaxBlobs = document.querySelectorAll('[class*="bg-pink-300"], [class*="bg-indigo-300"]');
+    parallaxBlobs.forEach(blob => {
+      const speed = 0.5;
+      blob.style.transform = `translateY(${scrolled * speed}px)`;
+    });
+  });
+</script>
+
+
+<!-- WHY CHOOSE US – 2025 Ultra-Premium Edition (No AI Version) -->
+<section id="why" class="py-32 bg-gradient-to-b from-white to-light/20 relative overflow-hidden">
+
+  <!-- Floating Background Orbs -->
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-accent/20 to-transparent rounded-full blur-3xl animate-float"></div>
+    <div class="absolute top-40 right-20 w-80 h-80 bg-gradient-to-bl from-dark/15 to-transparent rounded-full blur-3xl animate-float-delay"></div>
+    <div class="absolute bottom-10 left-1/3 w-[600px] h-96 bg-gradient-to-t from-soft/10 to-transparent rounded-full blur-3xl animate-float"></div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-6 relative z-10">
+
+    <!-- Main Title -->
+    <div class="text-center mb-24">
+      <h2 class="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-dark via-accent to-soft inline-block">
+        Why Creators Love ToolVibe
+      </h2>
+      <p class="text-2xl text-gray-600 mt-8">The numbers speak. The experience screams.</p>
+    </div>
+
+    <!-- Diagonal Split Layout (Left: Stats / Right: Text) -->
+    <div class="grid lg:grid-cols-2 gap-20 items-center">
+
+      <!-- Left: Animated Stats -->
+      <div class="space-y-12">
+
+        <!-- Stat 1 -->
+        <div class="relative group stat-item">
+          <div class="absolute -inset-4 bg-gradient-to-r from-accent/20 to-transparent rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+          <div class="relative bg-white/80 backdrop-blur-xl rounded-3xl p-12 shadow-2xl hover:shadow-4xl transition-all duration-700 hover:-translate-y-6">
+            <div class="text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent to-dark">75K+</div>
+            <p class="text-2xl font-bold text-dark mt-4">Active Users</p>
+            <p class="text-gray-600 mt-2">From freelancers to Fortune 500 teams</p>
+          </div>
+        </div>
+
+        <!-- Stat 2 -->
+        <div class="relative group ml-20 stat-item">
+          <div class="absolute -inset-4 bg-gradient-to-l from-dark/20 to-transparent rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+          <div class="relative bg-gradient-to-br from-dark to-primary text-white rounded-3xl p-12 shadow-2xl hover:shadow-4xl transition-all duration-700 hover:-translate-y-6">
+            <div class="text-7xl font-black">4.9/5</div>
+            <p class="text-3xl font-bold mt-4">User Rating</p>
+            <div class="flex gap-1 mt-4">
+              <span class="text-4xl text-yellow-400">★</span>
+              <span class="text-4xl text-yellow-400">★</span>
+              <span class="text-4xl text-yellow-400">★</span>
+              <span class="text-4xl text-yellow-400">★</span>
+              <span class="text-4xl text-yellow-400">★</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stat 3 -->
+        <div class="relative group stat-item">
+          <div class="absolute -inset-4 bg-gradient-to-r from-soft/30 to-transparent rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+          <div class="relative bg-white/80 backdrop-blur-xl rounded-3xl p-12 shadow-2xl hover:shadow-4xl transition-all duration-700 hover:-translate-y-6">
+            <div class="text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-dark to-accent">2.5M+</div>
+            <p class="text-2xl font-bold text-dark mt-4">Tasks Completed</p>
+            <p class="text-gray-600 mt-2">Every month. Growing fast.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Side Text -->
+      <div class="reveal-text">
+        <h3 class="text-5xl md:text-5xl font-black text-dark leading-tight mb-10">
+          We’re Not Just<br>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-accent to-soft">
+            Another Tool
+          </span>
+        </h3>
+
+        <p class="text-2xl text-gray-700 leading-relaxed max-w-2xl">
+          We’re the <strong>only toolkit</strong> that combines <strong>ultra-fast performance</strong>, 
+          <strong>smart optimization</strong>, and <strong>beautiful design</strong> —
+          built for people who actually create things.
+        </p>
+
+        <div class="mt-12 space-y-8">
+
+          <div class="flex items-center gap-6 feature-line">
+            <div class="w-20 h-20 bg-gradient-to-br from-accent to-dark rounded-2xl flex items-center justify-center shadow-2xl icon-float">
+              <span class="text-4xl text-white">❤️</span>
+            </div>
+            <p class="text-xl font-medium">Made with love by creators, for creators</p>
+          </div>
+
+          <div class="flex items-center gap-6 feature-line">
+            <div class="w-20 h-20 bg-gradient-to-br from-soft to-accent rounded-2xl flex items-center justify-center shadow-2xl icon-float">
+              <span class="text-4xl text-dark">∞</span>
+            </div>
+            <p class="text-xl font-medium">Free updates forever. No paywalls.</p>
+          </div>
+
+          <div class="flex items-center gap-6 feature-line">
+            <div class="w-20 h-20 bg-gradient-to-br from-dark to-primary rounded-2xl flex items-center justify-center shadow-2xl icon-float">
+              <span class="text-4xl text-white">🎧</span>
+            </div>
+            <p class="text-xl font-medium">Real human support — 24/7</p>
+          </div>
+
+        </div>
+
+        <a href="#tools" class="mt-16 inline-block px-16 py-7 bg-gradient-to-r from-accent to-dark text-white font-black text-2xl rounded-full shadow-3xl transition-all duration-500 hover:scale-110 hover:shadow-4xl cta-button">
+          JOIN 75,000+ CREATORS
+        </a>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Enhanced Animations CSS -->
+<style>
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-18px); }
+  }
+  .animate-float { animation: float 6s ease-in-out infinite; }
+  .animate-float-delay { animation: float 8s ease-in-out infinite 2s; }
+
+  @keyframes iconFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+  .icon-float { animation: iconFloat 4s ease-in-out infinite; }
+
+  /* Initial states for scroll-triggered animations */
+  .stat-item, .reveal-text, .feature-line, .cta-button {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 1s ease, transform 1s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+  .reveal-text { transform: translateX(80px); } /* Slide from right */
+
+  .stat-item.active, .reveal-text.active, .feature-line.active, .cta-button.active {
+    opacity: 1;
+    transform: translateY(0) translateX(0);
+  }
+
+  /* Staggered delays */
+  .stat-item:nth-child(1) { transition-delay: 0.2s; }
+  .stat-item:nth-child(2) { transition-delay: 0.4s; }
+  .stat-item:nth-child(3) { transition-delay: 0.6s; }
+
+  .feature-line:nth-child(1) { transition-delay: 0.3s; }
+  .feature-line:nth-child(2) { transition-delay: 0.5s; }
+  .feature-line:nth-child(3) { transition-delay: 0.7s; }
+  .cta-button { transition-delay: 0.9s; }
+</style>
+
+<!-- Scroll-Triggered Animation JavaScript (Vanilla JS) -->
+<script>
+  const scrollObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // Activate stats one by one
+        entry.target.querySelectorAll('.stat-item').forEach(item => {
+          item.classList.add('active');
+        });
+
+        // Activate right side elements
+        const rightSide = entry.target.querySelector('.reveal-text');
+        if (rightSide) {
+          rightSide.classList.add('active');
+          // Activate feature lines and button with delay
+          rightSide.querySelectorAll('.feature-line').forEach(line => {
+            line.classList.add('active');
+          });
+          rightSide.querySelector('.cta-button').classList.add('active');
+        }
+
+        // Optional: unobserve after animation to improve performance
+        // scrollObserver.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.2,
+    rootMargin: '0px 0px -50px 0px'
+  });
+
+  // Observe the entire section
+  const whySection = document.getElementById('why');
+  if (whySection) {
+    scrollObserver.observe(whySection);
+  }
+</script>
+
+
+<!-- ================= CONTACT SECTION – ULTRA PREMIUM ================= -->
+<section id="contact" class="relative py-28 bg-gradient-to-b from-light/10 to-white overflow-hidden">
+
+  <!-- Floating Background Elements -->
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="absolute top-10 left-10 w-80 h-80 bg-gradient-to-br from-accent/20 to-transparent rounded-full blur-3xl animate-float"></div>
+    <div class="absolute bottom-10 right-10 w-72 h-72 bg-gradient-to-bl from-dark/15 to-transparent rounded-full blur-3xl animate-float-delay"></div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-6 relative z-10">
+
+    <!-- Section Heading -->
+    <div class="text-center mb-20">
+      <h2 class="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-dark via-accent to-soft">
+        Get In Touch
+      </h2>
+      <p class="text-lg text-gray-600 mt-6 max-w-2xl mx-auto">
+        Have a question, idea, or collaboration in mind? Let’s talk.
+      </p>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+    <!-- LEFT: Contact Info (UPDATED WITH BIG DIFFERENT ICONS) -->
+<div class="space-y-12">
+
+  <div class="flex items-start gap-8">
+    <div class="w-20 h-20 bg-gradient-to-br from-accent to-dark rounded-2xl flex items-center justify-center text-white text-4xl shadow-2xl">
+      <i class="fas fa-location-dot"></i>
+    </div>
+    <div>
+      <h4 class="text-2xl font-bold text-dark">Our Location</h4>
+      <p class="text-gray-600 mt-2 text-lg">Mumbai, Maharashtra, India</p>
+    </div>
+  </div>
+
+  <div class="flex items-start gap-8">
+    <div class="w-20 h-20 bg-gradient-to-br from-soft to-accent rounded-2xl flex items-center justify-center text-dark text-4xl shadow-2xl">
+      <i class="fas fa-envelope-open-text"></i>
+    </div>
+    <div>
+      <h4 class="text-2xl font-bold text-dark">Email Us</h4>
+      <p class="text-gray-600 mt-2 text-lg">support@toolvibe.com</p>
+    </div>
+  </div>
+
+  <div class="flex items-start gap-8">
+    <div class="w-20 h-20 bg-gradient-to-br from-dark to-primary rounded-2xl flex items-center justify-center text-white text-4xl shadow-2xl">
+      <i class="fas fa-phone-volume"></i>
+    </div>
+    <div>
+      <h4 class="text-2xl font-bold text-dark">Call Anytime</h4>
+      <p class="text-gray-600 mt-2 text-lg">+91 98765 43210</p>
+    </div>
+  </div>
+
+  <p class="text-gray-700 text-lg leading-relaxed pt-8 max-w-md">
+    We usually respond within <strong>24 hours</strong>. Your message matters to us.
+  </p>
+
+</div>
+
+
+      <!-- RIGHT: Glassmorphism Contact Form -->
+      <div class="relative">
+        <div class="absolute -inset-4 bg-gradient-to-r from-accent/20 to-dark/20 rounded-3xl blur-2xl"></div>
+
+        <form class="relative bg-white/80 backdrop-blur-xl rounded-3xl p-10 shadow-2xl space-y-6">
+
+          <div>
+            <label class="block text-sm font-semibold text-dark mb-2">Full Name</label>
+            <input type="text" placeholder="Your name"
+              class="w-full px-5 py-4 rounded-xl border border-gray-200 focus:ring-4 focus:ring-accent/30 focus:outline-none">
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-dark mb-2">Email Address</label>
+            <input type="email" placeholder="you@example.com"
+              class="w-full px-5 py-4 rounded-xl border border-gray-200 focus:ring-4 focus:ring-accent/30 focus:outline-none">
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-dark mb-2">Message</label>
+            <textarea rows="4" placeholder="Write your message..."
+              class="w-full px-5 py-4 rounded-xl border border-gray-200 focus:ring-4 focus:ring-accent/30 focus:outline-none resize-none"></textarea>
+          </div>
+
+          <button type="submit"
+            class="w-full py-5 bg-gradient-to-r from-accent to-dark text-white font-black text-lg rounded-full shadow-xl hover:scale-105 transition-all duration-500">
+            SEND MESSAGE
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER SECTION – BRAND GRADIENT -->
+<section class="relative py-24 overflow-hidden">
+  <!-- Gradient Background (only your colors) -->
+  <div class="absolute inset-0 bg-gradient-to-br from-[#4F1271] via-[#783F8E] to-[#4A4063]"></div>
+
+  <!-- Subtle overlay blobs for depth -->
+  <div class="absolute inset-0 opacity-40">
+    <div class="absolute top-0 left-0 w-96 h-96 bg-[#BFACC8]/30 rounded-full blur-3xl animate-blob"></div>
+    <div class="absolute bottom-0 right-0 w-80 h-80 bg-white/20 rounded-full blur-3xl animate-blob animation-delay-2000"></div>
+  </div>
+
+  <div class="relative z-10 max-w-4xl mx-auto px-6 text-center">
+    <!-- Heading -->
+    <h2 class="text-4xl md:text-5xl font-black text-white mb-4">
+      Stay Ahead of the Curve
+    </h2>
+    <p class="text-xl text-[#BFACC8] mb-10 font-medium">
+      Get exclusive tips, updates, and early access to new AI features.
+    </p>
+
+    <!-- Form -->
+    <form class="flex flex-col sm:flex-row gap-4 max-w-2xl mx-auto">
+      <input 
+        type="email" 
+        placeholder="Enter your email" 
+        required
+        class="flex-1 px-8 py-5 rounded-full bg-white/20 backdrop-blur-xl border border-[#BFACC8]/40 text-white placeholder-[#C8C6D7]/70 text-lg focus:outline-none focus:border-[#BFACC8] focus:bg-white/30 transition-all"
+      />
+      <button 
+        type="submit"
+        class="px-12 py-5 bg-gradient-to-r from-[#BFACC8] to-white text-[#4F1271] font-black text-lg rounded-full shadow-2xl hover:scale-105 hover:shadow-[#BFACC8]/50 transition-all duration-300 whitespace-nowrap"
+      >
+        Subscribe Now
+      </button>
+    </form>
+
+    <!-- Trust note -->
+    <p class="mt-6 text-sm text-[#C8C6D7]/80">
+      No spam ever • Unsubscribe anytime • 100% privacy guaranteed
+    </p>
+  </div>
+</section>
+
+<style>
+  @keyframes blob {
+    0%,100% { transform: translate(0,0) scale(1); }
+    50% { transform: translate(40px, -40px) scale(1.15); }
+  }
+  .animate-blob { animation: blob 20s infinite; }
+  .animation-delay-2000 { animation-delay: 2s; }
+</style>
+  
+<!-- CLEAN WHITE PREMIUM FOOTER – 2025 -->
+<footer class="relative bg-white overflow-hidden">
+  <!-- Subtle brand-colored decorative orbs -->
+  <div class="absolute inset-0 pointer-events-none opacity-60">
+    <div class="absolute top-0 left-0 w-96 h-96 bg-[#783F8E]/20 rounded-full blur-3xl animate-blob"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-[#BFACC8]/15 rounded-full blur-3xl animate-blob animation-delay-3000"></div>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-6 pt-24 pb-12">
+    <div class="grid lg:grid-cols-4 md:grid-cols-2 gap-12">
+
+      <!-- Brand Column -->
+      <div class="lg:col-span-1">
+        <h2 class="text-4xl font-black bg-gradient-to-r from-[#4F1271] to-[#783F8E] bg-clip-text text-transparent">
+          TOOLVIBE
+        </h2>
+        <p class="mt-4 text-[#4A4063]/80 text-lg leading-relaxed max-w-xs font-medium">
+          All-in-one tools for PDFs, images, and SEO — fast, beautiful, and private.
+        </p>
+
+        <!-- Social Icons -->
+        <div class="flex gap-6 mt-8 text-2xl text-[#4A4063]">
+          <a href="#" class="hover:text-[#783F8E] transition"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="hover:text-[#783F8E] transition"><i class="fab fa-discord"></i></a>
+          <a href="#" class="hover:text-[#783F8E] transition"><i class="fab fa-github"></i></a>
+          <a href="#" class="hover:text-[#783F8E] transition"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h4 class="text-xl font-bold text-[#4F1271] mb-6">Quick Links</h4>
+        <ul class="space-y-4 text-[#4A4063]/90">
+          <li><a href="#home" class="hover:text-[#783F8E] transition font-medium">Home</a></li>
+          <li><a href="#about" class="hover:text-[#783F8E] transition font-medium">About Us</a></li>
+          <li><a href="#features" class="hover:text-[#783F8E] transition font-medium">Features</a></li>
+          <li><a href="#tools" class="hover:text-[#783F8E] transition font-medium">All Tools</a></li>
+        </ul>
+      </div>
+
+      <!-- Support -->
+      <div>
+        <h4 class="text-xl font-bold text-[#4F1271] mb-6">Support</h4>
+        <ul class="space-y-4 text-[#4A4063]/90">
+          <li><a href="#contact" class="hover:text-[#783F8E] transition font-medium">Contact Us</a></li>
+          <li><a href="privacy.html" class="hover:text-[#783F8E] transition font-medium">Privacy Policy</a></li>
+            <li><a href="term.html" class="hover:text-[#783F8E] transition font-medium">Terms & Conditions</a></li>
+          <li><a href="disclaimer.html" class="hover:text-[#783F8E] transition font-medium">Disclaimer</a></li>
+        </ul>
+      </div>
+
+      <!-- Newsletter -->
+      <div>
+        <h4 class="text-xl font-bold text-[#4F1271] mb-6">Stay Updated</h4>
+        <p class="text-[#4A4063]/80 mb-6">
+          New features, tips, and exclusive updates — delivered weekly.
+        </p>
+
+        <form class="flex flex-col sm:flex-row gap-3">
+          <input 
+            type="email" 
+            placeholder="your@email.com"
+            class="px-6 py-4 rounded-xl bg-[#4A4063]/5 border border-[#BFACC8]/30 text-[#4F1271] placeholder-[#4A4063]/60 focus:outline-none focus:border-[#783F8E] focus:bg-[#783F8E]/5 transition"
+          />
+          <button class="px-8 py-4 bg-gradient-to-r from-[#783F8E] to-[#4F1271] text-white font-bold rounded-xl shadow-lg hover:shadow-[#783F8E]/40 hover:scale-105 transition">
+            Subscribe
+          </button>
+        </form>
+
+        <p class="text-xs text-[#4A4063]/60 mt-4">
+          No spam • Unsubscribe anytime
+        </p>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="mt-16 pt-8 border-t border-[#BFACC8]/30 text-center">
+      <p class="text-[#4A4063]/70 text-sm font-medium">
+        © 2025 <span class="text-[#4F1271] font-bold">TOOLVIBE</span>. Made with passion in the cloud.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&display=swap');
+  body { font-family: 'Poppins', sans-serif; }
+
+  @keyframes blob {
+    0%,100% { transform: translate(0,0) scale(1); }
+    50% { transform: translate(40px, -40px) scale(1.15); }
+  }
+  .animate-blob { animation: blob 20s infinite; }
+  .animation-delay-3000 { animation-delay: 3s; }
+</style>
+
+
+  <!-- Mobile Menu Toggle Script -->
+  <script>
+
+    // Tool Filter Script (same as before)
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const toolCards = document.querySelectorAll('.tool-card');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active', 'bg-accent', 'text-white'));
+        btn.classList.add('active', 'bg-accent', 'text-white');
+
+        const filter = btn.getAttribute('data-filter');
+        toolCards.forEach(card => {
+          if (filter === 'all' || card.classList.contains(filter)) {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
   </script>
 </body>
 </html>
