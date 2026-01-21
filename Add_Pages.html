@@ -1,374 +1,405 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
+    <!-- Google Tag (Analytics) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J594SXNBQV"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-J594SXNBQV');
+    </script>
 
-<meta name="google-site-verification" content="vww_1D5-RKJP4qdT3ZqgL3HX4Qq4jp_dIflZsodlDyY" />
-    
+    <meta name="google-site-verification" content="vww_1D5-RKJP4qdT3ZqgL3HX4Qq4jp_dIflZsodlDyY" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Add Page Numbers to PDF Tool</title>
-    <!-- Tailwind CSS CDN -->
+    
+    <!-- POWER SEO TITLE: Keywords injected at start for max visibility -->
+    <title>Add Page Numbers to PDF Free - Insert Page Counts Online | Toolgi</title>
+    
+    <!-- META DESCRIPTION: Highly optimized for "How to add page numbers" queries -->
+    <meta name="description" content="Use Toolgi to add page numbers to PDF files instantly. Select bottom-center, top-right or custom formatting. 100% Free, Secure & Private. No watermarks." />
+    
+    <!-- KEYWORDS -->
+    <meta name="keywords" content="toolgi add page numbers, pdf numbering tool, insert page numbers pdf free, bates numbering online, pdf pagination, toolgi tools">
+
+    <!-- CANONICAL: Prevents duplicate content issues -->
+    <link rel="canonical" href="https://toolgi.online/Add_Pages.html" />
+
+    <!-- FAVICONS (Your Specific Image) -->
+    <link rel="icon" type="image/jpeg" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjDnMslXvyse-fI7LNMhD09E6TURYpg3l3sfYauAfuDdJ0vBslUKoFPnc6Sgh-xDLvwLxiwM9cekQc23Sa7sThMeqOknwr7XtjQYJt0ac4XM4inb3It0XOACbkD28EwjYjgg5c4wjp6cl2d94A7iJsEmCi4Tm0vpP1roM1agIiz-AgG8Ftwn7vly857j6g/s736/1000149339.jpg">
+    <link rel="apple-touch-icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjDnMslXvyse-fI7LNMhD09E6TURYpg3l3sfYauAfuDdJ0vBslUKoFPnc6Sgh-xDLvwLxiwM9cekQc23Sa7sThMeqOknwr7XtjQYJt0ac4XM4inb3It0XOACbkD28EwjYjgg5c4wjp6cl2d94A7iJsEmCi4Tm0vpP1roM1agIiz-AgG8Ftwn7vly857j6g/s736/1000149339.jpg">
+
+    <!-- OPEN GRAPH (Social Media Cards) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Toolgi - Add Page Numbers to PDF">
+    <meta property="og:description" content="Number your PDF pages in seconds directly in your browser.">
+    <meta property="og:image" content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjDnMslXvyse-fI7LNMhD09E6TURYpg3l3sfYauAfuDdJ0vBslUKoFPnc6Sgh-xDLvwLxiwM9cekQc23Sa7sThMeqOknwr7XtjQYJt0ac4XM4inb3It0XOACbkD28EwjYjgg5c4wjp6cl2d94A7iJsEmCi4Tm0vpP1roM1agIiz-AgG8Ftwn7vly857j6g/s736/1000149339.jpg">
+
+    <!-- Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- jQuery CDN -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- PDF.js CDN for preview -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
-    <!-- PDFLib CDN for adding page numbers -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- CRITICAL SEO: Schema for "Sitelinks" (Hierarchy) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Toolgi",
+            "item": "https://toolgi.online/"
+          },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "PDF Tools",
+            "item": "https://toolgi.online/#tools"
+          },{
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Add Page Numbers",
+            "item": "https://toolgi.online/Add_Pages.html"
+          }]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Add Page Numbers to PDF",
+          "applicationCategory": "ProductivityApplication",
+          "operatingSystem": "Web",
+          "offers": { "@type": "Offer", "price": "0" },
+          "description": "A tool to paginate and number PDF files instantly online."
+        }
+      ]
+    }
+    </script>
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              fontFamily: { sans: ['Poppins', 'sans-serif'] },
+              colors: {
+                dark: '#4F1271',
+                accent: '#783F8E',
+                light: '#F3E8FF'
+              }
+            }
+          }
+        }
+    </script>
+
     <style>
-      body {
-        font-family: "Inter", sans-serif;
-        background: #fff;
-        min-height: 100vh;
-        overflow-x: hidden;
-      }
-      .container {
-        max-width: 1100px;
-        margin: 0 auto;
-        padding: 1.5rem;
-      }
+      body { font-family: 'Poppins', sans-serif; background-color: #faf9fc; }
+      .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+      
       .drop-zone {
-        border: 3px dashed #93c5fd;
-        border-radius: 16px;
-        padding: 2.5rem;
-        text-align: center;
-        background: #eef2ff;
-        transition: all 0.3s ease;
+        border: 2px dashed #783F8E;
+        background: #ffffff;
+        border-radius: 1rem;
+        transition: all 0.3s;
       }
-      .drop-zone.dragover {
-        border-color: #2563eb;
-        background: #dbeafe;
-        transform: scale(1.02);
-      }
-      .pagenumber-box {
-        background: white;
-        border-radius: 16px;
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-        padding: 1.5rem;
-      }
-      canvas {
-        max-width: 100%;
-        height: auto;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      }
-      @media (max-width: 640px) {
-        .container {
-          padding: 1rem;
-        }
-        .drop-zone {
-          padding: 1.5rem;
-        }
-        button,
-        select {
-          width: 100%;
-          font-size: 0.875rem;
-        }
-        .pagenumber-box {
-          padding: 1rem;
-        }
-      }
+      .drop-zone:hover, .drop-zone.dragover { background-color: #F3E8FF; border-color: #4F1271; transform: scale(1.01); }
+      
+      canvas { box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-radius: 8px; margin: 0 auto; max-width: 100%; }
+      
+      .tool-btn { background: linear-gradient(135deg, #783F8E 0%, #4F1271 100%); }
+      .tool-btn:hover { opacity: 0.9; box-shadow: 0 5px 15px rgba(120, 63, 142, 0.4); }
+      
+      .spinner { border: 4px solid #f3f3f3; border-top: 4px solid #ffffff; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; }
+      @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <h1
-        class="text-5xl font-extrabold text-center text-black mt-10 mb-5 sm:text-3xl animate-fade-in"
-      >
-        Add Page Numbers to PDF
-      </h1>
-      <p class="text-center text-gray-500 mb-10 sm:text-base">
-        Choose your PDF, select the page number style and position, then
-        download your numbered file.
-      </p>
+</head>
+<body class="text-gray-800">
 
-      <!-- Drop Zone -->
-      <div
-        class="drop-zone max-w-3xl mx-auto"
-        id="dropZone"
-        style="min-height: 300px"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-12 w-12 mx-auto text-gray-500 mb-4"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-          />
-        </svg>
-        <p class="text-gray-700 text-xl font-medium sm:text-base">
-          Drop your PDF here
-        </p>
-        <input type="file" id="pdfInput" accept=".pdf" class="hidden" />
-        <button
-          class="mt-5 px-6 py-3 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition text-base sm:text-sm shadow-md"
-        >
-          Select File
-        </button>
-        <p class="mt-4 text-gray-500 text-base">
-          All processing happens locally in your browser.
-        </p>
-      </div>
-
-      <!-- Page Number Controls -->
-      <div
-        class="pagenumber-box mt-8 hidden max-w-3xl mx-auto"
-        id="pagenumberBox"
-      >
-        <div class="flex flex-col gap-6">
-          <div>
-            <label class="block text-sm font-semibold text-gray-700 mb-2"
-              >Preview (First Page)</label
-            >
-            <canvas id="pdfCanvas" class="w-full"></canvas>
-          </div>
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div>
-              <label class="block text-sm font-semibold text-gray-700 mb-2"
-                >Position</label
-              >
-              <select
-                id="position"
-                class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
-              >
-                <option value="bottom-right">Bottom Right</option>
-                <option value="bottom-left">Bottom Left</option>
-                <option value="top-right">Top Right</option>
-                <option value="top-left">Top Left</option>
-                <option value="bottom-center">Bottom Center</option>
-                <!-- Added option -->
-                <option value="top-center">Top Center</option>
-                <!-- Added option -->
-              </select>
+    <!-- Header / Nav Back -->
+    <nav class="bg-white border-b border-gray-100 shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3 text-2xl font-black text-dark hover:opacity-80 transition no-underline">
+                <i class="fas fa-arrow-left text-sm bg-gray-100 p-2 rounded-full"></i>
+                <span>TOOLGI</span>
+            </a>
+            <div class="hidden md:flex gap-6 text-sm font-semibold text-gray-500">
+                <a href="index.html" class="hover:text-accent transition">Home</a>
+                <span class="text-gray-300">|</span>
+                <span class="text-accent">Add Numbers</span>
             </div>
-            <div>
-              <label class="block text-sm font-semibold text-gray-700 mb-2"
-                >Font Size</label
-              >
-              <select
-                id="fontSize"
-                class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
-              >
-                <option value="10">10px</option>
-                <option value="12" selected>12px</option>
-                <option value="14">14px</option>
-                <option value="16">16px</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-sm font-semibold text-gray-700 mb-2"
-                >Format</label
-              >
-              <select
-                id="format"
-                class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
-              >
-                <option value="page">Page X</option>
-                <option value="page-of">Page X of Y</option>
-                <option value="number">X</option>
-              </select>
-            </div>
-          </div>
-          <button
-            id="addNumbersBtn"
-            class="px-6 py-3 bg-green-600 text-white rounded-full hover:bg-green-700 transition text-base sm:text-sm disabled:bg-gray-400 shadow-md"
-          >
-            Add Page Numbers & Download
-          </button>
-          <p id="status" class="text-gray-600 mt-2 text-sm hidden">
-            Processing...
-          </p>
         </div>
-      </div>
+    </nav>
+
+    <!-- Main Tool Container -->
+    <div class="container min-h-[85vh] flex flex-col items-center pt-10">
+        
+        <!-- Heading -->
+        <div class="text-center mb-8 max-w-2xl">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-dark mb-4">
+                Add <span class="text-accent">Page Numbers</span>
+            </h1>
+            <p class="text-gray-500 text-lg">
+                The fastest way to insert page numbers into your PDF documents online. 
+                Free, private, and no watermarks.
+            </p>
+        </div>
+
+        <!-- DROP ZONE -->
+        <div id="dropZone" class="drop-zone w-full max-w-3xl py-16 px-6 text-center cursor-pointer relative group">
+            <div class="mb-4 text-accent text-6xl group-hover:-translate-y-2 transition transform duration-300">
+                <i class="fas fa-cloud-upload-alt"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-700">Drop PDF File Here</h3>
+            <p class="text-gray-400 mt-2">or click to browse files</p>
+            <input type="file" id="pdfInput" accept=".pdf" class="hidden">
+            <div class="mt-6">
+                <span class="px-6 py-3 bg-white border border-accent text-accent font-bold rounded-full group-hover:bg-accent group-hover:text-white transition shadow-md">Select PDF</span>
+            </div>
+        </div>
+
+        <!-- SETTINGS UI (Hidden Initially) -->
+        <div id="uiBox" class="hidden w-full max-w-4xl bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 mt-6">
+            <div class="flex flex-col md:flex-row">
+                
+                <!-- Preview Section -->
+                <div class="w-full md:w-5/12 bg-gray-50 p-8 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-gray-200">
+                    <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Preview Page 1</p>
+                    <canvas id="pdfCanvas" class="shadow-lg"></canvas>
+                </div>
+
+                <!-- Controls Section -->
+                <div class="w-full md:w-7/12 p-8 flex flex-col justify-center gap-6">
+                    <div class="space-y-4">
+                        
+                        <!-- Position Selector -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Position</label>
+                            <div class="grid grid-cols-2 gap-3">
+                                <select id="position" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-accent font-medium text-gray-700">
+                                    <option value="bottom-center" selected>Bottom Center</option>
+                                    <option value="bottom-right">Bottom Right</option>
+                                    <option value="bottom-left">Bottom Left</option>
+                                    <option value="top-center">Top Center</option>
+                                    <option value="top-right">Top Right</option>
+                                    <option value="top-left">Top Left</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Settings Grid -->
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Text Size</label>
+                                <select id="fontSize" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-accent">
+                                    <option value="9">Small (9px)</option>
+                                    <option value="12" selected>Medium (12px)</option>
+                                    <option value="16">Large (16px)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Start Number</label>
+                                <input type="number" id="startNum" value="1" min="1" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-accent text-center">
+                            </div>
+                        </div>
+
+                        <!-- Format -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Formatting</label>
+                            <select id="format" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-accent">
+                                <option value="number" selected>1, 2, 3 ...</option>
+                                <option value="page">Page 1, Page 2 ...</option>
+                                <option value="page-of">Page 1 of 5 ...</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Action Button -->
+                    <button id="processBtn" class="tool-btn w-full py-4 text-white font-bold rounded-xl text-lg flex items-center justify-center gap-2 mt-4 transition transform active:scale-95">
+                        <i class="fas fa-file-download"></i> Add Numbers & Download
+                    </button>
+                    
+                    <!-- Loading Status -->
+                    <p id="statusMsg" class="text-center text-sm font-semibold text-accent hidden flex items-center justify-center gap-2">
+                        <span class="spinner"></span> Processing document...
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTENT FOR SEO (Essential for ranking) -->
+        <div class="mt-20 prose max-w-3xl text-gray-600">
+            <h2 class="text-3xl font-bold text-dark">Why use Toolgi's PDF Page Numbering?</h2>
+            <p>Numbering pages in a PDF file shouldn't be hard. Toolgi allows you to stamp numbers onto documents—like thesis papers, legal contracts, or eBooks—without installing Adobe Acrobat.</p>
+            <ul class="list-none pl-0 space-y-2 mt-4">
+                <li><i class="fas fa-check-circle text-green-500 mr-2"></i> <strong>Client-Side Processing:</strong> Your files never leave your browser.</li>
+                <li><i class="fas fa-check-circle text-green-500 mr-2"></i> <strong>High Compatibility:</strong> Works on Windows, Mac, iOS, and Android.</li>
+                <li><i class="fas fa-check-circle text-green-500 mr-2"></i> <strong>Bates Numbering Capable:</strong> Supports "Page X of Y" formatting.</li>
+            </ul>
+        </div>
+
     </div>
 
+    <!-- SIMPLE FOOTER -->
+    <footer class="mt-20 py-8 bg-white border-t border-gray-200 text-center">
+        <p class="text-sm text-gray-500 font-medium">© 2026 Toolgi • All Rights Reserved</p>
+        <div class="mt-3 space-x-4 text-sm font-bold text-accent">
+            <a href="index.html" class="hover:underline">Home</a>
+            <a href="#contact" class="hover:underline">Contact</a>
+            <a href="privacy.html" class="hover:underline">Privacy</a>
+        </div>
+    </footer>
+
+    <!-- LOGIC SCRIPT (With Preview) -->
     <script>
       $(document).ready(function () {
         let selectedFile = null;
         let pdfDoc = null;
+        
         const $dropZone = $("#dropZone");
         const $input = $("#pdfInput");
-        const $pagenumberBox = $("#pagenumberBox");
-        const $status = $("#status");
-        const $canvas = $("#pdfCanvas");
-        const ctx = $canvas[0].getContext("2d");
+        const $uiBox = $("#uiBox");
+        const $btn = $("#processBtn");
+        const $status = $("#statusMsg");
+        const ctx = $("#pdfCanvas")[0].getContext("2d");
 
-        // Setup drag and drop
-        $dropZone.on({
-          dragover: function (e) {
-            e.preventDefault();
-            $(this).addClass("dragover");
-          },
-          dragleave: function () {
-            $(this).removeClass("dragover");
-          },
-          drop: function (e) {
-            e.preventDefault();
-            $(this).removeClass("dragover");
-            const files = e.originalEvent.dataTransfer.files;
-            if (files.length) {
-              $input[0].files = files;
-              $input.trigger("change");
+        // Click Logic
+        $dropZone.on("click", () => $input.click());
+
+        // File Select Logic
+        $input.on("change", function () {
+            if (this.files && this.files[0]) {
+                const file = this.files[0];
+                if (file.type === "application/pdf") {
+                    selectedFile = file;
+                    $dropZone.slideUp(400);
+                    $uiBox.removeClass("hidden").hide().fadeIn(400);
+                    previewPDF(file);
+                } else {
+                    alert("Please upload a PDF file only.");
+                }
             }
-          },
         });
 
-        $("#dropZone button").on("click", () => $input.click());
-
-        $input.on("change", async function (e) {
-          const file = this.files[0];
-          if (file && file.type === "application/pdf") {
-            selectedFile = file;
-            $dropZone.slideUp(300);
-            $pagenumberBox.removeClass("hidden").slideDown(300);
-            await previewPDF(file);
-          } else {
-            alert("Please select a valid PDF file");
-          }
+        // Drag & Drop Styling
+        $dropZone.on("dragover", function(e) {
+            e.preventDefault(); $(this).addClass("dragover");
+        });
+        $dropZone.on("dragleave drop", function(e) {
+            e.preventDefault(); $(this).removeClass("dragover");
+        });
+        $dropZone.on("drop", function(e) {
+            const files = e.originalEvent.dataTransfer.files;
+            if(files.length > 0) {
+                $input[0].files = files;
+                $input.trigger("change");
+            }
         });
 
-        // Preview PDF
+        // PDF Preview using PDF.js
         async function previewPDF(file) {
-          const arrayBuffer = await file.arrayBuffer();
-          try {
-            pdfDoc = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-            await renderPage(1); // Render first page as preview
-          } catch (error) {
-            console.error("Preview failed:", error);
-            $canvas[0].width = 300;
-            $canvas[0].height = 100;
-            ctx.fillStyle = "#f3f4f6";
-            ctx.fillRect(0, 0, 300, 100);
-            ctx.fillStyle = "#6b7280";
-            ctx.font = "16px Inter";
-            ctx.textAlign = "center";
-            ctx.fillText("Preview unavailable", 150, 50);
-          }
+            const arrayBuffer = await file.arrayBuffer();
+            const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+            pdfDoc = await loadingTask.promise;
+            
+            // Render Page 1
+            const page = await pdfDoc.getPage(1);
+            const viewport = page.getViewport({ scale: 1 });
+            $("#pdfCanvas").attr({ width: viewport.width, height: viewport.height });
+            
+            await page.render({
+                canvasContext: ctx,
+                viewport: viewport
+            }).promise;
         }
 
-        // Render PDF page on canvas
-        async function renderPage(pageNum) {
-          const page = await pdfDoc.getPage(pageNum);
-          const scale = 2; // Moderate quality for preview
-          const viewport = page.getViewport({ scale });
-          $canvas[0].width = viewport.width;
-          $canvas[0].height = viewport.height;
-          await page.render({
-            canvasContext: ctx,
-            viewport: viewport,
-          }).promise;
-        }
+        // Processing Logic (Add Numbers)
+        $btn.on("click", async function () {
+            if (!selectedFile) return;
 
-        // Add page numbers and download
-        $("#addNumbersBtn").on("click", async function () {
-          if (!selectedFile) {
-            alert("Please upload a PDF first.");
-            return;
-          }
+            // UI Loading State
+            $(this).prop("disabled", true).addClass("opacity-75");
+            $status.removeClass("hidden");
 
-          try {
-            $(this).prop("disabled", true);
-            $status.removeClass("hidden").text("Adding page numbers...");
+            try {
+                const arrayBuffer = await selectedFile.arrayBuffer();
+                const pdfDocLib = await PDFLib.PDFDocument.load(arrayBuffer);
+                const helveticaFont = await pdfDocLib.embedFont(PDFLib.StandardFonts.Helvetica);
+                
+                // Get Settings
+                const fontSize = parseInt($("#fontSize").val());
+                const pos = $("#position").val();
+                const fmt = $("#format").val();
+                const startPage = parseInt($("#startNum").val()) || 1;
+                
+                const pages = pdfDocLib.getPages();
+                const totalCount = pages.length;
 
-            const arrayBuffer = await selectedFile.arrayBuffer();
-            const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
+                // Loop Pages
+                pages.forEach((page, idx) => {
+                    const { width, height } = page.getSize();
+                    const pageDisplayNum = startPage + idx;
+                    
+                    let text = `${pageDisplayNum}`;
+                    if(fmt === "page") text = `Page ${pageDisplayNum}`;
+                    if(fmt === "page-of") text = `Page ${pageDisplayNum} of ${startPage + totalCount - 1}`;
 
-            const font = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
-            const fontSize = parseInt($("#fontSize").val());
-            const position = $("#position").val();
-            const format = $("#format").val();
-            const totalPages = pdfDoc.getPageCount();
+                    // Text Dimensions
+                    const textWidth = helveticaFont.widthOfTextAtSize(text, fontSize);
+                    const textHeight = helveticaFont.heightAtSize(fontSize);
+                    const margin = 20;
 
-            const pages = pdfDoc.getPages();
-            pages.forEach((page, index) => {
-              const { width, height } = page.getSize();
-              const pageNum = index + 1;
-              let text;
-              switch (format) {
-                case "page":
-                  text = `Page ${pageNum}`;
-                  break;
-                case "page-of":
-                  text = `Page ${pageNum} of ${totalPages}`;
-                  break;
-                case "number":
-                  text = `${pageNum}`;
-                  break;
-              }
+                    let x = 0, y = 0;
 
-              let x, y;
-              const margin = 40;
-              switch (position) {
-                case "top-left":
-                  x = margin;
-                  y = height - fontSize - margin;
-                  break;
-                case "top-right":
-                  x = width - font.widthOfTextAtSize(text, fontSize) - margin;
-                  y = height - fontSize - margin;
-                  break;
-                case "bottom-left":
-                  x = margin;
-                  y = margin;
-                  break;
-                case "bottom-right":
-                  x = width - font.widthOfTextAtSize(text, fontSize) - margin;
-                  y = margin;
-                  break;
-                case "top-center":
-                  x = (width - font.widthOfTextAtSize(text, fontSize)) / 2;
-                  y = height - fontSize - margin;
-                  break;
-                case "bottom-center":
-                  x = (width - font.widthOfTextAtSize(text, fontSize)) / 2;
-                  y = margin;
-                  break;
-              }
+                    // Y Calculation
+                    if(pos.includes("bottom")) y = margin;
+                    else y = height - textHeight - margin;
 
-              page.drawText(text, {
-                x: x,
-                y: y,
-                size: fontSize,
-                font: font,
-                color: PDFLib.rgb(0, 0, 0), // Black color
-                opacity: 0.8,
-              });
-            });
+                    // X Calculation
+                    if(pos.includes("left")) x = margin;
+                    else if(pos.includes("right")) x = width - textWidth - margin;
+                    else x = (width / 2) - (textWidth / 2); // Center
 
-            // Save the PDF with page numbers
-            const numberedBytes = await pdfDoc.save({
-              useObjectStreams: false,
-            });
+                    page.drawText(text, {
+                        x: x,
+                        y: y,
+                        size: fontSize,
+                        font: helveticaFont,
+                        color: PDFLib.rgb(0, 0, 0),
+                    });
+                });
 
-            // Trigger download
-            const blob = new Blob([numberedBytes], { type: "application/pdf" });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement("a");
-            link.href = url;
-            link.download = "numbered.pdf";
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(url);
+                // Save
+                const pdfBytes = await pdfDocLib.save();
+                const blob = new Blob([pdfBytes], { type: "application/pdf" });
+                const url = URL.createObjectURL(blob);
+                
+                // Download
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `Toolgi_PageNum_${selectedFile.name}`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
 
-            $status.text("Page numbers added successfully!");
-            console.log("PDF with page numbers downloaded");
-          } catch (error) {
-            console.error("Error adding page numbers:", error);
-            alert("Failed to add page numbers: " + error.message);
-            $status.text("Processing failed.");
-          } finally {
-            $(this).prop("disabled", false);
-            setTimeout(() => $status.addClass("hidden"), 3000);
-          }
+                $status.html("<span class='text-green-600'><i class='fas fa-check'></i> Downloaded!</span>");
+                
+                // Reset Button after 3s
+                setTimeout(() => {
+                    $btn.prop("disabled", false).removeClass("opacity-75");
+                    $status.addClass("hidden");
+                }, 3000);
+
+            } catch (err) {
+                console.error(err);
+                alert("Error: File might be encrypted or corrupted.");
+                $btn.prop("disabled", false).removeClass("opacity-75");
+                $status.addClass("hidden");
+            }
         });
       });
     </script>
-  </body>
+</body>
 </html>
