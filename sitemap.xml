@@ -1,54 +1,116 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
+  <!-- ==================== HOME PAGE ==================== -->
   <url>
     <loc>https://toolgi.online/</loc>
+    <lastmod>2026-01-21</lastmod>
+    <priority>1.00</priority>
+  </url>
+  <url>
+    <loc>https://toolgi.online/index.html</loc>
+    <lastmod>2026-01-21</lastmod>
     <priority>1.00</priority>
   </url>
 
-  <!-- Core Pages -->
-  <url><loc>https://toolgi.online/index.html</loc><priority>1.00</priority></url>
+  <!-- ==================== CORE PAGES ==================== -->
   <url><loc>https://toolgi.online/privacy.html</loc><priority>0.60</priority></url>
   <url><loc>https://toolgi.online/term.html</loc><priority>0.60</priority></url>
   <url><loc>https://toolgi.online/disclaimer.html</loc><priority>0.60</priority></url>
 
-  <!-- Image Tools -->
-  <url><loc>https://toolgi.online/image-compressor.html</loc><priority>0.90</priority></url>
-  <url><loc>https://toolgi.online/image-resizer.html</loc><priority>0.90</priority></url>
-  <url><loc>https://toolgi.online/image-to-text.html</loc><priority>0.90</priority></url>
-  <url><loc>https://toolgi.online/jpg-to-png.html</loc><priority>0.90</priority></url>
-  <url><loc>https://toolgi.online/png-to-jpg.html</loc><priority>0.90</priority></url>
-  <url><loc>https://toolgi.online/webp-to-jpg.html</loc><priority>0.90</priority></url>
-  <url><loc>https://toolgi.online/jpg-to-webp.html</loc><priority>0.90</priority></url>
-  <url><loc>https://toolgi.online/svg-to-png.html</loc><priority>0.90</priority></url>
-  <url><loc>https://toolgi.online/watermark.html</loc><priority>0.85</priority></url>
-  <url><loc>https://toolgi.online/upscale.html</loc><priority>0.85</priority></url>
-
-  <!-- PDF Tools -->
+  <!-- ==================== PDF TOOLS ==================== -->
+  <!-- Note: %20 represents spaces in filenames -->
+  <url><loc>https://toolgi.online/Add_Pages.html</loc><priority>0.95</priority></url>
+  <url><loc>https://toolgi.online/Compress%20PDF.html</loc><priority>0.95</priority></url>
+  <url><loc>https://toolgi.online/EXCEL%20TO%20PDF.html</loc><priority>0.95</priority></url>
+  <url><loc>https://toolgi.online/OCR%20PDF.html</loc><priority>0.95</priority></url>
+  <url><loc>https://toolgi.online/Organize.html</loc><priority>0.95</priority></url>
+  <url><loc>https://toolgi.online/PDF_to_WEBP.html</loc><priority>0.95</priority></url>
+  <url><loc>https://toolgi.online/Remove_pages_from_pdf.html</loc><priority>0.95</priority></url>
+  <url><loc>https://toolgi.online/Repair.html</loc><priority>0.95</priority></url>
+  <url><loc>https://toolgi.online/Rotate.html</loc><priority>0.95</priority></url>
+  <url><loc>https://toolgi.online/WEBP_to_PDF.html</loc><priority>0.95</priority></url>
+  <url><loc>https://toolgi.online/Word%20to%20PDF.html</loc><priority>0.95</priority></url>
+  <url><loc>https://toolgi.online/csv_to_pdf.html</loc><priority>0.95</priority></url>
+  <url><loc>https://toolgi.online/html_to_pdf.html</loc><priority>0.95</priority></url>
+  <url><loc>https://toolgi.online/image_to_pdf.html</loc><priority>0.95</priority></url>
+  <url><loc>https://toolgi.online/jpg_to_pdf.html</loc><priority>0.95</priority></url>
+  <url><loc>https://toolgi.online/json_to_pdf.html</loc><priority>0.95</priority></url>
   <url><loc>https://toolgi.online/merge-pdf.html</loc><priority>0.95</priority></url>
+  <url><loc>https://toolgi.online/pdf_signing.html</loc><priority>0.95</priority></url>
+  <url><loc>https://toolgi.online/pdf_to_csv.html</loc><priority>0.95</priority></url>
+  <url><loc>https://toolgi.online/pdf_to_excel.html</loc><priority>0.95</priority></url>
+  <url><loc>https://toolgi.online/pdf_to_html.html</loc><priority>0.95</priority></url>
+  <url><loc>https://toolgi.online/pdf_to_jpg.html</loc><priority>0.95</priority></url>
+  <url><loc>https://toolgi.online/pdf_to_json.html</loc><priority>0.95</priority></url>
+  <url><loc>https://toolgi.online/pdf_to_png.html</loc><priority>0.95</priority></url>
+  <url><loc>https://toolgi.online/pdf_to_text.html</loc><priority>0.95</priority></url>
+  <url><loc>https://toolgi.online/pdf_to_word.html</loc><priority>0.95</priority></url>
+  <url><loc>https://toolgi.online/pdf_to_xml.html</loc><priority>0.95</priority></url>
+  <url><loc>https://toolgi.online/pdf_to_zip.html</loc><priority>0.95</priority></url>
+  <url><loc>https://toolgi.online/png_to_pdf.html</loc><priority>0.95</priority></url>
+  <url><loc>https://toolgi.online/speech_to_pdf.html</loc><priority>0.95</priority></url>
   <url><loc>https://toolgi.online/split.html</loc><priority>0.95</priority></url>
-  <url><loc>https://toolgi.online/compress-pdf.html</loc><priority>0.95</priority></url>
-  <url><loc>https://toolgi.online/pdf-to-word.html</loc><priority>0.95</priority></url>
-  <url><loc>https://toolgi.online/word-to-pdf.html</loc><priority>0.95</priority></url>
-  <url><loc>https://toolgi.online/jpg-to-pdf.html</loc><priority>0.95</priority></url>
-  <url><loc>https://toolgi.online/png-to-pdf.html</loc><priority>0.95</priority></url>
-  <url><loc>https://toolgi.online/pdf-to-text.html</loc><priority>0.90</priority></url>
-  <url><loc>https://toolgi.online/pdf-to-excel.html</loc><priority>0.90</priority></url>
-  <url><loc>https://toolgi.online/pdf-signing.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/text_to_pdf.html</loc><priority>0.95</priority></url>
+  <url><loc>https://toolgi.online/xml_to_pdf.html</loc><priority>0.95</priority></url>
 
-  <!-- SEO Tools -->
-  <url><loc>https://toolgi.online/meta-tag-generator.html</loc><priority>0.95</priority></url>
-  <url><loc>https://toolgi.online/open-graph-tags-generator.html</loc><priority>0.95</priority></url>
-  <url><loc>https://toolgi.online/twitter-card-generator.html</loc><priority>0.95</priority></url>
-  <url><loc>https://toolgi.online/utm-builder.html</loc><priority>0.95</priority></url>
-  <url><loc>https://toolgi.online/xml-sitemap-generator.html</loc><priority>0.95</priority></url>
-  <url><loc>https://toolgi.online/robots-txt-gen.html</loc><priority>0.95</priority></url>
-  <url><loc>https://toolgi.online/schema.html</loc><priority>0.95</priority></url>
+  <!-- ==================== IMAGE TOOLS ==================== -->
+  <url><loc>https://toolgi.online/Add_Images.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/Collage_Maker.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/Colorize_photo.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/Image%20Resizer.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/Image%20compressor.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/Image_Flipper.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/Image_splitter.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/PNG_to_JPG.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/PNG_to_WEBP.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/Pixelate.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/WEBP_to_PNG.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/add_text.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/bg.html</loc><priority>0.90</priority></url>
+  <!-- Careful with & symbol in filename -->
+  <url><loc>https://toolgi.online/black_%26_white.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/blur.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/combine_image.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/crop.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/font_to_png.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/gif_to_jpg.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/ico_to_jpg.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/ico_to_webp.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/image_border.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/image_to_text.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/jpg_to_png.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/jpg_to_webp.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/profile.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/svg_to_png.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/upscale.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/view.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/watermark.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/webp_to_JPG.html</loc><priority>0.90</priority></url>
 
-  <!-- Text Tools -->
-  <url><loc>https://toolgi.online/word-counter.html</loc><priority>0.85</priority></url>
-  <url><loc>https://toolgi.online/text-to-slug-converter.html</loc><priority>0.85</priority></url>
-  <url><loc>https://toolgi.online/small-text-generator.html</loc><priority>0.85</priority></url>
-  <url><loc>https://toolgi.online/case-converter.html</loc><priority>0.85</priority></url>
+  <!-- ==================== SEO & WEB TOOLS ==================== -->
+  <url><loc>https://toolgi.online/AMP%20Validator.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/Adaptive.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/Canonical%20Tag.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/Case%20Converter.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/Google.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/Local%20Search%20Results%20Testing%20Tool.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/Meta%20Description.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/Meta%20Tag%20Generator.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/Online%20MD5%20Generator.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/OpenGraph%20Tags%20Generator.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/Pre-rendering%20Testing%20Tool.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/SEO%20Citation%20Generator.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/SEO%20Punctuation%20Checker.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/Small%20Text%20Generator.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/Text%20to%20Slug%20Converter.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/Twitter%20Card%20Generator.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/UTM%20Builder.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/Word%20Counter.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/XML%20Sitemap%20Generator.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/hreflang%20Tags%20Testing.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/htaccess_tester.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/robots.txt_gen.html</loc><priority>0.90</priority></url>
+  <url><loc>https://toolgi.online/schema.html</loc><priority>0.90</priority></url>
 
 </urlset>
