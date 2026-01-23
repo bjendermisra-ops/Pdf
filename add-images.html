@@ -1,704 +1,440 @@
-        
 <!DOCTYPE html>
-<html lang="en" class="light">
+<html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#4f46e5">
-  <meta name="description" content="ToolVibe Ultimate Pro - 80+ PDF, Image & SEO Tools in one place.">
-  <title>ToolVibe Ultimate Pro</title>
-  
-  <!-- Libraries -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Image Overlay Tool</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: { sans: ['Space Grotesk', 'sans-serif'] },
-          colors: {
-            brand: 'var(--brand)',
-            surface: 'var(--surface)',
-            txt: 'var(--text)',
-            bg: 'var(--bg)'
-          },
-          screens: {
-            'watch': '200px', // Extra small devices
-            'xs': '360px',
-            '3xl': '1920px'
-          },
-          animation: {
-            'float': 'float 8s ease-in-out infinite',
-            'slide-down': 'slideDown 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards',
-            'pop': 'pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
-          },
-          keyframes: {
-            float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-15px)' } },
-            slideDown: { '0%': { transform: 'translateY(-100%)', opacity: 0 }, '100%': { transform: 'translateY(0)', opacity: 1 } },
-            pop: { '0%': { transform: 'scale(0.9)', opacity: 0 }, '100%': { transform: 'scale(1)', opacity: 1 } }
-          }
-        }
-      }
-    }
-  </script>
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <style>
-    :root {
-      --brand: #4f46e5;
-      --surface: #ffffff;
-      --bg: #f3f4f6;
-      --text: #1f2937;
-      --shadow-light: #ffffff;
-      --shadow-dark: #d1d5db;
-    }
-    
-    html.dark {
-      --brand: #818cf8;
-      --surface: #1e293b;
-      --bg: #0f172a;
-      --text: #f8fafc;
-      --shadow-light: #334155;
-      --shadow-dark: #020617;
-    }
-
-    body {
-      background-color: var(--bg);
-      color: var(--text);
-      transition: background-color 0.4s, color 0.4s;
-      -webkit-tap-highlight-color: transparent;
-      overflow-x: hidden;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    /* === CLAYMORPHISM UI === */
-    .clay-card {
-      background: var(--surface);
-      border-radius: 20px;
+    #canvas-container {
       position: relative;
-      transition: all 0.3s ease;
-      box-shadow: 
-        8px 8px 16px var(--shadow-dark), 
-        -8px -8px 16px var(--shadow-light);
-      border: 1px solid rgba(255,255,255,0.05);
-    }
-    
-    .clay-card:active {
-      transform: scale(0.98);
-      box-shadow: 
-        inset 4px 4px 8px var(--shadow-dark), 
-        inset -4px -4px 8px var(--shadow-light);
+      display: inline-block;
     }
 
-    /* 3D Tilt Wrapper */
-    .tilt-box { perspective: 1000px; transform-style: preserve-3d; }
-    .tilt-inner { transform: translateZ(20px); }
-
-    /* Utilities */
-    .hide-scroll::-webkit-scrollbar { display: none; }
-    
-    /* Dynamic Island Notification */
-    .dynamic-island {
-      position: fixed; top: 10px; left: 50%;
-      transform: translateX(-50%) translateY(-150%);
-      background: #000; color: white;
-      height: 40px; border-radius: 25px;
-      display: flex; align-items: center; justify-content: center;
-      z-index: 100; overflow: hidden; white-space: nowrap;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      width: 0; padding: 0;
-    }
-    .dynamic-island.active { width: 90%; max-width: 300px; padding: 0 20px; transform: translateX(-50%) translateY(0); }
-
-    /* Particles */
-    .particle {
-      position: absolute; border-radius: 50%;
-      background: var(--brand); opacity: 0.1;
-      animation: float 10s infinite; z-index: -1;
+    #base-image {
+      max-width: 100%;
+      display: block;
     }
 
-    /* Cat Button Active State */
-    .cat-btn.active {
-      background: var(--brand); color: white;
-      box-shadow: 0 4px 10px rgba(79, 70, 229, 0.4);
+    .overlay-image {
+      position: absolute;
+      cursor: move;
+      max-width: 300px;
+      max-height: 300px;
     }
 
-    /* Smartwatch & Responsive Tweaks */
-    @media (max-width: 300px) {
-        .app-title { font-size: 1rem !important; }
-        .cat-btn { padding: 6px 10px; font-size: 0.65rem; }
-        header { padding-top: 5px; }
-        #search-box { margin-bottom: 5px; }
+    .overlay-controls {
+      position: absolute;
+      top: -25px;
+      right: 0;
+      background: white;
+      padding: 2px;
+      border-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      display: flex;
+      gap: 5px;
+    }
+
+    .resize-handle {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: #3b82f6;
+      right: 0;
+      bottom: 0;
+      cursor: nwse-resize;
+    }
+
+    .control-btn {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .control-btn:hover {
+      background: #f3f4f6;
     }
   </style>
 </head>
-<body class="pb-24 md:pb-0"> <!-- Padding bottom only for mobile nav -->
 
-  <!-- Background Particles -->
-  <div id="particles-container" class="fixed inset-0 overflow-hidden pointer-events-none z-0"></div>
+<?php include 'includes/navbar.html'; ?>
+<nav class="bg-white shadow-md py-4">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between"
+      >
+        <div class="flex items-center">
+          <a href="/" class="flex items-center">
+            <i
+              class="fas fa-image text-2xl sm:text-3xl text-blue-800 mr-2 sm:mr-3"
+            ></i>
+            <span
+              class="text-xl sm:text-2xl font-bold text-blue-800 hidden sm:inline"
+              >ImgFlow</span
+            >
+          </a>
+        </div>
+        <div class="flex items-center">
+          <a
+            href="/"
+            class="bg-blue-600 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-md hover:bg-blue-700 transition-colors duration-200 flex items-center text-sm sm:text-base"
+          >
+            <i class="fas fa-home mr-1 sm:mr-2"></i> Back to Home
+          </a>
+        </div>
+      </div>
+    </nav>
+<div class="max-w-6xl mx-auto bg-white rounded-lg shadow-md p-6 mt-10 mb-10">
+  <h1 class="text-2xl font-bold text-gray-800 mb-6">Image Overlay Tool</h1>
 
-  <!-- Dynamic Island -->
-  <div id="island" class="dynamic-island">
-    <i id="island-icon" class="fas fa-check-circle text-green-400 mr-2"></i>
-    <span id="island-msg" class="text-sm font-bold">Notification</span>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Left Panel - Controls -->
+    <div class="md:col-span-1 bg-gray-50 p-4 rounded-lg">
+      <div class="mb-6">
+        <label class="block text-sm font-medium text-gray-700 mb-2">Base Image</label>
+        <input type="file" id="base-image-input" accept="image/*"
+          class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" />
+      </div>
+
+      <div class="mb-6">
+        <label class="block text-sm font-medium text-gray-700 mb-2">Overlay Images</label>
+        <input type="file" id="overlay-image-input" accept="image/*" multiple
+          class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100" />
+      </div>
+
+      <button id="download-btn"
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition duration-200 mb-4">
+        Download Composite
+      </button>
+
+      <div class="flex justify-between gap-2">
+        <button id="clear-overlays-btn"
+          class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded-md transition duration-200">
+          Clear Overlays
+        </button>
+        <button id="reset-all-btn"
+          class="flex-1 bg-red-100 hover:bg-red-200 text-red-800 py-2 px-4 rounded-md transition duration-200">
+          Reset All
+        </button>
+      </div>
+    </div>
+
+    <!-- Right Panel - Canvas -->
+    <div class="md:col-span-2">
+      <div id="canvas-container"
+        class="border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center min-h-64 bg-gray-50">
+        <p id="placeholder-text" class="text-gray-500">
+          Upload a base image to get started
+        </p>
+        <img id="base-image" class="hidden" />
+      </div>
+    </div>
   </div>
+</div>
+<?php include 'includes/footer.html'; ?>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const baseImageInput = document.getElementById("base-image-input");
+    const overlayImageInput = document.getElementById(
+      "overlay-image-input"
+    );
+    const baseImage = document.getElementById("base-image");
+    const canvasContainer = document.getElementById("canvas-container");
+    const placeholderText = document.getElementById("placeholder-text");
+    const downloadBtn = document.getElementById("download-btn");
+    const clearOverlaysBtn = document.getElementById("clear-overlays-btn");
+    const resetAllBtn = document.getElementById("reset-all-btn");
 
-  <!-- ================= HEADER ================= -->
-  <header class="fixed top-0 w-full z-40 pt-4 px-2 md:px-6 transition-all bg-bg/95 backdrop-blur-md pb-2 border-b border-gray-200 dark:border-gray-800 shadow-sm">
-    <div class="max-w-7xl mx-auto w-full">
-      <!-- Top Bar -->
-      <div class="flex justify-between items-center mb-4">
-        
-        <!-- Logo -->
-        <div class="flex items-center gap-3 cursor-pointer group" onclick="window.scrollTo({top:0, behavior:'smooth'})">
-          <div class="w-10 h-10 bg-gradient-to-tr from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center text-white shadow-lg group-hover:animate-float transition-all">
-            <i class="fas fa-layer-group text-lg"></i>
-          </div>
-          <div>
-            <h1 class="app-title text-xl md:text-2xl font-bold tracking-tight leading-none text-txt">Tool<span class="text-brand">Vibe</span></h1>
-            <p class="text-[9px] font-bold text-gray-400 tracking-widest uppercase">Ultimate Pro</p>
-          </div>
-        </div>
+    let overlays = [];
+    let isDragging = false;
+    let isResizing = false;
+    let currentOverlay = null;
+    let offsetX, offsetY;
+    let startWidth, startHeight, startX, startY;
 
-        <!-- Actions -->
-        <div class="flex gap-2 md:gap-4">
-            <!-- Desktop Nav Links (Visible only on MD+) -->
-            <div class="hidden md:flex items-center gap-6 mr-6 text-sm font-semibold text-gray-500">
-                <a href="#" onclick="switchTab('home')" class="hover:text-brand transition">Home</a>
-                <a href="#" onclick="switchTab('profile')" class="hover:text-brand transition">Profile</a>
-                <a href="contact.html" class="hover:text-brand transition">Contact</a>
-            </div>
-
-          <button onclick="toggleTheme()" class="w-10 h-10 rounded-full clay-card flex items-center justify-center text-brand active:scale-90 hover:scale-105 transition">
-            <i id="theme-icon" class="fas fa-moon"></i>
-          </button>
-          <button onclick="toggleSearch()" class="w-10 h-10 rounded-full clay-card flex items-center justify-center text-gray-500 active:scale-90 hover:scale-105 transition">
-            <i class="fas fa-search"></i>
-          </button>
-        </div>
-      </div>
-
-      <!-- Search Box (Hidden by default) -->
-      <div id="search-box" class="hidden clay-card p-2 mb-4 animate-slide-down flex items-center gap-2 max-w-2xl mx-auto">
-        <i class="fas fa-search text-gray-400 ml-3"></i>
-        <input type="text" id="search-input" placeholder="Search 80+ tools..." class="bg-transparent border-none outline-none w-full h-10 font-medium text-txt placeholder-gray-400">
-        <button onclick="toggleSearch()" class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-xs hover:bg-red-100 hover:text-red-500 transition"><i class="fas fa-times"></i></button>
-      </div>
-
-      <!-- Categories (Will Hide on Profile Tab) -->
-      <div id="category-row" class="flex gap-3 overflow-x-auto hide-scroll pb-1 pl-1 transition-all duration-300 md:justify-center">
-        <button onclick="filterTools('all', this)" id="btn-all" class="cat-btn active clay-card px-6 py-2.5 text-xs font-bold whitespace-nowrap transition-all border border-transparent hover:bg-indigo-50 dark:hover:bg-gray-800">All Tools</button>
-        <button onclick="filterTools('pdf', this)" id="btn-pdf" class="cat-btn clay-card px-6 py-2.5 text-xs font-bold whitespace-nowrap transition-all text-gray-500 border border-transparent hover:text-red-500">
-          <i class="fas fa-file-pdf mr-1"></i> PDF
-        </button>
-        <button onclick="filterTools('image', this)" id="btn-image" class="cat-btn clay-card px-6 py-2.5 text-xs font-bold whitespace-nowrap transition-all text-gray-500 border border-transparent hover:text-purple-500">
-          <i class="fas fa-image mr-1"></i> Image
-        </button>
-        <button onclick="filterTools('seo', this)" id="btn-seo" class="cat-btn clay-card px-6 py-2.5 text-xs font-bold whitespace-nowrap transition-all text-gray-500 border border-transparent hover:text-orange-500">
-          <i class="fas fa-search-dollar mr-1"></i> SEO
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <!-- ================= CONTAINER WRAPPER ================= -->
-  <div class="flex-grow max-w-7xl mx-auto w-full px-2 md:px-6 relative z-10">
-
-      <!-- ================= MAIN: HOME VIEW ================= -->
-      <main id="home-view" class="pt-48 md:pt-44 min-h-screen pb-10">
-        
-        <!-- Favorites Section -->
-        <div id="fav-section" class="hidden mb-8 animate-pop">
-          <div class="flex justify-between items-end mb-3 ml-1">
-             <h3 class="text-xs font-bold uppercase text-brand tracking-widest flex items-center gap-2"><i class="fas fa-heart"></i> Your Favorites</h3>
-             <span class="text-[10px] text-gray-400 cursor-pointer hover:text-red-500 transition" onclick="clearFavs()">Clear All</span>
-          </div>
-          <div id="fav-container" class="flex gap-4 overflow-x-auto hide-scroll pb-4 px-1">
-            <!-- Fav Items injected here -->
-          </div>
-        </div>
-
-        <!-- Tools Grid -->
-        <!-- Responsive Grid Logic: Watch (1 col) -> Mobile (2 col) -> Tablet (3 col) -> Desktop (4 col) -> Large (5 col) -->
-        <h3 class="text-xs font-bold uppercase text-gray-400 tracking-widest mb-4 ml-1">Available Tools</h3>
-        <div id="tools-container" class="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
-          <!-- Generated via JS -->
-        </div>
-
-        <!-- Empty State -->
-        <div id="empty-state" class="hidden flex-col items-center justify-center py-20 opacity-50">
-          <div class="w-20 h-20 bg-gray-200 dark:bg-gray-800 rounded-full flex items-center justify-center mb-4">
-             <i class="fas fa-robot text-3xl text-gray-400"></i>
-          </div>
-          <p class="font-bold text-lg">No tools found.</p>
-          <p class="text-sm">Try searching for something else.</p>
-        </div>
-      </main>
-
-      <!-- ================= MAIN: PROFILE VIEW ================= -->
-      <main id="profile-view" class="hidden pt-36 md:pt-32 min-h-screen animate-pop max-w-2xl mx-auto">
-        
-        <!-- Profile Card -->
-        <div class="clay-card p-6 md:p-8 text-center mb-6 relative overflow-hidden group">
-          <div class="absolute inset-0 bg-brand opacity-5 group-hover:opacity-10 transition"></div>
-          <div class="w-24 h-24 mx-auto bg-gradient-to-tr from-brand to-purple-500 p-1 rounded-full shadow-xl mb-4 relative z-10">
-             <div class="w-full h-full bg-surface rounded-full flex items-center justify-center overflow-hidden">
-               <i class="fas fa-user-astronaut text-4xl text-txt"></i>
-             </div>
-          </div>
-          <h2 class="text-2xl font-bold relative z-10">ToolVibe User</h2>
-          <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mt-1 relative z-10">Premium Member</p>
-        </div>
-
-        <!-- Settings List -->
-        <div class="space-y-4 mb-8">
-          
-          <!-- Group 1: App Actions -->
-          <div class="clay-card overflow-hidden">
-            <div onclick="shareApp()" class="p-4 flex items-center gap-4 hover:bg-gray-50 dark:hover:bg-gray-800 active:bg-gray-100 dark:active:bg-gray-700 transition cursor-pointer border-b border-gray-100 dark:border-gray-700/50">
-                <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 flex items-center justify-center"><i class="fas fa-share-nodes"></i></div>
-                <div class="flex-1 font-bold text-sm">Share ToolVibe</div>
-                <i class="fas fa-chevron-right text-xs opacity-50"></i>
-            </div>
-            <div onclick="rateApp()" class="p-4 flex items-center gap-4 hover:bg-gray-50 dark:hover:bg-gray-800 active:bg-gray-100 dark:active:bg-gray-700 transition cursor-pointer">
-                <div class="w-10 h-10 rounded-full bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 flex items-center justify-center"><i class="fas fa-star"></i></div>
-                <div class="flex-1 font-bold text-sm">Rate 5 Stars</div>
-                <i class="fas fa-chevron-right text-xs opacity-50"></i>
-            </div>
-          </div>
-
-          <!-- Group 2: Support & Privacy -->
-          <div class="clay-card overflow-hidden">
-            <a href="contact.html" class="p-4 flex items-center gap-4 hover:bg-gray-50 dark:hover:bg-gray-800 active:bg-gray-100 dark:active:bg-gray-700 transition cursor-pointer border-b border-gray-100 dark:border-gray-700/50">
-               <div class="w-10 h-10 rounded-full bg-red-100 dark:bg-red-900/30 text-red-600 flex items-center justify-center"><i class="fas fa-envelope"></i></div>
-               <div class="flex-1 font-bold text-sm">Contact Support</div>
-               <i class="fas fa-chevron-right text-xs opacity-50"></i>
-            </a>
-            <a href="privacy.html" class="p-4 flex items-center gap-4 hover:bg-gray-50 dark:hover:bg-gray-800 active:bg-gray-100 dark:active:bg-gray-700 transition cursor-pointer">
-               <div class="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 flex items-center justify-center"><i class="fas fa-shield-alt"></i></div>
-               <div class="flex-1 font-bold text-sm">Privacy Policy</div>
-               <i class="fas fa-chevron-right text-xs opacity-50"></i>
-            </a>
-          </div>
-        </div>
-      </main>
-
-  </div>
-
-  <!-- ================= FOOTER (WEBSITE STYLE) ================= -->
-  <footer class="bg-surface border-t border-gray-200 dark:border-gray-800 pt-10 pb-24 md:pb-10 mt-auto transition-colors">
-    <div class="max-w-7xl mx-auto px-6">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-            <!-- Brand -->
-            <div class="col-span-1 md:col-span-2">
-                <div class="flex items-center gap-2 mb-4">
-                    <div class="w-8 h-8 bg-brand rounded-lg flex items-center justify-center text-white"><i class="fas fa-layer-group text-xs"></i></div>
-                    <span class="font-bold text-lg">ToolVibe</span>
-                </div>
-                <p class="text-sm text-gray-500 leading-relaxed mb-4">
-                    The ultimate collection of PDF, Image, and SEO tools designed for professionals and casual users alike. Fast, secure, and easy to use.
-                </p>
-                <div class="flex gap-3">
-                    <a href="#" class="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500 hover:bg-brand hover:text-white transition"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500 hover:bg-brand hover:text-white transition"><i class="fab fa-github"></i></a>
-                    <a href="#" class="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500 hover:bg-brand hover:text-white transition"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-            
-            <!-- Quick Links -->
-            <div>
-                <h4 class="font-bold text-sm uppercase tracking-wider mb-4 text-brand">Explore</h4>
-                <ul class="space-y-2 text-sm text-gray-500">
-                    <li><a href="#" onclick="switchTab('home');filterTools('pdf', document.getElementById('btn-pdf'))" class="hover:text-brand transition">PDF Tools</a></li>
-                    <li><a href="#" onclick="switchTab('home');filterTools('image', document.getElementById('btn-image'))" class="hover:text-brand transition">Image Tools</a></li>
-                    <li><a href="#" onclick="switchTab('home');filterTools('seo', document.getElementById('btn-seo'))" class="hover:text-brand transition">SEO Tools</a></li>
-                </ul>
-            </div>
-
-            <!-- Legal -->
-            <div>
-                <h4 class="font-bold text-sm uppercase tracking-wider mb-4 text-brand">Legal</h4>
-                <ul class="space-y-2 text-sm text-gray-500">
-                    <li><a href="privacy.html" class="hover:text-brand transition">Privacy Policy</a></li>
-                    <li><a href="terms.html" class="hover:text-brand transition">Terms of Service</a></li>
-                    <li><a href="contact.html" class="hover:text-brand transition">Contact Us</a></li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="border-t border-gray-100 dark:border-gray-800 pt-6 text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-4">
-            <p class="text-xs text-gray-400">&copy; 2024 ToolVibe Ultimate. All rights reserved.</p>
-            <div class="inline-flex items-center gap-2 bg-gray-100 dark:bg-gray-800 px-3 py-1 rounded-full">
-                <i class="fas fa-code text-brand text-[10px]"></i>
-                <span class="text-[10px] font-bold tracking-widest uppercase text-gray-500">Made with <i class="fas fa-heart text-red-500 mx-0.5 animate-pulse"></i> by <span class="text-brand">YOUR NAME</span></span>
-            </div>
-        </div>
-    </div>
-  </footer>
-
-  <!-- ================= BOTTOM NAVIGATION (MOBILE/WATCH ONLY) ================= -->
-  <!-- Hidden on Desktop (md:hidden) -->
-  <nav class="md:hidden fixed bottom-6 left-4 right-4 h-16 clay-card z-50 flex justify-around items-center px-4 bg-surface/90 backdrop-blur-xl border border-white/20 shadow-2xl">
-    <button onclick="switchTab('home')" id="nav-home" class="text-brand transition-all active:scale-75 flex flex-col items-center w-12 hover:text-brand/80">
-      <i class="fas fa-th-large text-xl"></i>
-      <span class="text-[9px] font-bold mt-1">Tools</span>
-    </button>
-    
-    <!-- Center Action Button -->
-    <div class="w-14 h-14 bg-brand rounded-full flex items-center justify-center text-white -mt-10 shadow-lg shadow-indigo-500/50 active:scale-90 transition-transform cursor-pointer border-4 border-bg group" onclick="window.scrollTo({top:0, behavior:'smooth'})">
-      <i class="fas fa-arrow-up text-lg group-hover:animate-bounce"></i>
-    </div>
-
-    <button onclick="switchTab('profile')" id="nav-profile" class="text-gray-400 transition-all active:scale-75 flex flex-col items-center w-12 hover:text-brand/80">
-      <i class="fas fa-user text-xl"></i>
-      <span class="text-[9px] font-bold mt-1">Profile</span>
-    </button>
-  </nav>
-
-  <!-- ================= JAVASCRIPT ================= -->
-  <script>
-    // ----------------------------------------------------
-    // 1. DATABASE
-    // ----------------------------------------------------
-    const toolsData = [
-      // === PDF TOOLS (33) ===
-      { id: 101, n: "Add Pages", i: "fa-plus-circle", c: "pdf", l: "Add_Pages.html", clr: "text-red-500" },
-      { id: 102, n: "Compress PDF", i: "fa-compress-arrows-alt", c: "pdf", l: "Compress PDF.html", clr: "text-red-600" },
-      { id: 103, n: "CSV to PDF", i: "fa-table", c: "pdf", l: "csv_to_pdf.html", clr: "text-green-600" },
-      { id: 104, n: "Excel to PDF", i: "fa-file-excel", c: "pdf", l: "EXCEL TO PDF.html", clr: "text-green-600" },
-      { id: 105, n: "HTML to PDF", i: "fa-code", c: "pdf", l: "html_to_pdf.html", clr: "text-orange-600" },
-      { id: 106, n: "JPG to PDF", i: "fa-image", c: "pdf", l: "jpg_to_pdf.html", clr: "text-purple-600" },
-      { id: 107, n: "JSON to PDF", i: "fa-file-code", c: "pdf", l: "json_to_pdf.html", clr: "text-yellow-600" },
-      { id: 108, n: "Merge PDF", i: "fa-layer-group", c: "pdf", l: "merge-pdf.html", clr: "text-red-600" },
-      { id: 109, n: "OCR PDF", i: "fa-eye", c: "pdf", l: "OCR PDF.html", clr: "text-gray-600" },
-      { id: 110, n: "Organize PDF", i: "fa-sort", c: "pdf", l: "Organize.html", clr: "text-indigo-600" },
-      { id: 111, n: "PDF Signing", i: "fa-signature", c: "pdf", l: "pdf_signing.html", clr: "text-blue-600" },
-      { id: 112, n: "PDF to CSV", i: "fa-file-csv", c: "pdf", l: "pdf_to_csv.html", clr: "text-green-600" },
-      { id: 113, n: "PDF to Excel", i: "fa-file-excel", c: "pdf", l: "pdf_to_excel.html", clr: "text-green-600" },
-      { id: 114, n: "PDF to HTML", i: "fa-code", c: "pdf", l: "pdf_to_html.html", clr: "text-orange-600" },
-      { id: 115, n: "PDF to JPG", i: "fa-image", c: "pdf", l: "pdf_to_jpg.html", clr: "text-purple-600" },
-      { id: 116, n: "PDF to JSON", i: "fa-file-code", c: "pdf", l: "pdf_to_json.html", clr: "text-yellow-600" },
-      { id: 117, n: "PDF to PNG", i: "fa-image", c: "pdf", l: "pdf_to_png.html", clr: "text-purple-600" },
-      { id: 118, n: "PDF to Text", i: "fa-file-alt", c: "pdf", l: "pdf_to_text.html", clr: "text-gray-600" },
-      { id: 119, n: "PDF to WebP", i: "fa-globe", c: "pdf", l: "PDF_to_WEBP.html", clr: "text-blue-500" },
-      { id: 120, n: "PDF to Word", i: "fa-file-word", c: "pdf", l: "pdf_to_word.html", clr: "text-blue-600" },
-      { id: 121, n: "PDF to XML", i: "fa-file-code", c: "pdf", l: "pdf_to_xml.html", clr: "text-yellow-600" },
-      { id: 122, n: "PDF to ZIP", i: "fa-file-archive", c: "pdf", l: "pdf_to_zip.html", clr: "text-yellow-500" },
-      { id: 123, n: "PNG to PDF", i: "fa-image", c: "pdf", l: "png_to_pdf.html", clr: "text-purple-600" },
-      { id: 124, n: "Remove Pages", i: "fa-trash-alt", c: "pdf", l: "Remove_pages_from_pdf.html", clr: "text-red-500" },
-      { id: 125, n: "Repair PDF", i: "fa-wrench", c: "pdf", l: "Repair.html", clr: "text-gray-600" },
-      { id: 126, n: "Rotate PDF", i: "fa-sync", c: "pdf", l: "Rotate.html", clr: "text-indigo-600" },
-      { id: 127, n: "Speech to PDF", i: "fa-microphone", c: "pdf", l: "speech_to_pdf.html", clr: "text-red-500" },
-      { id: 128, n: "Split PDF", i: "fa-cut", c: "pdf", l: "split.html", clr: "text-orange-500" },
-      { id: 129, n: "Text to PDF", i: "fa-font", c: "pdf", l: "text_to_pdf.html", clr: "text-gray-600" },
-      { id: 130, n: "Watermark PDF", i: "fa-stamp", c: "pdf", l: "watermark.html", clr: "text-red-500" },
-      { id: 131, n: "WebP to PDF", i: "fa-globe", c: "pdf", l: "WEBP_to_PDF.html", clr: "text-blue-500" },
-      { id: 132, n: "Word to PDF", i: "fa-file-word", c: "pdf", l: "Word to PDF.html", clr: "text-blue-600" },
-      { id: 133, n: "XML to PDF", i: "fa-file-code", c: "pdf", l: "xml_to_pdf.html", clr: "text-yellow-600" },
-
-      // === IMAGE TOOLS (30) ===
-      { id: 201, n: "Add Images", i: "fa-plus", c: "image", l: "Add_Images.html", clr: "text-purple-600" },
-      { id: 202, n: "Add Text", i: "fa-font", c: "image", l: "add_text.html", clr: "text-gray-600" },
-      { id: 203, n: "BG Remover", i: "fa-magic", c: "image", l: "bg.html", clr: "text-purple-600" },
-      { id: 204, n: "Black & White", i: "fa-adjust", c: "image", l: "black_&_white.html", clr: "text-gray-800" },
-      { id: 205, n: "Blur Image", i: "fa-tint", c: "image", l: "blur.html", clr: "text-blue-400" },
-      { id: 206, n: "Collage Maker", i: "fa-th-large", c: "image", l: "Collage_Maker.html", clr: "text-pink-500" },
-      { id: 207, n: "Colorize Photo", i: "fa-palette", c: "image", l: "Colorize_photo.html", clr: "text-yellow-500" },
-      { id: 208, n: "Combine Image", i: "fa-object-group", c: "image", l: "combine_image.html", clr: "text-purple-600" },
-      { id: 209, n: "Crop Image", i: "fa-crop", c: "image", l: "crop.html", clr: "text-purple-600" },
-      { id: 210, n: "Font to PNG", i: "fa-font", c: "image", l: "font_to_png.html", clr: "text-gray-600" },
-      { id: 211, n: "GIF to JPG", i: "fa-gift", c: "image", l: "gif_to_jpg.html", clr: "text-pink-500" },
-      { id: 212, n: "ICO to JPG", i: "fa-icons", c: "image", l: "ico_to_jpg.html", clr: "text-blue-500" },
-      { id: 213, n: "ICO to WebP", i: "fa-globe", c: "image", l: "ico_to_webp.html", clr: "text-green-500" },
-      { id: 214, n: "Image Compressor", i: "fa-compress", c: "image", l: "Image compressor.html", clr: "text-purple-600" },
-      { id: 215, n: "Image Resizer", i: "fa-expand", c: "image", l: "Image Resizer.html", clr: "text-purple-600" },
-      { id: 216, n: "Image Border", i: "fa-border-all", c: "image", l: "image_border.html", clr: "text-purple-600" },
-      { id: 217, n: "Image Flipper", i: "fa-sync", c: "image", l: "Image_Flipper.html", clr: "text-purple-600" },
-      { id: 218, n: "Image Splitter", i: "fa-columns", c: "image", l: "Image_splitter.html", clr: "text-purple-600" },
-      { id: 219, n: "Image to PDF", i: "fa-file-pdf", c: "image", l: "image_to_pdf.html", clr: "text-red-500" },
-      { id: 220, n: "Image to Text", i: "fa-font", c: "image", l: "image_to_text.html", clr: "text-gray-600" },
-      { id: 221, n: "JPG to PNG", i: "fa-exchange-alt", c: "image", l: "jpg_to_png.html", clr: "text-blue-500" },
-      { id: 222, n: "JPG to WebP", i: "fa-globe", c: "image", l: "jpg_to_webp.html", clr: "text-green-500" },
-      { id: 223, n: "Pixelate", i: "fa-chess-board", c: "image", l: "Pixelate.html", clr: "text-gray-600" },
-      { id: 224, n: "PNG to JPG", i: "fa-exchange-alt", c: "image", l: "PNG_to_JPG.html", clr: "text-blue-500" },
-      { id: 225, n: "PNG to WebP", i: "fa-globe", c: "image", l: "PNG_to_WEBP.html", clr: "text-green-500" },
-      { id: 226, n: "Profile Maker", i: "fa-user-circle", c: "image", l: "profile.html", clr: "text-pink-500" },
-      { id: 227, n: "SVG to PNG", i: "fa-vector-square", c: "image", l: "svg_to_png.html", clr: "text-orange-500" },
-      { id: 228, n: "Upscale Image", i: "fa-arrow-up", c: "image", l: "upscale.html", clr: "text-green-500" },
-      { id: 229, n: "View Image", i: "fa-eye", c: "image", l: "view.html", clr: "text-blue-500" },
-      { id: 230, n: "WebP to JPG", i: "fa-image", c: "image", l: "webp_to_JPG.html", clr: "text-purple-600" },
-      { id: 231, n: "WebP to PNG", i: "fa-image", c: "image", l: "WEBP_to_PNG.html", clr: "text-purple-600" },
-
-      // === SEO TOOLS (23) ===
-      { id: 301, n: "Adaptive Check", i: "fa-mobile-alt", c: "seo", l: "Adaptive.html", clr: "text-orange-600" },
-      { id: 302, n: "AMP Validator", i: "fa-bolt", c: "seo", l: "AMP Validator.html", clr: "text-orange-600" },
-      { id: 303, n: "Canonical Tag", i: "fa-link", c: "seo", l: "Canonical Tag.html", clr: "text-orange-600" },
-      { id: 304, n: "Case Converter", i: "fa-text-height", c: "seo", l: "Case Converter.html", clr: "text-orange-600" },
-      { id: 305, n: "Google Algo", i: "fa-robot", c: "seo", l: "Google.html", clr: "text-orange-600" },
-      { id: 306, n: "Hreflang Tags", i: "fa-language", c: "seo", l: "hreflang Tags Testing.html", clr: "text-orange-600" },
-      { id: 307, n: "Htaccess Tester", i: "fa-file-code", c: "seo", l: "htaccess_tester.html", clr: "text-orange-600" },
-      { id: 308, n: "Local SEO Check", i: "fa-map-marker-alt", c: "seo", l: "Local Search Results Testing Tool.html", clr: "text-orange-600" },
-      { id: 309, n: "Meta Description", i: "fa-file-alt", c: "seo", l: "Meta Description.html", clr: "text-orange-600" },
-      { id: 310, n: "Meta Tag Gen", i: "fa-tags", c: "seo", l: "Meta Tag Generator.html", clr: "text-orange-600" },
-      { id: 311, n: "MD5 Generator", i: "fa-key", c: "seo", l: "Online MD5 Generator.html", clr: "text-orange-600" },
-      { id: 312, n: "OpenGraph Gen", i: "fa-share-alt", c: "seo", l: "OpenGraph Tags Generator.html", clr: "text-orange-600" },
-      { id: 313, n: "Pre-rendering", i: "fa-eye", c: "seo", l: "Pre-rendering Testing Tool.html", clr: "text-orange-600" },
-      { id: 314, n: "Robots.txt Gen", i: "fa-robot", c: "seo", l: "robots.txt_gen.html", clr: "text-orange-600" },
-      { id: 315, n: "Schema Gen", i: "fa-code", c: "seo", l: "schema.html", clr: "text-orange-600" },
-      { id: 316, n: "SEO Citation", i: "fa-quote-right", c: "seo", l: "SEO Citation Generator.html", clr: "text-orange-600" },
-      { id: 317, n: "Punctuation Checker", i: "fa-paragraph", c: "seo", l: "SEO Punctuation Checker.html", clr: "text-orange-600" },
-      { id: 318, n: "Small Text Gen", i: "fa-text-height", c: "seo", l: "Small Text Generator.html", clr: "text-orange-600" },
-      { id: 319, n: "Slug Converter", i: "fa-link", c: "seo", l: "Text to Slug Converter.html", clr: "text-orange-600" },
-      { id: 320, n: "Twitter Card", i: "fa-twitter", c: "seo", l: "Twitter Card Generator.html", clr: "text-blue-400" },
-      { id: 321, n: "UTM Builder", i: "fa-link", c: "seo", l: "UTM Builder.html", clr: "text-orange-600" },
-      { id: 322, n: "Word Counter", i: "fa-calculator", c: "seo", l: "Word Counter.html", clr: "text-orange-600" },
-      { id: 323, n: "Sitemap Gen", i: "fa-sitemap", c: "seo", l: "XML Sitemap Generator.html", clr: "text-orange-600" }
-    ];
-
-    // 2. STATE MGMT
-    let favorites = JSON.parse(localStorage.getItem('toolvibe_favs_v2')) || [];
-    let isDark = localStorage.getItem('toolvibe_theme') === 'dark';
-
-    // 3. INITIALIZATION
-    window.onload = () => {
-      if(isDark) document.documentElement.classList.add('dark');
-      updateThemeIcon();
-      initParticles();
-      restoreState();
-      // Auto-detect view logic
-      if(window.innerWidth > 768) {
-         // Desktop-specific logic if needed
+    // Load base image
+    baseImageInput.addEventListener("change", function (e) {
+      if (e.target.files && e.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function (event) {
+          baseImage.src = event.target.result;
+          baseImage.classList.remove("hidden");
+          placeholderText.classList.add("hidden");
+          canvasContainer.style.width = "auto";
+        };
+        reader.readAsDataURL(e.target.files[0]);
       }
-    };
-
-    // 4. CORE LOGIC
-    function navigateTo(link) {
-      sessionStorage.setItem('scrollPos', window.scrollY);
-      window.location.href = link;
-    }
-
-    function restoreState() {
-      const savedCat = sessionStorage.getItem('activeCat') || 'all';
-      const btns = { 'all': 'btn-all', 'pdf': 'btn-pdf', 'image': 'btn-image', 'seo': 'btn-seo' };
-      if(btns[savedCat]) filterTools(savedCat, document.getElementById(btns[savedCat]), false);
-      else filterTools('all', document.getElementById('btn-all'), false);
-      
-      const savedScroll = sessionStorage.getItem('scrollPos');
-      if(savedScroll) setTimeout(() => window.scrollTo(0, parseFloat(savedScroll)), 100);
-    }
-
-    // 5. RENDERING
-    const container = document.getElementById('tools-container');
-    const favSection = document.getElementById('fav-section');
-    const favContainer = document.getElementById('fav-container');
-
-    function filterTools(cat, btn, scroll = true) {
-      sessionStorage.setItem('activeCat', cat);
-      document.querySelectorAll('.cat-btn').forEach(b => {
-        b.className = 'cat-btn clay-card px-6 py-2.5 text-xs font-bold whitespace-nowrap transition-all text-gray-500 border border-transparent hover:bg-gray-50 dark:hover:bg-gray-800';
-      });
-      btn.className = 'cat-btn active clay-card px-6 py-2.5 text-xs font-bold whitespace-nowrap transition-all border border-transparent';
-
-      const filtered = toolsData.filter(t => cat === 'all' || t.c === cat);
-      renderGrid(filtered);
-      if(scroll) window.scrollTo({top:0, behavior:'smooth'});
-    }
-
-    function renderGrid(data) {
-      container.innerHTML = '';
-      favContainer.innerHTML = '';
-
-      const favTools = toolsData.filter(t => favorites.includes(t.id));
-      if(favTools.length > 0) {
-        favSection.classList.remove('hidden');
-        favTools.forEach(t => favContainer.appendChild(createCard(t, true)));
-      } else {
-        favSection.classList.add('hidden');
-      }
-
-      if(data.length === 0) {
-        document.getElementById('empty-state').classList.remove('hidden');
-        document.getElementById('empty-state').classList.add('flex');
-      } else {
-        document.getElementById('empty-state').classList.add('hidden');
-        document.getElementById('empty-state').classList.remove('flex');
-        data.forEach((t, i) => container.appendChild(createCard(t, false, i)));
-      }
-    }
-
-    function createCard(t, isMini, index = 0) {
-      const el = document.createElement('div');
-      const isFav = favorites.includes(t.id);
-      
-      if(isMini) {
-        // Horizontal Scroll Item (Mini)
-        el.className = "flex-shrink-0 w-20 flex flex-col items-center gap-2 cursor-pointer group";
-        el.onclick = () => navigateTo(t.l);
-        el.innerHTML = `<div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-brand to-purple-600 flex items-center justify-center text-white shadow-lg relative group-hover:scale-105 transition-transform"><i class="fas ${t.i}"></i><div class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full border-2 border-white flex items-center justify-center"><i class="fas fa-heart text-[8px]"></i></div></div><span class="text-[9px] font-bold text-center truncate w-full group-hover:text-brand transition-colors">${t.n}</span>`;
-      } else {
-        // Grid Item (Main)
-        // Responsive card classes
-        el.className = "clay-card p-4 md:p-6 flex flex-col items-center text-center gap-3 tilt-box cursor-pointer opacity-0 animate-slide-down relative group hover:shadow-xl transition-all duration-300";
-        el.style.animationDelay = `${Math.min(index * 0.05, 1)}s`;
-        el.onclick = () => navigateTo(t.l);
-        
-        el.innerHTML = `
-            <div class="absolute top-3 right-3 z-20 opacity-0 group-hover:opacity-100 transition-opacity">
-                <i class="fas fa-heart ${isFav ? 'text-red-500' : 'text-gray-300'} text-lg hover:scale-125 transition-transform" onclick="toggleFav(${t.id}, event)"></i>
-            </div>
-            <div class="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-bg flex items-center justify-center text-xl md:text-2xl ${t.clr} shadow-inner mb-1 tilt-inner transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3">
-                <i class="fas ${t.i}"></i>
-            </div>
-            <span class="text-xs md:text-sm font-bold text-txt tilt-inner leading-tight group-hover:text-brand transition-colors">${t.n}</span>
-        `;
-        
-        // Tilt Effect
-        el.addEventListener('mousemove', (e) => {
-           const rect = el.getBoundingClientRect();
-           el.style.transform = `perspective(1000px) rotateX(${(e.clientY - rect.top - rect.height/2)/15}deg) rotateY(${-(e.clientX - rect.left - rect.width/2)/15}deg)`;
-        });
-        el.addEventListener('mouseleave', () => el.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)');
-      }
-      return el;
-    }
-
-    function toggleFav(id, e) {
-      e.stopPropagation();
-      if(favorites.includes(id)) { favorites = favorites.filter(f => f !== id); showNotify("Removed from Favorites", "fa-heart-broken"); }
-      else { favorites.push(id); showNotify("Added to Favorites", "fa-heart text-red-500"); }
-      localStorage.setItem('toolvibe_favs_v2', JSON.stringify(favorites));
-      const cat = sessionStorage.getItem('activeCat') || 'all';
-      filterTools(cat, document.getElementById(cat === 'all' ? 'btn-all' : 'btn-'+cat), false);
-    }
-
-    function clearFavs() {
-      if(confirm("Are you sure you want to clear all favorites?")) {
-        favorites = []; localStorage.setItem('toolvibe_favs_v2', JSON.stringify([]));
-        filterTools(sessionStorage.getItem('activeCat') || 'all', document.getElementById('btn-'+(sessionStorage.getItem('activeCat')||'all')), false);
-        showNotify("Favorites Cleared", "fa-trash");
-      }
-    }
-
-    // 6. UI ACTIONS
-    function toggleSearch() {
-       const box = document.getElementById('search-box');
-       box.classList.toggle('hidden');
-       if(!box.classList.contains('hidden')) {
-          setTimeout(() => document.getElementById('search-input').focus(), 100);
-       }
-    }
-    
-    document.getElementById('search-input').addEventListener('input', (e) => {
-       renderGrid(toolsData.filter(t => t.n.toLowerCase().includes(e.target.value.toLowerCase())));
     });
 
-    function toggleTheme() {
-      isDark = !isDark;
-      document.documentElement.classList.toggle('dark', isDark);
-      localStorage.setItem('toolvibe_theme', isDark ? 'dark' : 'light');
-      updateThemeIcon();
-      showNotify(isDark ? "Dark Mode Enabled" : "Light Mode Enabled", isDark ? "fa-moon" : "fa-sun");
-    }
-    function updateThemeIcon() { document.getElementById('theme-icon').className = isDark ? 'fas fa-sun text-yellow-400' : 'fas fa-moon text-brand'; }
+    // Add overlay images
+    overlayImageInput.addEventListener("change", function (e) {
+      if (e.target.files && e.target.files.length > 0) {
+        Array.from(e.target.files).forEach((file) => {
+          addOverlayImage(file);
+        });
+      }
+    });
 
-    function showNotify(msg, icon) {
-       const box = document.getElementById('island');
-       document.getElementById('island-msg').innerText = msg;
-       document.getElementById('island-icon').className = `fas ${icon} mr-2`;
-       box.classList.add('active'); setTimeout(() => box.classList.remove('active'), 2500);
-    }
-
-    function initParticles() {
-       // Reduce particles on mobile for performance
-       const isMobile = window.innerWidth < 768;
-       const count = isMobile ? 5 : 15;
-       const con = document.getElementById('particles-container');
-       con.innerHTML = '';
-       
-       for(let i=0; i<count; i++) {
-         const p = document.createElement('div'); p.className = 'particle';
-         const s = Math.random()*15+5; p.style.width=s+'px'; p.style.height=s+'px';
-         p.style.left=Math.random()*100+'%'; p.style.top=Math.random()*100+'%';
-         p.style.animationDuration = (Math.random()*10+5) + 's';
-         con.appendChild(p);
-       }
+    // Add overlay from file
+    function addOverlayImage(file) {
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        createOverlayElement(event.target.result);
+      };
+      reader.readAsDataURL(file);
     }
 
-    // 7. NAVIGATION LOGIC
-    function switchTab(t) {
-      const home = document.getElementById('home-view');
-      const profile = document.getElementById('profile-view');
-      const hBtn = document.getElementById('nav-home');
-      const pBtn = document.getElementById('nav-profile');
-      const catRow = document.getElementById('category-row');
+    // Create overlay element
+    function createOverlayElement(src) {
+      if (!baseImage.src) {
+        alert("Please upload a base image first");
+        return;
+      }
 
-      window.scrollTo({top:0, behavior:'smooth'});
+      const overlay = document.createElement("div");
+      overlay.className = "overlay-container";
+      overlay.style.position = "absolute";
 
-      if(t === 'home') {
-        home.classList.remove('hidden'); profile.classList.add('hidden');
-        catRow.classList.remove('hidden'); 
-        // Mobile Nav State
-        if(hBtn) { hBtn.classList.add('text-brand'); hBtn.classList.remove('text-gray-400'); }
-        if(pBtn) { pBtn.classList.remove('text-brand'); pBtn.classList.add('text-gray-400'); }
-      } else {
-        home.classList.add('hidden'); profile.classList.remove('hidden');
-        catRow.classList.add('hidden');
-        // Mobile Nav State
-        if(pBtn) { pBtn.classList.add('text-brand'); pBtn.classList.remove('text-gray-400'); }
-        if(hBtn) { hBtn.classList.remove('text-brand'); hBtn.classList.add('text-gray-400'); }
+      const img = document.createElement("img");
+      img.src = src;
+      img.className = "overlay-image";
+      img.style.width = "100px";
+      img.style.height = "auto";
+      img.draggable = false;
+
+      // Create controls
+      const controls = document.createElement("div");
+      controls.className = "overlay-controls";
+      controls.innerHTML = `
+                    <button class="control-btn increase-size" title="Increase size">+</button>
+                    <button class="control-btn decrease-size" title="Decrease size">-</button>
+                    <button class="control-btn delete-overlay" title="Delete">×</button>
+                `;
+
+      // Create resize handle
+      const resizeHandle = document.createElement("div");
+      resizeHandle.className = "resize-handle";
+
+      overlay.appendChild(img);
+      overlay.appendChild(controls);
+      overlay.appendChild(resizeHandle);
+      canvasContainer.appendChild(overlay);
+
+      // Position randomly on the base image
+      const containerRect = canvasContainer.getBoundingClientRect();
+      const maxLeft = containerRect.width - 100;
+      const maxTop = containerRect.height - 100;
+
+      overlay.style.left = `${Math.random() * maxLeft}px`;
+      overlay.style.top = `${Math.random() * maxTop}px`;
+
+      // Add event listeners for dragging
+      overlay.addEventListener("mousedown", startDrag);
+
+      // Add event listeners for resize handle
+      resizeHandle.addEventListener("mousedown", startResize);
+
+      // Add event listeners for control buttons
+      controls
+        .querySelector(".increase-size")
+        .addEventListener("click", function (e) {
+          e.stopPropagation();
+          resizeOverlay(overlay, 1.1);
+        });
+
+      controls
+        .querySelector(".decrease-size")
+        .addEventListener("click", function (e) {
+          e.stopPropagation();
+          resizeOverlay(overlay, 0.9);
+        });
+
+      controls
+        .querySelector(".delete-overlay")
+        .addEventListener("click", function (e) {
+          e.stopPropagation();
+          overlay.remove();
+          overlays = overlays.filter((o) => o !== overlay);
+        });
+
+      overlays.push(overlay);
+      return overlay;
+    }
+
+    // Resize overlay by scale factor
+    function resizeOverlay(overlay, scale) {
+      const img = overlay.querySelector("img");
+      const currentWidth = parseFloat(img.style.width || img.offsetWidth);
+      const newWidth = currentWidth * scale;
+
+      if (newWidth > 50 && newWidth < 800) {
+        img.style.width = `${newWidth}px`;
+        img.style.height = "auto";
       }
     }
 
-    // 8. POWERFUL SHARE FUNCTION (Works on Web & App)
-    async function shareApp() {
-        const shareData = {
-            title: 'ToolVibe Ultimate',
-            text: 'Check out ToolVibe - 80+ amazing PDF, Image and SEO tools in one place!',
-            url: window.location.href
-        };
+    // Drag functionality
+    function startDrag(e) {
+      if (
+        e.target.classList.contains("resize-handle") ||
+        e.target.classList.contains("control-btn")
+      ) {
+        return;
+      }
 
-        // 1. Try Native Android Interface (WebView)
-        try {
-            if (typeof Android !== "undefined" && Android.shareApp) {
-                Android.shareApp(shareData.title, shareData.url);
-                return;
-            }
-        } catch(e) { console.log("Android interface not found"); }
+      isDragging = true;
+      currentOverlay = this;
 
-        // 2. Try Web Share API (Mobile Browsers)
-        if (navigator.share) {
-            try {
-                await navigator.share(shareData);
-                showNotify("Shared Successfully!", "fa-check");
-            } catch (err) {
-                console.log("Share canceled");
-            }
-        } 
-        // 3. Fallback: Copy to Clipboard (Desktop)
-        else {
-            navigator.clipboard.writeText(shareData.url).then(() => {
-                showNotify("Link Copied to Clipboard!", "fa-copy");
-            }).catch(() => {
-                showNotify("Failed to Copy", "fa-exclamation-triangle");
-            });
+      const rect = currentOverlay.getBoundingClientRect();
+      offsetX = e.clientX - rect.left;
+      offsetY = e.clientY - rect.top;
+
+      currentOverlay.style.zIndex = 1000;
+
+      document.addEventListener("mousemove", drag);
+      document.addEventListener("mouseup", stopDrag);
+
+      e.preventDefault();
+    }
+
+    function drag(e) {
+      if (!isDragging && !isResizing) return;
+
+      const containerRect = canvasContainer.getBoundingClientRect();
+
+      if (isDragging) {
+        let left = e.clientX - offsetX - containerRect.left;
+        let top = e.clientY - offsetY - containerRect.top;
+
+        // Boundary checks
+        const img = currentOverlay.querySelector("img");
+        left = Math.max(
+          0,
+          Math.min(left, containerRect.width - img.offsetWidth)
+        );
+        top = Math.max(
+          0,
+          Math.min(top, containerRect.height - img.offsetHeight)
+        );
+
+        currentOverlay.style.left = `${left}px`;
+        currentOverlay.style.top = `${top}px`;
+      } else if (isResizing) {
+        const img = currentOverlay.querySelector("img");
+        const newWidth = startWidth + (e.clientX - startX);
+        const newHeight = startHeight + (e.clientY - startY);
+
+        if (
+          newWidth > 50 &&
+          newWidth < 800 &&
+          newHeight > 50 &&
+          newHeight < 800
+        ) {
+          img.style.width = `${newWidth}px`;
+          img.style.height = `${newHeight}px`;
         }
+      }
     }
 
-    function rateApp() { 
-        // 1. Android
-        try { 
-            if(typeof Android !== "undefined") { Android.rateApp(); return; }
-        } catch(e){}
-        
-        // 2. Web Fallback
-        showNotify("Thank you for rating!", "fa-star");
-        // Redirect to store logic here if needed
+    function stopDrag() {
+      isDragging = false;
+      isResizing = false;
+      if (currentOverlay) {
+        currentOverlay.style.zIndex = "";
+      }
+      document.removeEventListener("mousemove", drag);
+      document.removeEventListener("mouseup", stopDrag);
     }
-  </script>
+
+    function startResize(e) {
+      isResizing = true;
+      currentOverlay = this.parentElement;
+      const img = currentOverlay.querySelector("img");
+
+      startWidth = parseFloat(img.style.width || img.offsetWidth);
+      startHeight = parseFloat(img.style.height || img.offsetHeight);
+      startX = e.clientX;
+      startY = e.clientY;
+
+      currentOverlay.style.zIndex = 1000;
+
+      document.addEventListener("mousemove", drag);
+      document.addEventListener("mouseup", stopDrag);
+
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    // Download composite image
+    downloadBtn.addEventListener("click", function () {
+      if (!baseImage.src) {
+        alert("Please upload a base image first");
+        return;
+      }
+
+      // Create a canvas
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+
+      // Set canvas dimensions to match base image
+      canvas.width = baseImage.naturalWidth || baseImage.width;
+      canvas.height = baseImage.naturalHeight || baseImage.height;
+
+      // Draw base image
+      ctx.drawImage(baseImage, 0, 0, canvas.width, canvas.height);
+
+      // Draw all overlays
+      overlays.forEach((overlay) => {
+        if (overlay.parentNode) {
+          // Check if overlay still exists in DOM
+          const img = overlay.querySelector("img");
+          const scaleX = canvas.width / canvasContainer.offsetWidth;
+          const scaleY = canvas.height / canvasContainer.offsetHeight;
+
+          const x = parseFloat(overlay.style.left) * scaleX;
+          const y = parseFloat(overlay.style.top) * scaleY;
+          const width = img.offsetWidth * scaleX;
+          const height = img.offsetHeight * scaleY;
+
+          ctx.drawImage(img, x, y, width, height);
+        }
+      });
+
+      // Create download link
+      const link = document.createElement("a");
+      link.download = "composite-image.png";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    });
+
+    // Clear all overlays
+    clearOverlaysBtn.addEventListener("click", function () {
+      document.querySelectorAll(".overlay-container").forEach((overlay) => {
+        overlay.remove();
+      });
+      overlays = [];
+    });
+
+    // Reset everything
+    resetAllBtn.addEventListener("click", function () {
+      baseImage.src = "";
+      baseImage.classList.add("hidden");
+      placeholderText.classList.remove("hidden");
+      baseImageInput.value = "";
+      overlayImageInput.value = "";
+
+      document.querySelectorAll(".overlay-container").forEach((overlay) => {
+        overlay.remove();
+      });
+      overlays = [];
+    });
+  });
+</script>
 </body>
+
 </html>
