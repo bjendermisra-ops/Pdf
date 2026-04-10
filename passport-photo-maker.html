@@ -336,6 +336,7 @@
         let cropper = null;
         let currentImageFile = null;
         let currentImageUrl = null;
+        let currentResultUrl = null; // Fix for broken preview URL
         let currentBgColor = '#FFFFFF';
         let currentZoom = 1.0;
         let currentRotation = 0;
@@ -468,12 +469,17 @@
             canvas.toBlob((blob) => {
                 if (blob) {
                     currentResultBlob = blob;
-                    const url = URL.createObjectURL(blob);
-                    resultImage.src = url;
+                    
+                    // Fix Broken Image: Revoke old URL before creating new one
+                    if (currentResultUrl) {
+                        URL.revokeObjectURL(currentResultUrl);
+                    }
+
+                    currentResultUrl = URL.createObjectURL(blob);
+                    resultImage.src = currentResultUrl;
                     const sizeKB = (blob.size / 1024).toFixed(1);
                     resultMeta.innerHTML = `${sizeKB} KB • ${currentWidth}×${currentHeight} px • Compliant`;
                     resultCard.classList.remove('hidden');
-                    URL.revokeObjectURL(url);
                 }
                 hideLoading();
             }, 'image/jpeg', 0.95);
@@ -518,6 +524,7 @@
             link.href = URL.createObjectURL(blob);
             link.download = filename;
             link.click();
+            // Allow time for download before cleaning up
             setTimeout(() => URL.revokeObjectURL(link.href), 100);
         }
 
