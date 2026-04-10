@@ -382,6 +382,7 @@
         let originalFile = null;
         let originalFileSize = 0;
         let currentOptimizedBlob = null;
+        let currentOptimizedUrl = null; // Fix for broken preview URL
         let currentUnit = 'px';
         let currentFormat = 'jpeg';
         let originalWidth = 0, originalHeight = 0;
@@ -570,8 +571,14 @@
             
             const blob = await new Promise(resolve => canvas.toBlob(resolve, mimeType, compressQuality));
             currentOptimizedBlob = blob;
-            const url = URL.createObjectURL(blob);
-            optimizedImg.src = url;
+            
+            // Fix Broken Image: Revoke old URL before creating new one
+            if (currentOptimizedUrl) {
+                URL.revokeObjectURL(currentOptimizedUrl);
+            }
+            
+            currentOptimizedUrl = URL.createObjectURL(blob);
+            optimizedImg.src = currentOptimizedUrl;
             
             const originalSizeKB = (originalFileSize / 1024).toFixed(1);
             const newSizeKB = (blob.size / 1024).toFixed(1);
@@ -579,8 +586,6 @@
             optimizedMeta.innerHTML = `${newSizeKB} KB • ${targetWidthPx}×${targetHeightPx}`;
             statsPanel.classList.remove('hidden');
             statsText.innerHTML = `💾 ${originalSizeKB} KB → ${newSizeKB} KB (${savedPercent}% smaller)`;
-            
-            URL.revokeObjectURL(url);
         }
 
         // Load image
@@ -627,10 +632,9 @@
             }
             const extension = currentFormat === 'jpeg' ? 'jpg' : currentFormat;
             const link = document.createElement('a');
-            link.href = URL.createObjectURL(currentOptimizedBlob);
+            link.href = currentOptimizedUrl || URL.createObjectURL(currentOptimizedBlob);
             link.download = `optimized_${Date.now()}.${extension}`;
             link.click();
-            setTimeout(() => URL.revokeObjectURL(link.href), 100);
         }
 
         // Clear
@@ -638,6 +642,12 @@
             originalImage = null;
             originalFile = null;
             currentOptimizedBlob = null;
+            
+            if (currentOptimizedUrl) {
+                URL.revokeObjectURL(currentOptimizedUrl);
+                currentOptimizedUrl = null;
+            }
+            
             previewCard.classList.add('hidden');
             statsPanel.classList.add('hidden');
             fileInput.value = '';
